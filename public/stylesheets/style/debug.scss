@@ -1,0 +1,39 @@
+$new-nr-ba: #000;
+$new-column-before: #ffa500;
+$new-column-after: #00f;
+$new-inside-above: #f00;
+$new-inside-below: #008000;
+
+.debug > .droppables-container > .droppable {
+  opacity: .5;
+  position: absolute;
+
+  &.new {
+    &-nested-before,
+    &.-nested-after,
+    &.-row-before,
+    &.-row-after {
+      background: $new-nr-ba;
+    }
+
+    &-column {
+      &-before {
+        background: $new-column-before;
+      }
+
+      &-after {
+        background: $new-column-after;
+      }
+    }
+
+    &-inside {
+      &-above {
+        background: $new-inside-above;
+      }
+
+      &-below {
+        background: $new-inside-below;
+      }
+    }
+  }
+}

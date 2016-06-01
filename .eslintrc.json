@@ -1,0 +1,19 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint",
+    "rules": {
+        "strict": 1
+    },
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jquery": true
+    }
+}

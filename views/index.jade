@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  div(class='off-canvas-wrapper')
+    div(class='off-canvas-wrapper-inner' data-off-canvas-wrapper)
+      div(class='off-canvas position-left reveal-for-large' id='toolbox' data-off-canvas)
+        ul Toolbox
+          li Components
+            ul(id='componentsContainer' class='vertical menu')
+          li Structures
+            ul(id='structuresContainer' class='vertical menu')
+          li Presets
+            ul(id='groupsContainer' class='vertical menu')
+      div(class='off-canvas-content editable' id='editable-area' data-off-canvas-content)

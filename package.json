@@ -1,0 +1,30 @@
+{
+  "name": "Builder",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "build": "browserify public/ES6/app.js -t babelify --outfile public/javascripts/app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "node-sass-middleware": "0.8.0",
+    "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
+}
