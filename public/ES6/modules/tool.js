@@ -1,5 +1,8 @@
 import Component from "./component";
-import * as Composite from "./composite";
+import Structure from "./structure";
+import Group from "./group";
+
+// TODO: Improve this mess
 
 export default class Tool {
   /**
@@ -37,7 +40,7 @@ export default class Tool {
    */
   static initStructures(components) {
     const structures = {};
-    structures.input = new Composite.Structure("Test", new Component("Label", "label", {"text": "Text: "}),
+    structures.input = new Structure("Test", new Component("Label", "label", {"text": "Text: "}),
       [new Component("Input", "input", {"type": "txt"})]
     );
 
@@ -45,11 +48,11 @@ export default class Tool {
 
     const mediaObjectSection = (new Component("MOS1", "div", {class: "media-object-section"}));
 
-    const thumb = (new Composite.Structure("Thumb", $("<div>", {class: "thumbnail"}),
+    const thumb = (new Structure("Thumb", $("<div>", {class: "thumbnail"}),
       [components.image]
     ));
 
-    const mos1 = (new Composite.Structure("MOS2", mediaObjectSection,
+    const mos1 = (new Structure("MOS2", mediaObjectSection,
       [thumb]
     ));
 
@@ -63,7 +66,7 @@ export default class Tool {
       "text": "Lorem ipsum dolor sit amet, consectetur ai"
     }));
 
-    const test = (new Composite.Structure("Test", new Component("Span", "span", {}), [title]));
+    const test = (new Structure("Test", new Component("Span", "span", {}), [title]));
 
     const link = (new Component("Lien", "a", {
       "contenteditable": "true",
@@ -71,11 +74,11 @@ export default class Tool {
       "text": "Super lien, clique vite"
     }));
 
-    const mos2 = (new Composite.Structure("MOS2", mediaObjectSection,
+    const mos2 = (new Structure("MOS2", mediaObjectSection,
       [test, new Component("Span", "br", {}), text, new Component("Span", "br", {}), link]
     ));
 
-    structures.figure = new Composite.Structure("Figures", mediaObject,
+    structures.figure = new Structure("Figures", mediaObject,
       [mos1, mos2]
     );
 
@@ -89,10 +92,10 @@ export default class Tool {
    */
   static initGroups(components) {
     const groups = {};
-    const Test = (new Composite.Group("Test", {"medium": 6, "large": 6},
+    const Test = (new Group("Test", {"medium": 6, "large": 6},
       [components.image, components.image]));
     groups.test1 = Test;
-    groups.test2 = new Composite.Group("TestNested", {"medium": 6, "large": 6}, [Test, Test]);
+    groups.test2 = new Group("TestNested", {"medium": 6, "large": 6}, [Test, Test]);
 
     return groups;
   }

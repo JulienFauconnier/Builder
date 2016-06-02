@@ -6884,7 +6884,7 @@ var tools = $("#toolbox");
 
 // TODO: Add tags: tables, lists, forms, videos, audio, objects
 
-}, {"./modules/content": 302, "./modules/toolbox": 310, "babel-polyfill": 1}],
+}, {"./modules/content": 302, "./modules/toolbox": 312, "babel-polyfill": 1}],
   300: [function (require, module, exports) {
 "use strict";
 
@@ -6951,13 +6951,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Composite = exports.Composite = function () {
+    var Composite = function () {
   function Composite(name) {
     _classCallCheck(this, Composite);
 
@@ -6977,102 +6973,7 @@ var Composite = exports.Composite = function () {
   return Composite;
 }();
 
-var Structure = exports.Structure = function (_Composite) {
-  _inherits(Structure, _Composite);
-
-  function Structure(name, parents, childrens) {
-    _classCallCheck(this, Structure);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Structure).call(this, name));
-
-    _this._m_parent = parents;
-    _this._m_childrens = childrens;
-    return _this;
-  }
-
-  _createClass(Structure, [{
-    key: "toHTML",
-    value: function toHTML() {
-      var content = $("<" + this.parent.tag + ">", this.parent.attributes);
-
-      jQuery.each(this.childrens, function (key, children) {
-        content.append(children.toHTML());
-      });
-
-      return content;
-    }
-  }, {
-    key: "parent",
-    get: function get() {
-      return this._m_parent;
-    },
-    set: function set(value) {
-      this._m_parent = value;
-    }
-  }, {
-    key: "childrens",
-    get: function get() {
-      return this._m_childrens;
-    },
-    set: function set(value) {
-      this._m_childrens = value;
-    }
-  }]);
-
-  return Structure;
-}(Composite);
-
-var Group = exports.Group = function (_Composite2) {
-  _inherits(Group, _Composite2);
-
-  function Group(name, layout, components) {
-    _classCallCheck(this, Group);
-
-    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Group).call(this, name));
-
-    _this2._m_layout = layout;
-    _this2._m_components = components;
-    return _this2;
-  }
-
-  _createClass(Group, [{
-    key: "toHTML",
-    value: function toHTML() {
-      var _this3 = this;
-
-      var content = $("<div>", { class: "row" });
-      var container = void 0;
-
-      jQuery.each(this.components, function (key, component) {
-        container = $("<div>", {
-          class: "columns medium-" + _this3.layout.medium + " large-" + _this3.layout.large
-        });
-        container.append(component.toHTML());
-        content.append(container);
-      });
-
-      return content;
-    }
-  }, {
-    key: "layout",
-    get: function get() {
-      return this._m_layout;
-    },
-    set: function set(value) {
-      this._m_layout = value;
-    }
-  }, {
-    key: "components",
-    get: function get() {
-      return this._m_components;
-    },
-    set: function set(value) {
-      this._m_components = value;
-    }
-  }]);
-
-  return Group;
-}(Composite);
+    exports.default = Composite;
 
   }, {}],
   302: [function (require, module, exports) {
@@ -7345,7 +7246,7 @@ function init(div) {
   div.content("newPLB");
 }
 
-  }, {"./droppable": 304, "./layout": 305, "./responsive": 307}],
+  }, {"./droppable": 304, "./layout": 306, "./responsive": 308}],
   303: [function (require, module, exports) {
     "use strict";
 
@@ -7665,8 +7566,124 @@ function firstDroppable(editable) {
   droppablesContainer.appendTo(editable);
 }
 
-  }, {"./css": 303, "./requirement": 306, "./shared": 308}],
+  }, {"./css": 303, "./requirement": 307, "./shared": 309}],
   305: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+
+    var _createClass = function () {
+      function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+          var descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false;
+          descriptor.configurable = true;
+          if ("value" in descriptor) descriptor.writable = true;
+          Object.defineProperty(target, descriptor.key, descriptor);
+        }
+      }
+
+      return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+      };
+    }();
+
+    var _composite = require("./composite");
+
+    var _composite2 = _interopRequireDefault(_composite);
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : {default: obj};
+    }
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    function _possibleConstructorReturn(self, call) {
+      if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+      }
+      return call && (typeof call === "object" || typeof call === "function") ? call : self;
+    }
+
+    function _inherits(subClass, superClass) {
+      if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+      }
+      subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+          value: subClass,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+      if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+    }
+
+    var Group = function (_Composite) {
+      _inherits(Group, _Composite);
+
+      function Group(name, layout, components) {
+        _classCallCheck(this, Group);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Group).call(this, name));
+
+        _this._m_layout = layout;
+        _this._m_components = components;
+        return _this;
+      }
+
+      _createClass(Group, [{
+        key: "toHTML",
+        value: function toHTML() {
+          var _this2 = this;
+
+          var content = $("<div>", {class: "row"});
+          var container = void 0;
+
+          jQuery.each(this.components, function (key, component) {
+            container = $("<div>", {
+              class: "columns medium-" + _this2.layout.medium + " large-" + _this2.layout.large
+            });
+            container.append(component.toHTML());
+            content.append(container);
+      });
+
+          return content;
+    }
+      }, {
+        key: "layout",
+        get: function get() {
+          return this._m_layout;
+        },
+        set: function set(value) {
+          this._m_layout = value;
+    }
+      }, {
+        key: "components",
+        get: function get() {
+          return this._m_components;
+        },
+        set: function set(value) {
+          this._m_components = value;
+        }
+      }]);
+
+      return Group;
+    }(_composite2.default);
+
+    exports.default = Group;
+
+  }, {"./composite": 301}],
+  306: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -7848,8 +7865,8 @@ function firstDroppable(editable) {
       });
     }
 
-  }, {"./responsive": 307, "./shared": 308}],
-  306: [function (require, module, exports) {
+  }, {"./responsive": 308, "./shared": 309}],
+  307: [function (require, module, exports) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -7941,7 +7958,7 @@ function firstDroppable(editable) {
     exports.default = Requirement;
 
   }, {}],
-  307: [function (require, module, exports) {
+  308: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8025,7 +8042,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 
   }, {}],
-  308: [function (require, module, exports) {
+  309: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -8042,7 +8059,116 @@ Object.defineProperty(exports, "__esModule", {
     }
 
   }, {}],
-  309: [function (require, module, exports) {
+  310: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+
+    var _createClass = function () {
+      function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+          var descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false;
+          descriptor.configurable = true;
+          if ("value" in descriptor) descriptor.writable = true;
+          Object.defineProperty(target, descriptor.key, descriptor);
+        }
+      }
+
+      return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+      };
+    }();
+
+    var _composite = require("./composite");
+
+    var _composite2 = _interopRequireDefault(_composite);
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : {default: obj};
+    }
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    function _possibleConstructorReturn(self, call) {
+      if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+      }
+      return call && (typeof call === "object" || typeof call === "function") ? call : self;
+    }
+
+    function _inherits(subClass, superClass) {
+      if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+      }
+      subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+          value: subClass,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+      if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+    }
+
+    var Structure = function (_Composite) {
+      _inherits(Structure, _Composite);
+
+      function Structure(name, parents, childrens) {
+        _classCallCheck(this, Structure);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Structure).call(this, name));
+
+        _this._m_parent = parents;
+        _this._m_childrens = childrens;
+        return _this;
+      }
+
+      _createClass(Structure, [{
+        key: "toHTML",
+        value: function toHTML() {
+          var content = $("<" + this.parent.tag + ">", this.parent.attributes);
+
+          jQuery.each(this.childrens, function (key, children) {
+            content.append(children.toHTML());
+          });
+
+          return content;
+    }
+      }, {
+        key: "parent",
+        get: function get() {
+          return this._m_parent;
+        },
+        set: function set(value) {
+          this._m_parent = value;
+        }
+      }, {
+        key: "childrens",
+        get: function get() {
+          return this._m_childrens;
+        },
+        set: function set(value) {
+          this._m_childrens = value;
+        }
+      }]);
+
+      return Structure;
+    }(_composite2.default);
+
+    exports.default = Structure;
+
+  }, {"./composite": 301}],
+  311: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -8071,11 +8197,13 @@ var _component = require("./component");
 
 var _component2 = _interopRequireDefault(_component);
 
-var _composite = require("./composite");
+    var _structure = require("./structure");
 
-var Composite = _interopRequireWildcard(_composite);
+    var _structure2 = _interopRequireDefault(_structure);
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+    var _group = require("./group");
+
+    var _group2 = _interopRequireDefault(_group);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8131,15 +8259,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         key: "initStructures",
         value: function initStructures(components) {
       var structures = {};
-      structures.input = new Composite.Structure("Test", new _component2.default("Label", "label", { "text": "Text: " }), [new _component2.default("Input", "input", { "type": "txt" })]);
+          structures.input = new _structure2.default("Test", new _component2.default("Label", "label", {"text": "Text: "}), [new _component2.default("Input", "input", {"type": "txt"})]);
 
       var mediaObject = new _component2.default("MediaObject", "div", { class: "media-object stack-for-small" });
 
       var mediaObjectSection = new _component2.default("MOS1", "div", { class: "media-object-section" });
 
-      var thumb = new Composite.Structure("Thumb", $("<div>", { class: "thumbnail" }), [components.image]);
+          var thumb = new _structure2.default("Thumb", $("<div>", {class: "thumbnail"}), [components.image]);
 
-      var mos1 = new Composite.Structure("MOS2", mediaObjectSection, [thumb]);
+          var mos1 = new _structure2.default("MOS2", mediaObjectSection, [thumb]);
 
       var title = new _component2.default("Strong", "strong", {
         "contenteditable": "true",
@@ -8151,7 +8279,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         "text": "Lorem ipsum dolor sit amet, consectetur ai"
       });
 
-      var test = new Composite.Structure("Test", new _component2.default("Span", "span", {}), [title]);
+          var test = new _structure2.default("Test", new _component2.default("Span", "span", {}), [title]);
 
       var link = new _component2.default("Lien", "a", {
         "contenteditable": "true",
@@ -8159,9 +8287,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         "text": "Super lien, clique vite"
       });
 
-      var mos2 = new Composite.Structure("MOS2", mediaObjectSection, [test, new _component2.default("Span", "br", {}), text, new _component2.default("Span", "br", {}), link]);
+          var mos2 = new _structure2.default("MOS2", mediaObjectSection, [test, new _component2.default("Span", "br", {}), text, new _component2.default("Span", "br", {}), link]);
 
-      structures.figure = new Composite.Structure("Figures", mediaObject, [mos1, mos2]);
+          structures.figure = new _structure2.default("Figures", mediaObject, [mos1, mos2]);
 
       return structures;
         }
@@ -8176,9 +8304,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         key: "initGroups",
         value: function initGroups(components) {
       var groups = {};
-      var Test = new Composite.Group("Test", { "medium": 6, "large": 6 }, [components.image, components.image]);
+          var Test = new _group2.default("Test", {"medium": 6, "large": 6}, [components.image, components.image]);
       groups.test1 = Test;
-      groups.test2 = new Composite.Group("TestNested", { "medium": 6, "large": 6 }, [Test, Test]);
+          groups.test2 = new _group2.default("TestNested", {"medium": 6, "large": 6}, [Test, Test]);
 
       return groups;
     }
@@ -8189,8 +8317,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
     exports.default = Tool;
 
-  }, {"./component": 300, "./composite": 301}],
-  310: [function (require, module, exports) {
+  }, {"./component": 300, "./group": 305, "./structure": 310}],
+  312: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -8278,5 +8406,5 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   div.toolbox("newPLB");
 }
 
-  }, {"./tool": 309}]
+  }, {"./tool": 311}]
 }, {}, [299]);
