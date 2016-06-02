@@ -6884,13 +6884,129 @@ var tools = $("#toolbox");
 
 // TODO: Add tags: tables, lists, forms, videos, audio, objects
 
-}, {"./modules/content": 302, "./modules/toolbox": 306, "babel-polyfill": 1}],
+}, {"./modules/content": 303, "./modules/toolbox": 308, "babel-polyfill": 1}],
   300: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+    exports.default = getParameters;
+    var DROPPABLE_SIZE = 10;
+
+    /**
+     *
+     * @param elementPosition
+     * @param element
+     * @returns {*}
+     */
+    function getParameters(elementPosition, element) {
+      var parameters = void 0;
+      var elementWidth = parseInt(element.css("width"));
+      var elementHeight = parseInt(element.css("height"));
+      var elementParentHeight = parseInt(element.parent().css("height"));
+      var elementTop = element.offset().top;
+      var elementLeft = element.offset().left;
+
+      switch (elementPosition) {
+        case "newRow":
+          parameters = {
+            top: elementTop,
+            left: elementLeft,
+            width: element.css("width"),
+            height: element.css("height")
+          };
+          break;
+        case "newNestedBefore1":
+          parameters = {
+            top: elementTop - DROPPABLE_SIZE / 2 + 20,
+            left: elementLeft,
+            width: element.css("width")
+          };
+          break;
+        case "newNestedBefore2":
+          parameters = {
+            top: elementTop - DROPPABLE_SIZE / 2,
+            left: elementLeft,
+            width: element.css("width")
+          };
+          break;
+        case "newNestedAfter":
+          parameters = {
+            top: elementTop + +elementHeight - DROPPABLE_SIZE / 2 - 20,
+            left: elementLeft,
+            width: element.css("width")
+          };
+          break;
+        case "newRowBefore":
+          parameters = {
+            top: elementTop - DROPPABLE_SIZE / 2,
+            left: elementLeft,
+            width: element.css("width")
+          };
+          break;
+        case "newRowAfter":
+          parameters = {
+            top: elementTop + +elementHeight - DROPPABLE_SIZE / 2,
+            left: elementLeft,
+            width: element.css("width")
+          };
+          break;
+        case "newColumnBefore":
+          parameters = {
+            top: elementTop + DROPPABLE_SIZE / 2,
+            left: elementLeft - DROPPABLE_SIZE,
+            height: elementParentHeight - DROPPABLE_SIZE + "px"
+          };
+          break;
+        case "newColumnAfter":
+          parameters = {
+            top: elementTop + DROPPABLE_SIZE / 2,
+            left: elementLeft + (+elementWidth - DROPPABLE_SIZE),
+            height: elementParentHeight - DROPPABLE_SIZE + "px"
+          };
+          break;
+        case "newInsideAbove":
+          parameters = {
+            top: elementTop + DROPPABLE_SIZE / 2,
+            left: elementLeft + DROPPABLE_SIZE,
+            width: elementWidth - DROPPABLE_SIZE * 2 + "px",
+            height: elementParentHeight / 2.5 + "px"
+          };
+          break;
+        case "newInsideBelow":
+          parameters = {
+            top: elementTop - elementParentHeight / 3 + +(elementParentHeight * 0.9),
+            left: elementLeft + DROPPABLE_SIZE,
+            width: elementWidth - DROPPABLE_SIZE * 2 + "px",
+            height: elementParentHeight / 2.5 + "px"
+          };
+          break;
+        case "handleBefore":
+          parameters = {
+            top: elementTop + DROPPABLE_SIZE / 2,
+            left: elementLeft - DROPPABLE_SIZE,
+            height: elementHeight - DROPPABLE_SIZE + "px"
+          };
+          break;
+        case "handleAfter":
+          parameters = {
+            top: elementTop + DROPPABLE_SIZE / 2,
+            left: elementLeft + (+elementWidth - DROPPABLE_SIZE),
+            height: elementHeight - DROPPABLE_SIZE + "px"
+          };
+          break;
+      }
+      return parameters;
+    }
+
+  }, {}],
+  301: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -6941,7 +7057,8 @@ var Component = function () {
 
 exports.default = Component;
 
-},{}],301:[function(require,module,exports){
+  }, {}],
+  302: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7073,7 +7190,8 @@ var Group = exports.Group = function (_Composite2) {
   return Group;
 }(Composite);
 
-},{}],302:[function(require,module,exports){
+  }, {}],
+  303: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7339,8 +7457,8 @@ function init(div) {
   div.content("newPLB");
 }
 
-  }, {"./droppable": 303, "./layout": 304}],
-  303: [function (require, module, exports) {
+  }, {"./droppable": 304, "./layout": 305}],
+  304: [function (require, module, exports) {
     "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7352,6 +7470,18 @@ exports.firstDroppable = firstDroppable;
     var _shared = require("./shared");
 
     var shared = _interopRequireWildcard(_shared);
+
+    var _requirement = require("./requirement");
+
+    var _requirement2 = _interopRequireDefault(_requirement);
+
+    var _CSS = require("./CSS");
+
+    var _CSS2 = _interopRequireDefault(_CSS);
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : {default: obj};
+    }
 
     function _interopRequireWildcard(obj) {
       if (obj && obj.__esModule) {
@@ -7368,150 +7498,6 @@ exports.firstDroppable = firstDroppable;
       }
     }
 
-var DROPPABLE_SIZE = 10;
-
-/**
- * This function is supposed to set (or return) columns "small" size
- * using content height.
- * If column's size greater than XXXpx -> small-12
- * Else:
- * @param row
- */
-function defineColumnsPriority(row) {}
-
-/**
- *
- * @param column
- * @returns {boolean}
- */
-function checkColumnLevel(column) {
-  return column.parent('.row').length > 1;
-}
-
-/**
- *
- * @param row
- * @returns {boolean}
- */
-function checkMaximumColumnsByRow(row) {
-  return row.children().not(".ui-draggable-dragging, .drag-active").length > 3;
-}
-
-/**
- *
- * @param column
- * @returns {boolean}
- */
-function isColumnContainingRow(column) {
-  return column.children('.row').length > 0;
-}
-
-/**
- *
- * @param elementPosition
- * @param element
- * @returns {*}
- */
-function getCSSValues(elementPosition, element) {
-  var parameters = void 0;
-  var elementWidth = parseInt(element.css("width"));
-  var elementHeight = parseInt(element.css("height"));
-  var elementParentHeight = parseInt(element.parent().css("height"));
-  var elementTop = element.offset().top;
-  var elementLeft = element.offset().left;
-
-  switch (elementPosition) {
-    case "newRow":
-      parameters = {
-        top: elementTop,
-        left: elementLeft,
-        width: element.css("width"),
-        height: element.css("height")
-      };
-      break;
-    case "newNestedBefore1":
-      parameters = {
-        top: elementTop - DROPPABLE_SIZE / 2 + 20,
-        left: elementLeft,
-        width: element.css("width")
-      };
-      break;
-    case "newNestedBefore2":
-      parameters = {
-        top: elementTop - DROPPABLE_SIZE / 2,
-        left: elementLeft,
-        width: element.css("width")
-      };
-      break;
-    case "newNestedAfter":
-      parameters = {
-        top: elementTop + +elementHeight - DROPPABLE_SIZE / 2 - 20,
-        left: elementLeft,
-        width: element.css("width")
-      };
-      break;
-    case "newRowBefore":
-      parameters = {
-        top: elementTop - DROPPABLE_SIZE / 2,
-        left: elementLeft,
-        width: element.css("width")
-      };
-      break;
-    case "newRowAfter":
-      parameters = {
-        top: elementTop + +elementHeight - DROPPABLE_SIZE / 2,
-        left: elementLeft,
-        width: element.css("width")
-      };
-      break;
-    case "newColumnBefore":
-      parameters = {
-        top: elementTop + DROPPABLE_SIZE / 2,
-        left: elementLeft - DROPPABLE_SIZE,
-        height: elementParentHeight - DROPPABLE_SIZE + "px"
-      };
-      break;
-    case "newColumnAfter":
-      parameters = {
-        top: elementTop + DROPPABLE_SIZE / 2,
-        left: elementLeft + (+elementWidth - DROPPABLE_SIZE),
-        height: elementParentHeight - DROPPABLE_SIZE + "px"
-      };
-      break;
-    case "newInsideAbove":
-      parameters = {
-        top: elementTop + DROPPABLE_SIZE / 2,
-        left: elementLeft + DROPPABLE_SIZE,
-        width: elementWidth - DROPPABLE_SIZE * 2 + "px",
-        height: elementParentHeight / 2.5 + "px"
-      };
-      break;
-    case "newInsideBelow":
-      parameters = {
-        top: elementTop - elementParentHeight / 3 + +(elementParentHeight * 0.9),
-        left: elementLeft + DROPPABLE_SIZE,
-        width: elementWidth - DROPPABLE_SIZE * 2 + "px",
-        height: elementParentHeight / 2.5 + "px"
-      };
-      break;
-    case "handleBefore":
-      parameters = {
-        top: elementTop + DROPPABLE_SIZE / 2,
-        left: elementLeft - DROPPABLE_SIZE,
-        height: elementHeight - DROPPABLE_SIZE + "px"
-      };
-      break;
-    case "handleAfter":
-      parameters = {
-        top: elementTop + DROPPABLE_SIZE / 2,
-        left: elementLeft + (+elementWidth - DROPPABLE_SIZE),
-        height: elementHeight - DROPPABLE_SIZE + "px"
-      };
-      break;
-  }
-  return parameters;
-}
-
 /**
  *
  * @param nestedDroppablesContainer
@@ -7526,14 +7512,14 @@ function createAddToNestedDroppables(nestedDroppablesContainer) {
       if ($(droppable).is(":first-child")) {
         var droppableRowBefore = $("<div>", {
           class: "droppable new-nested-before"
-        }).css(getCSSValues("newNestedBefore1", $(droppable)));
+        }).css((0, _CSS2.default)("newNestedBefore1", $(droppable)));
         droppableRowBefore.data("row", $(droppable));
         droppableRowBefore.data("insertFunction", $(droppable).insertBefore);
         nestedDroppablesContainer.append(droppableRowBefore);
       } else {
         var _droppableRowBefore = $("<div>", {
           class: "droppable new-nested-before"
-        }).css(getCSSValues("newNestedBefore2", $(droppable)));
+        }).css((0, _CSS2.default)("newNestedBefore2", $(droppable)));
         _droppableRowBefore.data("row", $(droppable));
         _droppableRowBefore.data("insertFunction", $(droppable).insertBefore);
         nestedDroppablesContainer.append(_droppableRowBefore);
@@ -7541,7 +7527,7 @@ function createAddToNestedDroppables(nestedDroppablesContainer) {
       if ($(droppable).is(":last-child")) {
         var droppableRowAfter = $("<div>", {
           class: "droppable new-nested-after"
-        }).css(getCSSValues("newNestedAfter", $(droppable)));
+        }).css((0, _CSS2.default)("newNestedAfter", $(droppable)));
         droppableRowAfter.data("row", $(droppable));
         droppableRowAfter.data("insertFunction", $(droppable).insertAfter);
         nestedDroppablesContainer.append(droppableRowAfter);
@@ -7558,14 +7544,14 @@ function createRowDroppables(droppablesContainer) {
   var draggablesContainer = $(".row.draggables-container");
 
   jQuery.each(draggablesContainer, function (index, draggableContainer) {
-    if (shared.hasOneChildOnly($(draggableContainer)) || checkColumnLevel($(draggableContainer))) {
+    if (shared.hasOneChildOnly($(draggableContainer)) || _requirement2.default.checkColumnLevel($(draggableContainer))) {
       // Jump to next iteration: because we move a single element
       return true;
     }
     if (!shared.hasOneChildOnly($(draggableContainer).prev(".row.draggables-container"))) {
       var droppableRowBefore = $("<div>", {
         class: "droppable new-row-before"
-      }).css(getCSSValues("newRowBefore", $(draggableContainer)));
+      }).css((0, _CSS2.default)("newRowBefore", $(draggableContainer)));
       droppableRowBefore.data("row", $(draggableContainer));
       droppableRowBefore.data("insertFunction", $(draggableContainer).insertBefore);
       droppablesContainer.append(droppableRowBefore);
@@ -7573,7 +7559,7 @@ function createRowDroppables(droppablesContainer) {
     if ($(draggableContainer).next(".row.draggables-container").length === 0) {
       var droppableRowAfter = $("<div>", {
         class: "droppable new-row-after"
-      }).css(getCSSValues("newRowAfter", $(draggableContainer)));
+      }).css((0, _CSS2.default)("newRowAfter", $(draggableContainer)));
       droppableRowAfter.data("row", $(draggableContainer));
       droppableRowAfter.data("insertFunction", $(draggableContainer).insertAfter);
       droppablesContainer.append(droppableRowAfter);
@@ -7589,11 +7575,11 @@ function createColumnsDroppables(droppablesContainer) {
   var draggables = $(".draggable").not(".drag-active, .ui-draggable-dragging");
 
   jQuery.each(draggables, function (index, draggable) {
-    if (!checkColumnLevel($(draggable)) && !checkMaximumColumnsByRow($(draggable).parent())) {
+    if (!_requirement2.default.checkColumnLevel($(draggable)) && !_requirement2.default.checkMaximumColumnsByRow($(draggable).parent())) {
       if ($(draggable).is(':first-child')) {
         var droppableColumnBefore = $("<div>", {
           class: "droppable new-column-before"
-        }).css(getCSSValues("newColumnBefore", $(draggable)));
+        }).css((0, _CSS2.default)("newColumnBefore", $(draggable)));
         droppableColumnBefore.data("column", $(draggable));
         droppableColumnBefore.data("insertFunction", $(draggable).insertBefore);
         droppablesContainer.append(droppableColumnBefore);
@@ -7602,7 +7588,7 @@ function createColumnsDroppables(droppablesContainer) {
       if (!$(draggable).next().hasClass('drag-active')) {
         var droppableColumnAfter = $("<div>", {
           class: "droppable new-column-after"
-        }).css(getCSSValues("newColumnAfter", $(draggable)));
+        }).css((0, _CSS2.default)("newColumnAfter", $(draggable)));
         droppableColumnAfter.data("column", $(draggable));
         droppableColumnAfter.data("insertFunction", $(draggable).insertAfter);
         droppablesContainer.append(droppableColumnAfter);
@@ -7620,17 +7606,17 @@ function createNestingDroppables(droppablesContainer) {
   var draggables = $(".draggable").not(".drag-active, .ui-draggable-dragging");
 
   jQuery.each(draggables, function (index, draggable) {
-    if ($(draggable).siblings().length > 0 && !checkColumnLevel($(draggable)) && !isColumnContainingRow($(draggable))) {
+    if ($(draggable).siblings().length > 0 && !_requirement2.default.checkColumnLevel($(draggable)) && !_requirement2.default.isColumnContainingRow($(draggable))) {
       var droppableRowAbove = $("<div>", {
         class: "droppable new-inside-above"
-      }).css(getCSSValues("newInsideAbove", $(draggable)));
+      }).css((0, _CSS2.default)("newInsideAbove", $(draggable)));
       droppableRowAbove.data("column", $(draggable));
       droppableRowAbove.data("insertFunction", $(draggable).prepend);
       droppablesContainer.append(droppableRowAbove);
 
       var droppableRowBelow = $("<div>", {
         class: "droppable new-inside-below"
-      }).css(getCSSValues("newInsideBelow", $(draggable)));
+      }).css((0, _CSS2.default)("newInsideBelow", $(draggable)));
       droppableRowBelow.data("column", $(draggable));
       droppableRowBelow.data("insertFunction", $(draggable).append);
       droppablesContainer.append(droppableRowBelow);
@@ -7664,7 +7650,7 @@ function firstDroppable(editable) {
 
   var droppableRow = $("<div>", {
     class: "droppable new-row"
-  }).css(getCSSValues("newRow", editable));
+  }).css((0, _CSS2.default)("newRow", editable));
 
   droppableRow.data("row", editable);
   droppableRow.data("insertFunction", $(this).appendTo);
@@ -7673,8 +7659,8 @@ function firstDroppable(editable) {
   droppablesContainer.appendTo(editable);
 }
 
-  }, {"./shared": 305}],
-  304: [function (require, module, exports) {
+  }, {"./CSS": 300, "./requirement": 306, "./shared": 307}],
+  305: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -7745,7 +7731,7 @@ function firstDroppable(editable) {
       for (var i = 0; i < cls.length; i++) {
         if (cls[i].indexOf("small-") > -1) {
           size.small = cls[i];
-        }
+    }
         if (cls[i].indexOf("medium-") > -1) {
           size.medium = cls[i];
         }
@@ -7810,8 +7796,8 @@ function firstDroppable(editable) {
         if (functionsList.length !== 1) {
           functionsList.push(function () {
             updateRow(origin);
-          });
-        }
+      });
+    }
         functionsList.push(function () {
           updateRow(target);
         });
@@ -7926,13 +7912,106 @@ function firstDroppable(editable) {
       });
     }
 
-  }, {"./shared": 305}],
-  305: [function (require, module, exports) {
-    "use strict";
+  }, {"./shared": 307}],
+  306: [function (require, module, exports) {
+    'use strict';
 
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
+
+    var _createClass = function () {
+      function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+          var descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false;
+          descriptor.configurable = true;
+          if ("value" in descriptor) descriptor.writable = true;
+          Object.defineProperty(target, descriptor.key, descriptor);
+        }
+      }
+
+      return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+      };
+    }();
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    var Requirement = function () {
+      function Requirement() {
+        _classCallCheck(this, Requirement);
+      }
+
+      _createClass(Requirement, null, [{
+        key: 'defineColumnsPriority',
+
+
+    /**
+     * This function is supposed to set (or return) columns "small" size
+     * using content height.
+     * If column's size greater than XXXpx -> small-12
+     * Else:
+     * @param row
+     */
+    value: function defineColumnsPriority(row) {
+    }
+
+        /**
+     *
+         * @param column
+         * @returns {boolean}
+     */
+
+      }, {
+        key: 'checkColumnLevel',
+        value: function checkColumnLevel(column) {
+          return column.parent('.row').length > 1;
+        }
+
+        /**
+         *
+         * @param row
+         * @returns {boolean}
+         */
+
+      }, {
+        key: 'checkMaximumColumnsByRow',
+        value: function checkMaximumColumnsByRow(row) {
+          return row.children().not(".ui-draggable-dragging, .drag-active").length > 3;
+    }
+
+    /**
+     *
+     * @param column
+     * @returns {boolean}
+     */
+
+      }, {
+        key: 'isColumnContainingRow',
+        value: function isColumnContainingRow(column) {
+          return column.children('.row').length > 0;
+    }
+      }]);
+
+      return Requirement;
+    }();
+
+    exports.default = Requirement;
+
+  }, {}],
+  307: [function (require, module, exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
     exports.hasOneChildOnly = hasOneChildOnly;
     /**
      *
@@ -7944,12 +8023,12 @@ function firstDroppable(editable) {
     }
 
   }, {}],
-  306: [function (require, module, exports) {
-"use strict";
+  308: [function (require, module, exports) {
+    "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
 exports.default = init;
 
 var _component = require("./component");
@@ -8100,4 +8179,5 @@ function init(div) {
   div.toolbox("newPLB");
 }
 
-},{"./component":300,"./composite":301}]},{},[299]);
+  }, {"./component": 301, "./composite": 302}]
+}, {}, [299]);

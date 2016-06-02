@@ -1,149 +1,7 @@
 import * as shared from "./shared";
+import rq from "./requirement";
+import getCSSValues from "./CSS";
 
-const DROPPABLE_SIZE = 10;
-
-/**
- * This function is supposed to set (or return) columns "small" size
- * using content height.
- * If column's size greater than XXXpx -> small-12
- * Else:
- * @param row
- */
-function defineColumnsPriority(row) {
-}
-
-/**
- *
- * @param column
- * @returns {boolean}
- */
-function checkColumnLevel(column) {
-  return (column.parent('.row').length > 1);
-}
-
-/**
- *
- * @param row
- * @returns {boolean}
- */
-function checkMaximumColumnsByRow(row) {
-  return (row.children().not(".ui-draggable-dragging, .drag-active").length > 3);
-}
-
-/**
- *
- * @param column
- * @returns {boolean}
- */
-function isColumnContainingRow(column) {
-  return (column.children('.row').length > 0);
-}
-
-/**
- *
- * @param elementPosition
- * @param element
- * @returns {*}
- */
-function getCSSValues(elementPosition, element) {
-  let parameters;
-  const elementWidth = parseInt(element.css("width"));
-  const elementHeight = parseInt(element.css("height"));
-  const elementParentHeight = parseInt(element.parent().css("height"));
-  const elementTop = element.offset().top;
-  const elementLeft = element.offset().left;
-
-  switch (elementPosition) {
-    case "newRow":
-      parameters = {
-        top: elementTop,
-        left: elementLeft,
-        width: element.css("width"),
-        height: element.css("height")
-      };
-      break;
-    case "newNestedBefore1":
-      parameters = {
-        top: elementTop - (DROPPABLE_SIZE / 2) + 20,
-        left: elementLeft,
-        width: element.css("width")
-      };
-      break;
-    case "newNestedBefore2":
-      parameters = {
-        top: elementTop - (DROPPABLE_SIZE / 2),
-        left: elementLeft,
-        width: element.css("width")
-      };
-      break;
-    case "newNestedAfter":
-      parameters = {
-        top: elementTop + (+(elementHeight)) - (DROPPABLE_SIZE / 2) - 20,
-        left: elementLeft,
-        width: element.css("width")
-      };
-      break;
-    case "newRowBefore":
-      parameters = {
-        top: elementTop - (DROPPABLE_SIZE / 2),
-        left: elementLeft,
-        width: element.css("width")
-      };
-      break;
-    case "newRowAfter":
-      parameters = {
-        top: elementTop + (+(elementHeight)) - (DROPPABLE_SIZE / 2),
-        left: elementLeft,
-        width: element.css("width")
-      };
-      break;
-    case "newColumnBefore":
-      parameters = {
-        top: elementTop + (DROPPABLE_SIZE / 2),
-        left: elementLeft - (DROPPABLE_SIZE),
-        height: `${elementParentHeight - DROPPABLE_SIZE}px`
-      };
-      break;
-    case "newColumnAfter":
-      parameters = {
-        top: elementTop + (DROPPABLE_SIZE / 2),
-        left: elementLeft + (+(elementWidth) - (DROPPABLE_SIZE)),
-        height: `${elementParentHeight - DROPPABLE_SIZE}px`
-      };
-      break;
-    case "newInsideAbove":
-      parameters = {
-        top: elementTop + (DROPPABLE_SIZE / 2),
-        left: elementLeft + DROPPABLE_SIZE,
-        width: `${elementWidth - (DROPPABLE_SIZE * 2)}px`,
-        height: `${elementParentHeight / 2.5}px`
-      };
-      break;
-    case "newInsideBelow":
-      parameters = {
-        top: elementTop - (elementParentHeight / 3) + (+(elementParentHeight * 0.9)),
-        left: elementLeft + DROPPABLE_SIZE,
-        width: `${elementWidth - (DROPPABLE_SIZE * 2)}px`,
-        height: `${elementParentHeight / 2.5}px`
-      };
-      break;
-    case "handleBefore":
-      parameters = {
-        top: elementTop + (DROPPABLE_SIZE / 2),
-        left: elementLeft - (DROPPABLE_SIZE),
-        height: `${elementHeight - DROPPABLE_SIZE}px`
-      };
-      break;
-    case "handleAfter":
-      parameters = {
-        top: elementTop + (DROPPABLE_SIZE / 2),
-        left: elementLeft + (+(elementWidth) - (DROPPABLE_SIZE)),
-        height: `${elementHeight - DROPPABLE_SIZE}px`
-      };
-      break;
-  }
-  return parameters;
-}
 
 /**
  *
@@ -191,7 +49,7 @@ function createRowDroppables(droppablesContainer) {
   const draggablesContainer = $(".row.draggables-container");
 
   jQuery.each(draggablesContainer, (index, draggableContainer) => {
-    if (shared.hasOneChildOnly($(draggableContainer)) || checkColumnLevel($(draggableContainer))) {
+    if (shared.hasOneChildOnly($(draggableContainer)) || rq.checkColumnLevel($(draggableContainer))) {
       // Jump to next iteration: because we move a single element
       return true;
     }
@@ -222,7 +80,7 @@ function createColumnsDroppables(droppablesContainer) {
   const draggables = $(".draggable").not(".drag-active, .ui-draggable-dragging");
 
   jQuery.each(draggables, (index, draggable) => {
-    if (!checkColumnLevel($(draggable)) && !checkMaximumColumnsByRow($(draggable).parent())) {
+    if (!rq.checkColumnLevel($(draggable)) && !rq.checkMaximumColumnsByRow($(draggable).parent())) {
       if ($(draggable).is(':first-child')) {
         const droppableColumnBefore = $("<div>", {
           class: "droppable new-column-before"
@@ -253,7 +111,7 @@ function createNestingDroppables(droppablesContainer) {
   const draggables = $(".draggable").not(".drag-active, .ui-draggable-dragging");
 
   jQuery.each(draggables, (index, draggable) => {
-    if ($(draggable).siblings().length > 0 && !checkColumnLevel($(draggable)) && !isColumnContainingRow($(draggable))) {
+    if ($(draggable).siblings().length > 0 && !rq.checkColumnLevel($(draggable)) && !rq.isColumnContainingRow($(draggable))) {
       const droppableRowAbove = $("<div>", {
         class: "droppable new-inside-above"
       }).css(getCSSValues("newInsideAbove", $(draggable)));
