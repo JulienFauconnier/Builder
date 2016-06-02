@@ -7410,33 +7410,29 @@ exports.firstDroppable = firstDroppable;
  * @param nestedDroppablesContainer
  */
 function createAddToNestedDroppables(nestedDroppablesContainer) {
-  var nestedContainers = $(".columns.nested-container");
-  var droppables = void 0;
-
-  jQuery.each(nestedContainers, function (index, nestedContainer) {
-    droppables = nestedContainer.children();
-    jQuery.each(droppables, function (index, droppable) {
-      if ($(droppable).is(":first-child")) {
+  $(".columns.nested-container").each(function () {
+    $(this).children().each(function () {
+      if ($(this).is(":first-child")) {
         var droppableRowBefore = $("<div>", {
           class: "droppable new-nested-before"
-        }).css((0, _css2.default)("newNestedBefore1", $(droppable)));
-        droppableRowBefore.data("row", $(droppable));
-        droppableRowBefore.data("insertFunction", $(droppable).insertBefore);
+        }).css((0, _css2.default)("newNestedBefore1", $(this)));
+        droppableRowBefore.data("row", $(this));
+        droppableRowBefore.data("insertFunction", $(this).insertBefore);
         nestedDroppablesContainer.append(droppableRowBefore);
       } else {
         var _droppableRowBefore = $("<div>", {
           class: "droppable new-nested-before"
-        }).css((0, _css2.default)("newNestedBefore2", $(droppable)));
-        _droppableRowBefore.data("row", $(droppable));
-        _droppableRowBefore.data("insertFunction", $(droppable).insertBefore);
+        }).css((0, _css2.default)("newNestedBefore2", $(this)));
+        _droppableRowBefore.data("row", $(this));
+        _droppableRowBefore.data("insertFunction", $(this).insertBefore);
         nestedDroppablesContainer.append(_droppableRowBefore);
       }
-      if ($(droppable).is(":last-child")) {
+      if ($(this).is(":last-child")) {
         var droppableRowAfter = $("<div>", {
           class: "droppable new-nested-after"
-        }).css((0, _css2.default)("newNestedAfter", $(droppable)));
-        droppableRowAfter.data("row", $(droppable));
-        droppableRowAfter.data("insertFunction", $(droppable).insertAfter);
+        }).css((0, _css2.default)("newNestedAfter", $(this)));
+        droppableRowAfter.data("row", $(this));
+        droppableRowAfter.data("insertFunction", $(this).insertAfter);
         nestedDroppablesContainer.append(droppableRowAfter);
       }
     });
@@ -8213,6 +8209,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
       }
     }
 
+// TODO: Improve this mess
+
     var Tool = function () {
       function Tool() {
         _classCallCheck(this, Tool);
@@ -8392,6 +8390,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
             containment: editable,
             helper: "clone",
             start: function start() {
+              console.log('blop');
               editable.content('initDroppables');
             },
             stop: function stop() {

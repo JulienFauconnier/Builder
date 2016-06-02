@@ -8,33 +8,29 @@ import getCSSValues from "./css";
  * @param nestedDroppablesContainer
  */
 function createAddToNestedDroppables(nestedDroppablesContainer) {
-  const nestedContainers = $(".columns.nested-container");
-  let droppables;
-
-  jQuery.each(nestedContainers, (index, nestedContainer) => {
-    droppables = nestedContainer.children();
-    jQuery.each(droppables, (index, droppable) => {
-      if ($(droppable).is(":first-child")) {
+  $(".columns.nested-container").each(function () {
+    $(this).children().each(function () {
+      if ($(this).is(":first-child")) {
         var droppableRowBefore = $("<div>", {
           class: "droppable new-nested-before"
-        }).css(getCSSValues("newNestedBefore1", $(droppable)));
-        droppableRowBefore.data("row", $(droppable));
-        droppableRowBefore.data("insertFunction", $(droppable).insertBefore);
+        }).css(getCSSValues("newNestedBefore1", $(this)));
+        droppableRowBefore.data("row", $(this));
+        droppableRowBefore.data("insertFunction", $(this).insertBefore);
         nestedDroppablesContainer.append(droppableRowBefore);
       } else {
         let droppableRowBefore = $("<div>", {
           class: "droppable new-nested-before"
-        }).css(getCSSValues("newNestedBefore2", $(droppable)));
-        droppableRowBefore.data("row", $(droppable));
-        droppableRowBefore.data("insertFunction", $(droppable).insertBefore);
+        }).css(getCSSValues("newNestedBefore2", $(this)));
+        droppableRowBefore.data("row", $(this));
+        droppableRowBefore.data("insertFunction", $(this).insertBefore);
         nestedDroppablesContainer.append(droppableRowBefore);
       }
-      if ($(droppable).is(":last-child")) {
+      if ($(this).is(":last-child")) {
         const droppableRowAfter = $("<div>", {
           class: "droppable new-nested-after"
-        }).css(getCSSValues("newNestedAfter", $(droppable)));
-        droppableRowAfter.data("row", $(droppable));
-        droppableRowAfter.data("insertFunction", $(droppable).insertAfter);
+        }).css(getCSSValues("newNestedAfter", $(this)));
+        droppableRowAfter.data("row", $(this));
+        droppableRowAfter.data("insertFunction", $(this).insertAfter);
         nestedDroppablesContainer.append(droppableRowAfter);
       }
     });

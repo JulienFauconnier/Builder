@@ -2,12 +2,11 @@ doctype html
 html
   head
     title= title
+
     block styles
-      link(rel='stylesheet', href='/javascripts/lib/jquery-ui-1.11.4/jquery-ui.theme.min.css')
-
-      link(rel='stylesheet', href='/editable/css/foundation.css')
+      link(rel='stylesheet', href='https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css')
+      link(rel='stylesheet', href='https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.css')
       link(rel='stylesheet', href='/editable/css/app.css')
-
       link(rel='stylesheet', href='/font/uneek-awesome.css')
       link(rel='stylesheet', href='/stylesheets/style.css')
 
@@ -15,14 +14,10 @@ html
     block content
 
     block scripts
-      script(src='/javascripts/lib/jquery-2.2.4.js' type='text/javascript')
-      script(src='/javascripts/lib/jquery-ui-1.11.4/jquery-ui.js' type='text/javascript')
-
+      script(src='https://code.jquery.com/jquery-2.2.4.min.js' type='text/javascript')
+      script(src='https://code.jquery.com/ui/1.11.4/jquery-ui.min.js' type='text/javascript')
       script(src='/javascripts/lib/tinymce/tinymce.min.js' type='text/javascript')
       script(src='/javascripts/lib/tinymce/jquery.tinymce.min.js' type='text/javascript')
-
-      script(src='/editable/js/vendor/foundation.min.js' type='text/javascript')
-      script(src='/editable/js/vendor/what-input.js' type='text/javascript')
+      script(src='https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.js' type='text/javascript')
       script(src='/editable/js/app.js' type='text/javascript')
-
       script(src='/javascripts/app.js' type='text/javascript')
