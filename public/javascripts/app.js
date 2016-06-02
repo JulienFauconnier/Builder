@@ -2298,7 +2298,7 @@ if(require('./_descriptors')){
           , offset = 0
           , buffer, byteLength, length, klass;
         if(!isObject(data)){
-          length     = strictToLength(data, true)
+          length = strictToLength(data, true);
           byteLength = length * BYTES;
           buffer     = new $ArrayBuffer(byteLength);
         } else if(data instanceof $ArrayBuffer || (klass = classof(data)) == ARRAY_BUFFER || klass == SHARED_BUFFER){
@@ -2459,7 +2459,7 @@ var packIEEE754 = function(value, mLen, nBytes){
     , i      = 0
     , s      = value < 0 || value === 0 && 1 / value < 0 ? 1 : 0
     , e, m, c;
-  value = abs(value)
+  value = abs(value);
   if(value != value || value === Infinity){
     m = value != value ? 1 : 0;
     e = eMax;
@@ -2662,7 +2662,7 @@ if(!$typed.ABV){
     var ArrayBufferProto = $ArrayBuffer[PROTOTYPE] = BaseBuffer[PROTOTYPE];
     for(var keys = gOPN(BaseBuffer), j = 0, key; keys.length > j; ){
       if(!((key = keys[j++]) in $ArrayBuffer))hide($ArrayBuffer, key, BaseBuffer[key]);
-    };
+    }
     if(!LIBRARY)ArrayBufferProto.constructor = $ArrayBuffer;
   }
   // iOS Safari 7.x bug
@@ -3707,7 +3707,7 @@ var $export = require('./_export');
 
 $export($export.S + $export.F, 'Object', {assign: require('./_object-assign')});
 },{"./_export":32,"./_object-assign":65}],181:[function(require,module,exports){
-var $export = require('./_export')
+  var $export = require('./_export');
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 $export($export.S, 'Object', {create: require('./_object-create')});
 },{"./_export":32,"./_object-create":66}],182:[function(require,module,exports){
@@ -6884,7 +6884,8 @@ var tools = $("#toolbox");
 
 // TODO: Add tags: tables, lists, forms, videos, audio, objects
 
-},{"./modules/content":302,"./modules/toolbox":304,"babel-polyfill":1}],300:[function(require,module,exports){
+}, {"./modules/content": 302, "./modules/toolbox": 306, "babel-polyfill": 1}],
+  300: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7080,9 +7081,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = init;
 
-var _functions = require("./functions");
+    var _layout = require("./layout");
 
-var fn = _interopRequireWildcard(_functions);
+    var layout = _interopRequireWildcard(_layout);
+
+    var _droppable = require("./droppable");
+
+    var droppable = _interopRequireWildcard(_droppable);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -7107,9 +7112,9 @@ function init(div) {
      */
     initDroppables: function initDroppables() {
       if (this.element.children(".draggables-container").length < 1) {
-        fn.firstDroppable(this.element);
+        droppable.firstDroppable(this.element);
       } else {
-        fn.createDroppables(this.element);
+        droppable.createDroppables(this.element);
       }
 
       var that = this,
@@ -7155,13 +7160,13 @@ function init(div) {
             });
           }
           if ($(this).is('[class*="new-row"]')) {
-            fn.newRow($(this), ui);
+            layout.newRow($(this), ui);
           } else if ($(this).is('[class*="new-column"]')) {
-            fn.newColumn($(this), ui);
+            layout.newColumn($(this), ui);
           } else if ($(this).is('[class*="new-inside"]')) {
-            fn.newInside($(this), ui);
+            layout.newInside($(this), ui);
           } else if ($(this).is('[class*="new-nested"]')) {
-            fn.newNested($(this), ui);
+            layout.newNested($(this), ui);
           } else {
             console.warn("Wrong drop: " + event);
           }
@@ -7193,7 +7198,7 @@ function init(div) {
             $(this).parent().remove();
 
             if (update) {
-              fn.updateRow(parentRow);
+              layout.updateRow(parentRow);
             } else {
               parentRow.remove();
             }
@@ -7262,9 +7267,9 @@ function init(div) {
             thisOne.dragging = true;
 
             next = $(this).next();
-            oldSize = fn.getColumnSize($(this)).medium;
+            oldSize = layout.getColumnSize($(this)).medium;
             oldSize = parseInt(oldSize.slice(7, oldSize.length));
-            oldNextSize = fn.getColumnSize(next).medium;
+            oldNextSize = layout.getColumnSize(next).medium;
             oldNextSize = parseInt(oldNextSize.slice(7, oldNextSize.length));
 
             console.log(oldSize + " " + oldNextSize);
@@ -7283,8 +7288,8 @@ function init(div) {
             newSize = parseInt(that.helper.width() / parseFloat(o.grid[0]));
             newNextSize = oldNextSize + (oldSize - newSize);
 
-            fn.setColumnSize($(this), { "medium": newSize, "large": newSize });
-            fn.setColumnSize(next, { "medium": newNextSize, "large": newNextSize });
+            layout.setColumnSize($(this), {"medium": newSize, "large": newSize});
+            layout.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
 
             $(this).css("width", "");
             $(this).css("height", "");
@@ -7334,21 +7339,35 @@ function init(div) {
   div.content("newPLB");
 }
 
-},{"./functions":303}],303:[function(require,module,exports){
-'use strict';
+  }, {"./droppable": 303, "./layout": 304}],
+  303: [function (require, module, exports) {
+    "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getColumnSize = getColumnSize;
-exports.setColumnSize = setColumnSize;
-exports.updateRow = updateRow;
-exports.newRow = newRow;
-exports.newColumn = newColumn;
-exports.newInside = newInside;
-exports.newNested = newNested;
 exports.createDroppables = createDroppables;
 exports.firstDroppable = firstDroppable;
+
+    var _shared = require("./shared");
+
+    var shared = _interopRequireWildcard(_shared);
+
+    function _interopRequireWildcard(obj) {
+      if (obj && obj.__esModule) {
+        return obj;
+      } else {
+        var newObj = {};
+        if (obj != null) {
+          for (var key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+          }
+        }
+        newObj.default = obj;
+        return newObj;
+      }
+    }
+
 var DROPPABLE_SIZE = 10;
 
 /**
@@ -7385,234 +7404,6 @@ function checkMaximumColumnsByRow(row) {
  */
 function isColumnContainingRow(column) {
   return column.children('.row').length > 0;
-}
-
-/**
- *
- * @param row
- * @returns {boolean}
- */
-function hasOneChildOnly(row) {
-  return row.children().not(".ui-draggable-dragging").length === 1 && row.children(".ui-draggable-dragging").length === 1;
-}
-
-/**
- *
- * @param count
- * @returns {{small: number, medium: number, large: number}}
- */
-function getDefaultValues(count) {
-  var values = void 0;
-
-  switch (count) {
-    case 1:
-      values = { "small": 12, "medium": 12, "large": 12 };
-      break;
-    case 2:
-      values = { "small": 6, "medium": 6, "large": 6 };
-      break;
-    case 3:
-      values = { "small": 12, "medium": 4, "large": 4 };
-      break;
-    case 4:
-      values = { "small": 12, "medium": 3, "large": 3 };
-      break;
-    default:
-      break;
-  }
-  return values;
-}
-
-/**
- *
- * @param column
- * @returns {*}
- */
-function getColumnSize(column) {
-  var size = {};
-  var cls = column.attr('class').split(' ');
-  for (var i = 0; i < cls.length; i++) {
-    if (cls[i].indexOf("small-") > -1) {
-      size.small = cls[i];
-    }
-    if (cls[i].indexOf("medium-") > -1) {
-      size.medium = cls[i];
-    }
-    if (cls[i].indexOf("large-") > -1) {
-      size.large = cls[i];
-    }
-  }
-  return size;
-}
-
-/**
- *
- * @param column
- * @param size
- */
-function setColumnSize(column, size) {
-  if (size.small === undefined) {
-    size.small = getColumnSize(column).small;
-    size.small = size.small.slice(6, size.small.length);
-  }
-
-  column.removeClass(function (index, css) {
-    return (css.match(/(^|\s)small-\S+/g) || []).join(' ');
-  });
-  column.removeClass(function (index, css) {
-    return (css.match(/(^|\s)medium-\S+/g) || []).join(' ');
-  });
-  column.removeClass(function (index, css) {
-    return (css.match(/(^|\s)large-\S+/g) || []).join(' ');
-  });
-  column.addClass('small-' + size.small + ' medium-' + size.medium + ' large-' + size.large);
-}
-
-/**
- *
- * @param row
- */
-function updateRow(row) {
-  var childrenCount = row.children().not(".ui-draggable-dragging").length,
-      columns = row.children();
-
-  jQuery.each(columns, function (index, column) {
-    setColumnSize($(column), getDefaultValues(childrenCount));
-  });
-}
-
-/**
- *
- * @param containers
- * @param type
- * @returns {Array}
- */
-function prepareContainersOperations(containers, type) {
-  var origin = containers[0],
-      target = containers[1],
-      functionsList = [];
-
-  if (hasOneChildOnly(origin)) {
-    functionsList.push(origin.remove);
-  }
-  if (type === "column" && origin[0] !== target[0]) {
-    if (functionsList.length !== 1) {
-      functionsList.push(function () {
-        updateRow(origin);
-      });
-    }
-    functionsList.push(function () {
-      updateRow(target);
-    });
-  }
-  if (!hasOneChildOnly(origin) && type === "row") {
-    functionsList.push(function () {
-      updateRow(origin);
-    });
-  }
-  return functionsList;
-}
-
-/**
- *
- * @param droppable
- * @param ui
- */
-function newRow(droppable, ui) {
-  var containers = [ui.draggable.parent(), droppable.data("row").parent()],
-      updateList = prepareContainersOperations(containers, "row"),
-      draggablesContainer = $("<div>", { class: "row draggables-container" });
-
-  var draggable = ui.draggable.detach();
-
-  draggablesContainer.append(draggable);
-  droppable.data("insertFunction").apply(draggablesContainer, droppable.data("row"));
-  updateRow(draggablesContainer);
-
-  jQuery.each(updateList, function (index, update) {
-    update.call(containers[index]);
-  });
-}
-
-/**
- *
- * @param droppable
- * @param ui
- */
-function newColumn(droppable, ui) {
-  var containers = [ui.draggable.parent(), droppable.data("column").parent()],
-      updateList = prepareContainersOperations(containers, "column");
-
-  var draggable = ui.draggable.detach();
-
-  droppable.data("insertFunction").apply(draggable, droppable.data("column"));
-
-  jQuery.each(updateList, function (index, update) {
-    update.call(containers[index]);
-  });
-}
-
-/**
- *
- * @param droppable
- * @param draggable
- * @returns {*[]}
- */
-function wrappingRowIntoColumn(droppable, draggable) {
-  var oldColumn = droppable.data("column"),
-      newRow1 = $("<div>", { class: "row" }),
-      newRow2 = $("<div>", { class: "row" }),
-      replacementColumn = $("<div>", { class: oldColumn.attr("class") });
-
-  replacementColumn.addClass("nested-container");
-  setColumnSize(oldColumn, getDefaultValues(1));
-  setColumnSize(draggable, getDefaultValues(1));
-  newRow2.append(draggable);
-  oldColumn.wrap(replacementColumn);
-  oldColumn.wrap(newRow1);
-
-  return [oldColumn, newRow2];
-}
-
-/**
- *
- * @param droppable
- * @param ui
- */
-function newInside(droppable, ui) {
-  var containers = [ui.draggable.parent(), droppable.data("column").parent()],
-      updateList = prepareContainersOperations(containers, "column");
-
-  var draggable = ui.draggable.detach();
-
-  var wrapped = wrappingRowIntoColumn(droppable, draggable);
-
-  droppable.data("insertFunction").apply(wrapped[0].parent().parent(), wrapped[1]);
-
-  jQuery.each(updateList, function (index, update) {
-    update.call(containers[index]);
-  });
-}
-
-/**
- *
- * @param droppable
- * @param ui
- */
-function newNested(droppable, ui) {
-  var containers = [ui.draggable.parent(), droppable.data("row").parent()],
-      updateList = prepareContainersOperations(containers, "row"),
-      draggablesContainer = $("<div>", { class: "row" });
-
-  var draggable = ui.draggable.detach();
-
-  draggablesContainer.append(draggable);
-  droppable.data("insertFunction").apply(draggablesContainer, droppable.data("row"));
-  updateRow(draggablesContainer);
-
-  jQuery.each(updateList, function (index, update) {
-    update.call(containers[index]);
-  });
 }
 
 /**
@@ -7677,44 +7468,44 @@ function getCSSValues(elementPosition, element) {
       parameters = {
         top: elementTop + DROPPABLE_SIZE / 2,
         left: elementLeft - DROPPABLE_SIZE,
-        height: elementParentHeight - DROPPABLE_SIZE + 'px'
+        height: elementParentHeight - DROPPABLE_SIZE + "px"
       };
       break;
     case "newColumnAfter":
       parameters = {
         top: elementTop + DROPPABLE_SIZE / 2,
         left: elementLeft + (+elementWidth - DROPPABLE_SIZE),
-        height: elementParentHeight - DROPPABLE_SIZE + 'px'
+        height: elementParentHeight - DROPPABLE_SIZE + "px"
       };
       break;
     case "newInsideAbove":
       parameters = {
         top: elementTop + DROPPABLE_SIZE / 2,
         left: elementLeft + DROPPABLE_SIZE,
-        width: elementWidth - DROPPABLE_SIZE * 2 + 'px',
-        height: elementParentHeight / 2.5 + 'px'
+        width: elementWidth - DROPPABLE_SIZE * 2 + "px",
+        height: elementParentHeight / 2.5 + "px"
       };
       break;
     case "newInsideBelow":
       parameters = {
         top: elementTop - elementParentHeight / 3 + +(elementParentHeight * 0.9),
         left: elementLeft + DROPPABLE_SIZE,
-        width: elementWidth - DROPPABLE_SIZE * 2 + 'px',
-        height: elementParentHeight / 2.5 + 'px'
+        width: elementWidth - DROPPABLE_SIZE * 2 + "px",
+        height: elementParentHeight / 2.5 + "px"
       };
       break;
     case "handleBefore":
       parameters = {
         top: elementTop + DROPPABLE_SIZE / 2,
         left: elementLeft - DROPPABLE_SIZE,
-        height: elementHeight - DROPPABLE_SIZE + 'px'
+        height: elementHeight - DROPPABLE_SIZE + "px"
       };
       break;
     case "handleAfter":
       parameters = {
         top: elementTop + DROPPABLE_SIZE / 2,
         left: elementLeft + (+elementWidth - DROPPABLE_SIZE),
-        height: elementHeight - DROPPABLE_SIZE + 'px'
+        height: elementHeight - DROPPABLE_SIZE + "px"
       };
       break;
   }
@@ -7767,11 +7558,11 @@ function createRowDroppables(droppablesContainer) {
   var draggablesContainer = $(".row.draggables-container");
 
   jQuery.each(draggablesContainer, function (index, draggableContainer) {
-    if (hasOneChildOnly($(draggableContainer)) || checkColumnLevel($(draggableContainer))) {
+    if (shared.hasOneChildOnly($(draggableContainer)) || checkColumnLevel($(draggableContainer))) {
       // Jump to next iteration: because we move a single element
       return true;
     }
-    if (!hasOneChildOnly($(draggableContainer).prev(".row.draggables-container"))) {
+    if (!shared.hasOneChildOnly($(draggableContainer).prev(".row.draggables-container"))) {
       var droppableRowBefore = $("<div>", {
         class: "droppable new-row-before"
       }).css(getCSSValues("newRowBefore", $(draggableContainer)));
@@ -7882,7 +7673,278 @@ function firstDroppable(editable) {
   droppablesContainer.appendTo(editable);
 }
 
-},{}],304:[function(require,module,exports){
+  }, {"./shared": 305}],
+  304: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.getColumnSize = getColumnSize;
+    exports.setColumnSize = setColumnSize;
+    exports.updateRow = updateRow;
+    exports.newRow = newRow;
+    exports.newColumn = newColumn;
+    exports.newInside = newInside;
+    exports.newNested = newNested;
+
+    var _shared = require("./shared");
+
+    var shared = _interopRequireWildcard(_shared);
+
+    function _interopRequireWildcard(obj) {
+      if (obj && obj.__esModule) {
+        return obj;
+      } else {
+        var newObj = {};
+        if (obj != null) {
+          for (var key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+          }
+        }
+        newObj.default = obj;
+        return newObj;
+      }
+    }
+
+    /**
+     *
+     * @param count
+     * @returns {{small: number, medium: number, large: number}}
+     */
+    function getDefaultValues(count) {
+      var values = void 0;
+
+      switch (count) {
+        case 1:
+          values = {"small": 12, "medium": 12, "large": 12};
+          break;
+        case 2:
+          values = {"small": 6, "medium": 6, "large": 6};
+          break;
+        case 3:
+          values = {"small": 12, "medium": 4, "large": 4};
+          break;
+        case 4:
+          values = {"small": 12, "medium": 3, "large": 3};
+          break;
+        default:
+          break;
+      }
+      return values;
+    }
+
+    /**
+     *
+     * @param column
+     * @returns {*}
+     */
+    function getColumnSize(column) {
+      var size = {};
+      var cls = column.attr('class').split(' ');
+      for (var i = 0; i < cls.length; i++) {
+        if (cls[i].indexOf("small-") > -1) {
+          size.small = cls[i];
+        }
+        if (cls[i].indexOf("medium-") > -1) {
+          size.medium = cls[i];
+        }
+        if (cls[i].indexOf("large-") > -1) {
+          size.large = cls[i];
+        }
+      }
+      return size;
+    }
+
+    /**
+     *
+     * @param column
+     * @param size
+     */
+    function setColumnSize(column, size) {
+      if (size.small === undefined) {
+        size.small = getColumnSize(column).small;
+        size.small = size.small.slice(6, size.small.length);
+      }
+
+      column.removeClass(function (index, css) {
+        return (css.match(/(^|\s)small-\S+/g) || []).join(' ');
+      });
+      column.removeClass(function (index, css) {
+        return (css.match(/(^|\s)medium-\S+/g) || []).join(' ');
+      });
+      column.removeClass(function (index, css) {
+        return (css.match(/(^|\s)large-\S+/g) || []).join(' ');
+      });
+      column.addClass("small-" + size.small + " medium-" + size.medium + " large-" + size.large);
+    }
+
+    /**
+     *
+     * @param row
+     */
+    function updateRow(row) {
+      var childrenCount = row.children().not(".ui-draggable-dragging").length,
+        columns = row.children();
+
+      jQuery.each(columns, function (index, column) {
+        setColumnSize($(column), getDefaultValues(childrenCount));
+      });
+    }
+
+    /**
+     *
+     * @param containers
+     * @param type
+     * @returns {Array}
+     */
+    function prepareContainersOperations(containers, type) {
+      var origin = containers[0],
+        target = containers[1],
+        functionsList = [];
+
+      if (shared.hasOneChildOnly(origin)) {
+        functionsList.push(origin.remove);
+      }
+      if (type === "column" && origin[0] !== target[0]) {
+        if (functionsList.length !== 1) {
+          functionsList.push(function () {
+            updateRow(origin);
+          });
+        }
+        functionsList.push(function () {
+          updateRow(target);
+        });
+      }
+      if (!shared.hasOneChildOnly(origin) && type === "row") {
+        functionsList.push(function () {
+          updateRow(origin);
+        });
+      }
+      return functionsList;
+    }
+
+    /**
+     *
+     * @param droppable
+     * @param ui
+     */
+    function newRow(droppable, ui) {
+      var containers = [ui.draggable.parent(), droppable.data("row").parent()],
+        updateList = prepareContainersOperations(containers, "row"),
+        draggablesContainer = $("<div>", {class: "row draggables-container"});
+
+      var draggable = ui.draggable.detach();
+
+      draggablesContainer.append(draggable);
+      droppable.data("insertFunction").apply(draggablesContainer, droppable.data("row"));
+      updateRow(draggablesContainer);
+
+      jQuery.each(updateList, function (index, update) {
+        update.call(containers[index]);
+      });
+    }
+
+    /**
+     *
+     * @param droppable
+     * @param ui
+     */
+    function newColumn(droppable, ui) {
+      var containers = [ui.draggable.parent(), droppable.data("column").parent()],
+        updateList = prepareContainersOperations(containers, "column");
+
+      var draggable = ui.draggable.detach();
+
+      droppable.data("insertFunction").apply(draggable, droppable.data("column"));
+
+      jQuery.each(updateList, function (index, update) {
+        update.call(containers[index]);
+      });
+    }
+
+    /**
+     *
+     * @param droppable
+     * @param draggable
+     * @returns {*[]}
+     */
+    function wrappingRowIntoColumn(droppable, draggable) {
+      var oldColumn = droppable.data("column"),
+        newRow1 = $("<div>", {class: "row"}),
+        newRow2 = $("<div>", {class: "row"}),
+        replacementColumn = $("<div>", {class: oldColumn.attr("class")});
+
+      replacementColumn.addClass("nested-container");
+      setColumnSize(oldColumn, getDefaultValues(1));
+      setColumnSize(draggable, getDefaultValues(1));
+      newRow2.append(draggable);
+      oldColumn.wrap(replacementColumn);
+      oldColumn.wrap(newRow1);
+
+      return [oldColumn, newRow2];
+    }
+
+    /**
+     *
+     * @param droppable
+     * @param ui
+     */
+    function newInside(droppable, ui) {
+      var containers = [ui.draggable.parent(), droppable.data("column").parent()],
+        updateList = prepareContainersOperations(containers, "column");
+
+      var draggable = ui.draggable.detach();
+
+      var wrapped = wrappingRowIntoColumn(droppable, draggable);
+
+      droppable.data("insertFunction").apply(wrapped[0].parent().parent(), wrapped[1]);
+
+      jQuery.each(updateList, function (index, update) {
+        update.call(containers[index]);
+      });
+    }
+
+    /**
+     *
+     * @param droppable
+     * @param ui
+     */
+    function newNested(droppable, ui) {
+      var containers = [ui.draggable.parent(), droppable.data("row").parent()],
+        updateList = prepareContainersOperations(containers, "row"),
+        draggablesContainer = $("<div>", {class: "row"});
+
+      var draggable = ui.draggable.detach();
+
+      draggablesContainer.append(draggable);
+      droppable.data("insertFunction").apply(draggablesContainer, droppable.data("row"));
+      updateRow(draggablesContainer);
+
+      jQuery.each(updateList, function (index, update) {
+        update.call(containers[index]);
+      });
+    }
+
+  }, {"./shared": 305}],
+  305: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.hasOneChildOnly = hasOneChildOnly;
+    /**
+     *
+     * @param row
+     * @returns {boolean}
+     */
+    function hasOneChildOnly(row) {
+      return row.children().not(".ui-draggable-dragging").length === 1 && row.children(".ui-draggable-dragging").length === 1;
+    }
+
+  }, {}],
+  306: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

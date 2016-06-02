@@ -1,4 +1,5 @@
-import * as fn from "./functions"
+import * as layout from "./layout";
+import * as droppable from "./droppable";
 
 export default function init(div) {
   $.widget('plb.content', {
@@ -20,9 +21,9 @@ export default function init(div) {
      */
     initDroppables() {
       if (this.element.children(".draggables-container").length < 1) {
-        fn.firstDroppable(this.element);
+        droppable.firstDroppable(this.element);
       } else {
-        fn.createDroppables(this.element);
+        droppable.createDroppables(this.element);
       }
 
       const that = this, droppables = $(".droppables-container .droppable, .droppables-container-nested .droppable");
@@ -63,13 +64,13 @@ export default function init(div) {
             });
           }
           if ($(this).is('[class*="new-row"]')) {
-            fn.newRow($(this), ui);
+            layout.newRow($(this), ui);
           } else if ($(this).is('[class*="new-column"]')) {
-            fn.newColumn($(this), ui);
+            layout.newColumn($(this), ui);
           } else if ($(this).is('[class*="new-inside"]')) {
-            fn.newInside($(this), ui);
+            layout.newInside($(this), ui);
           } else if ($(this).is('[class*="new-nested"]')) {
-            fn.newNested($(this), ui);
+            layout.newNested($(this), ui);
           } else {
             console.warn(`Wrong drop: ${event}`);
           }
@@ -100,7 +101,7 @@ export default function init(div) {
             $(this).parent().remove();
 
             if (update) {
-              fn.updateRow(parentRow);
+              layout.updateRow(parentRow);
             }
             else {
               parentRow.remove();
@@ -167,9 +168,9 @@ export default function init(div) {
             thisOne.dragging = true;
 
             next = $(this).next();
-            oldSize = fn.getColumnSize($(this)).medium;
+            oldSize = layout.getColumnSize($(this)).medium;
             oldSize = parseInt(oldSize.slice(7, oldSize.length));
-            oldNextSize = fn.getColumnSize(next).medium;
+            oldNextSize = layout.getColumnSize(next).medium;
             oldNextSize = parseInt(oldNextSize.slice(7, oldNextSize.length));
 
             console.log(`${oldSize} ${oldNextSize}`);
@@ -186,8 +187,8 @@ export default function init(div) {
             newSize = parseInt(that.helper.width() / parseFloat(o.grid[0]));
             newNextSize = oldNextSize + (oldSize - newSize);
 
-            fn.setColumnSize($(this), {"medium": newSize, "large": newSize});
-            fn.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
+            layout.setColumnSize($(this), {"medium": newSize, "large": newSize});
+            layout.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
 
             $(this).css("width", "");
             $(this).css("height", "");
