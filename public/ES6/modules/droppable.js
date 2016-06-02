@@ -1,6 +1,6 @@
 import * as shared from "./shared";
 import rq from "./requirement";
-import getCSSValues from "./CSS";
+import getCSSValues from "./css";
 
 
 /**

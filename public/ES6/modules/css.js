@@ -1,5 +1,7 @@
 const DROPPABLE_SIZE = 10;
 
+// TODO: Find a way to delete this b*******
+
 /**
  *
  * @param elementPosition

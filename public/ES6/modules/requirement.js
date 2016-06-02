@@ -1,5 +1,4 @@
 export default class Requirement {
-
   /**
    * This function is supposed to set (or return) columns "small" size
    * using content height.

@@ -6884,129 +6884,13 @@ var tools = $("#toolbox");
 
 // TODO: Add tags: tables, lists, forms, videos, audio, objects
 
-}, {"./modules/content": 303, "./modules/toolbox": 309, "babel-polyfill": 1}],
+}, {"./modules/content": 302, "./modules/toolbox": 310, "babel-polyfill": 1}],
   300: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-    exports.default = getParameters;
-    var DROPPABLE_SIZE = 10;
-
-    /**
-     *
-     * @param elementPosition
-     * @param element
-     * @returns {*}
-     */
-    function getParameters(elementPosition, element) {
-      var parameters = void 0;
-      var elementWidth = parseInt(element.css("width"));
-      var elementHeight = parseInt(element.css("height"));
-      var elementParentHeight = parseInt(element.parent().css("height"));
-      var elementTop = element.offset().top;
-      var elementLeft = element.offset().left;
-
-      switch (elementPosition) {
-        case "newRow":
-          parameters = {
-            top: elementTop,
-            left: elementLeft,
-            width: element.css("width"),
-            height: element.css("height")
-          };
-          break;
-        case "newNestedBefore1":
-          parameters = {
-            top: elementTop - DROPPABLE_SIZE / 2 + 20,
-            left: elementLeft,
-            width: element.css("width")
-          };
-          break;
-        case "newNestedBefore2":
-          parameters = {
-            top: elementTop - DROPPABLE_SIZE / 2,
-            left: elementLeft,
-            width: element.css("width")
-          };
-          break;
-        case "newNestedAfter":
-          parameters = {
-            top: elementTop + +elementHeight - DROPPABLE_SIZE / 2 - 20,
-            left: elementLeft,
-            width: element.css("width")
-          };
-          break;
-        case "newRowBefore":
-          parameters = {
-            top: elementTop - DROPPABLE_SIZE / 2,
-            left: elementLeft,
-            width: element.css("width")
-          };
-          break;
-        case "newRowAfter":
-          parameters = {
-            top: elementTop + +elementHeight - DROPPABLE_SIZE / 2,
-            left: elementLeft,
-            width: element.css("width")
-          };
-          break;
-        case "newColumnBefore":
-          parameters = {
-            top: elementTop + DROPPABLE_SIZE / 2,
-            left: elementLeft - DROPPABLE_SIZE,
-            height: elementParentHeight - DROPPABLE_SIZE + "px"
-          };
-          break;
-        case "newColumnAfter":
-          parameters = {
-            top: elementTop + DROPPABLE_SIZE / 2,
-            left: elementLeft + (+elementWidth - DROPPABLE_SIZE),
-            height: elementParentHeight - DROPPABLE_SIZE + "px"
-          };
-          break;
-        case "newInsideAbove":
-          parameters = {
-            top: elementTop + DROPPABLE_SIZE / 2,
-            left: elementLeft + DROPPABLE_SIZE,
-            width: elementWidth - DROPPABLE_SIZE * 2 + "px",
-            height: elementParentHeight / 2.5 + "px"
-          };
-          break;
-        case "newInsideBelow":
-          parameters = {
-            top: elementTop - elementParentHeight / 3 + +(elementParentHeight * 0.9),
-            left: elementLeft + DROPPABLE_SIZE,
-            width: elementWidth - DROPPABLE_SIZE * 2 + "px",
-            height: elementParentHeight / 2.5 + "px"
-          };
-          break;
-        case "handleBefore":
-          parameters = {
-            top: elementTop + DROPPABLE_SIZE / 2,
-            left: elementLeft - DROPPABLE_SIZE,
-            height: elementHeight - DROPPABLE_SIZE + "px"
-          };
-          break;
-        case "handleAfter":
-          parameters = {
-            top: elementTop + DROPPABLE_SIZE / 2,
-            left: elementLeft + (+elementWidth - DROPPABLE_SIZE),
-            height: elementHeight - DROPPABLE_SIZE + "px"
-          };
-          break;
-      }
-      return parameters;
-    }
-
-  }, {}],
-  301: [function (require, module, exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -7058,7 +6942,7 @@ var Component = function () {
 exports.default = Component;
 
   }, {}],
-  302: [function (require, module, exports) {
+  301: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7191,7 +7075,7 @@ var Group = exports.Group = function (_Composite2) {
 }(Composite);
 
   }, {}],
-  303: [function (require, module, exports) {
+  302: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7462,12 +7346,130 @@ function init(div) {
 }
 
   }, {"./droppable": 304, "./layout": 305, "./responsive": 307}],
-  304: [function (require, module, exports) {
+  303: [function (require, module, exports) {
     "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+    exports.default = getParameters;
+    var DROPPABLE_SIZE = 10;
+
+// TODO: Find a way to delete this b*******
+
+    /**
+     *
+     * @param elementPosition
+     * @param element
+     * @returns {*}
+     */
+    function getParameters(elementPosition, element) {
+      var parameters = void 0;
+      var elementWidth = parseInt(element.css("width"));
+      var elementHeight = parseInt(element.css("height"));
+      var elementParentHeight = parseInt(element.parent().css("height"));
+      var elementTop = element.offset().top;
+      var elementLeft = element.offset().left;
+
+      switch (elementPosition) {
+        case "newRow":
+          parameters = {
+            top: elementTop,
+            left: elementLeft,
+            width: element.css("width"),
+            height: element.css("height")
+          };
+          break;
+        case "newNestedBefore1":
+          parameters = {
+            top: elementTop - DROPPABLE_SIZE / 2 + 20,
+            left: elementLeft,
+            width: element.css("width")
+          };
+          break;
+        case "newNestedBefore2":
+          parameters = {
+            top: elementTop - DROPPABLE_SIZE / 2,
+            left: elementLeft,
+            width: element.css("width")
+          };
+          break;
+        case "newNestedAfter":
+          parameters = {
+            top: elementTop + +elementHeight - DROPPABLE_SIZE / 2 - 20,
+            left: elementLeft,
+            width: element.css("width")
+          };
+          break;
+        case "newRowBefore":
+          parameters = {
+            top: elementTop - DROPPABLE_SIZE / 2,
+            left: elementLeft,
+            width: element.css("width")
+          };
+          break;
+        case "newRowAfter":
+          parameters = {
+            top: elementTop + +elementHeight - DROPPABLE_SIZE / 2,
+            left: elementLeft,
+            width: element.css("width")
+          };
+          break;
+        case "newColumnBefore":
+          parameters = {
+            top: elementTop + DROPPABLE_SIZE / 2,
+            left: elementLeft - DROPPABLE_SIZE,
+            height: elementParentHeight - DROPPABLE_SIZE + "px"
+          };
+          break;
+        case "newColumnAfter":
+          parameters = {
+            top: elementTop + DROPPABLE_SIZE / 2,
+            left: elementLeft + (+elementWidth - DROPPABLE_SIZE),
+            height: elementParentHeight - DROPPABLE_SIZE + "px"
+          };
+          break;
+        case "newInsideAbove":
+          parameters = {
+            top: elementTop + DROPPABLE_SIZE / 2,
+            left: elementLeft + DROPPABLE_SIZE,
+            width: elementWidth - DROPPABLE_SIZE * 2 + "px",
+            height: elementParentHeight / 2.5 + "px"
+          };
+          break;
+        case "newInsideBelow":
+          parameters = {
+            top: elementTop - elementParentHeight / 3 + +(elementParentHeight * 0.9),
+            left: elementLeft + DROPPABLE_SIZE,
+            width: elementWidth - DROPPABLE_SIZE * 2 + "px",
+            height: elementParentHeight / 2.5 + "px"
+          };
+          break;
+        case "handleBefore":
+          parameters = {
+            top: elementTop + DROPPABLE_SIZE / 2,
+            left: elementLeft - DROPPABLE_SIZE,
+            height: elementHeight - DROPPABLE_SIZE + "px"
+          };
+          break;
+        case "handleAfter":
+          parameters = {
+            top: elementTop + DROPPABLE_SIZE / 2,
+            left: elementLeft + (+elementWidth - DROPPABLE_SIZE),
+            height: elementHeight - DROPPABLE_SIZE + "px"
+          };
+          break;
+      }
+      return parameters;
+    }
+
+  }, {}],
+  304: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
 exports.createDroppables = createDroppables;
 exports.firstDroppable = firstDroppable;
 
@@ -7479,9 +7481,9 @@ exports.firstDroppable = firstDroppable;
 
     var _requirement2 = _interopRequireDefault(_requirement);
 
-    var _CSS = require("./CSS");
+    var _css = require("./css");
 
-    var _CSS2 = _interopRequireDefault(_CSS);
+    var _css2 = _interopRequireDefault(_css);
 
     function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : {default: obj};
@@ -7516,14 +7518,14 @@ function createAddToNestedDroppables(nestedDroppablesContainer) {
       if ($(droppable).is(":first-child")) {
         var droppableRowBefore = $("<div>", {
           class: "droppable new-nested-before"
-        }).css((0, _CSS2.default)("newNestedBefore1", $(droppable)));
+        }).css((0, _css2.default)("newNestedBefore1", $(droppable)));
         droppableRowBefore.data("row", $(droppable));
         droppableRowBefore.data("insertFunction", $(droppable).insertBefore);
         nestedDroppablesContainer.append(droppableRowBefore);
       } else {
         var _droppableRowBefore = $("<div>", {
           class: "droppable new-nested-before"
-        }).css((0, _CSS2.default)("newNestedBefore2", $(droppable)));
+        }).css((0, _css2.default)("newNestedBefore2", $(droppable)));
         _droppableRowBefore.data("row", $(droppable));
         _droppableRowBefore.data("insertFunction", $(droppable).insertBefore);
         nestedDroppablesContainer.append(_droppableRowBefore);
@@ -7531,7 +7533,7 @@ function createAddToNestedDroppables(nestedDroppablesContainer) {
       if ($(droppable).is(":last-child")) {
         var droppableRowAfter = $("<div>", {
           class: "droppable new-nested-after"
-        }).css((0, _CSS2.default)("newNestedAfter", $(droppable)));
+        }).css((0, _css2.default)("newNestedAfter", $(droppable)));
         droppableRowAfter.data("row", $(droppable));
         droppableRowAfter.data("insertFunction", $(droppable).insertAfter);
         nestedDroppablesContainer.append(droppableRowAfter);
@@ -7555,7 +7557,7 @@ function createRowDroppables(droppablesContainer) {
     if (!shared.hasOneChildOnly($(draggableContainer).prev(".row.draggables-container"))) {
       var droppableRowBefore = $("<div>", {
         class: "droppable new-row-before"
-      }).css((0, _CSS2.default)("newRowBefore", $(draggableContainer)));
+      }).css((0, _css2.default)("newRowBefore", $(draggableContainer)));
       droppableRowBefore.data("row", $(draggableContainer));
       droppableRowBefore.data("insertFunction", $(draggableContainer).insertBefore);
       droppablesContainer.append(droppableRowBefore);
@@ -7563,7 +7565,7 @@ function createRowDroppables(droppablesContainer) {
     if ($(draggableContainer).next(".row.draggables-container").length === 0) {
       var droppableRowAfter = $("<div>", {
         class: "droppable new-row-after"
-      }).css((0, _CSS2.default)("newRowAfter", $(draggableContainer)));
+      }).css((0, _css2.default)("newRowAfter", $(draggableContainer)));
       droppableRowAfter.data("row", $(draggableContainer));
       droppableRowAfter.data("insertFunction", $(draggableContainer).insertAfter);
       droppablesContainer.append(droppableRowAfter);
@@ -7583,7 +7585,7 @@ function createColumnsDroppables(droppablesContainer) {
       if ($(draggable).is(':first-child')) {
         var droppableColumnBefore = $("<div>", {
           class: "droppable new-column-before"
-        }).css((0, _CSS2.default)("newColumnBefore", $(draggable)));
+        }).css((0, _css2.default)("newColumnBefore", $(draggable)));
         droppableColumnBefore.data("column", $(draggable));
         droppableColumnBefore.data("insertFunction", $(draggable).insertBefore);
         droppablesContainer.append(droppableColumnBefore);
@@ -7592,7 +7594,7 @@ function createColumnsDroppables(droppablesContainer) {
       if (!$(draggable).next().hasClass('drag-active')) {
         var droppableColumnAfter = $("<div>", {
           class: "droppable new-column-after"
-        }).css((0, _CSS2.default)("newColumnAfter", $(draggable)));
+        }).css((0, _css2.default)("newColumnAfter", $(draggable)));
         droppableColumnAfter.data("column", $(draggable));
         droppableColumnAfter.data("insertFunction", $(draggable).insertAfter);
         droppablesContainer.append(droppableColumnAfter);
@@ -7613,14 +7615,14 @@ function createNestingDroppables(droppablesContainer) {
     if ($(draggable).siblings().length > 0 && !_requirement2.default.checkColumnLevel($(draggable)) && !_requirement2.default.isColumnContainingRow($(draggable))) {
       var droppableRowAbove = $("<div>", {
         class: "droppable new-inside-above"
-      }).css((0, _CSS2.default)("newInsideAbove", $(draggable)));
+      }).css((0, _css2.default)("newInsideAbove", $(draggable)));
       droppableRowAbove.data("column", $(draggable));
       droppableRowAbove.data("insertFunction", $(draggable).prepend);
       droppablesContainer.append(droppableRowAbove);
 
       var droppableRowBelow = $("<div>", {
         class: "droppable new-inside-below"
-      }).css((0, _CSS2.default)("newInsideBelow", $(draggable)));
+      }).css((0, _css2.default)("newInsideBelow", $(draggable)));
       droppableRowBelow.data("column", $(draggable));
       droppableRowBelow.data("insertFunction", $(draggable).append);
       droppablesContainer.append(droppableRowBelow);
@@ -7654,7 +7656,7 @@ function firstDroppable(editable) {
 
   var droppableRow = $("<div>", {
     class: "droppable new-row"
-  }).css((0, _CSS2.default)("newRow", editable));
+  }).css((0, _css2.default)("newRow", editable));
 
   droppableRow.data("row", editable);
   droppableRow.data("insertFunction", $(this).appendTo);
@@ -7663,7 +7665,7 @@ function firstDroppable(editable) {
   droppablesContainer.appendTo(editable);
 }
 
-  }, {"./CSS": 300, "./requirement": 306, "./shared": 308}],
+  }, {"./css": 303, "./requirement": 306, "./shared": 308}],
   305: [function (require, module, exports) {
     "use strict";
 
@@ -7983,13 +7985,14 @@ Object.defineProperty(exports, "__esModule", {
     function getColumnSize(column) {
       var size = {};
       var cls = column.attr('class').split(' ');
+
       for (var i = 0; i < cls.length; i++) {
         if (cls[i].indexOf("small-") > -1) {
           size.small = cls[i];
     }
         if (cls[i].indexOf("medium-") > -1) {
           size.medium = cls[i];
-        }
+    }
         if (cls[i].indexOf("large-") > -1) {
           size.large = cls[i];
         }
@@ -8003,7 +8006,6 @@ Object.defineProperty(exports, "__esModule", {
      * @param count
      */
     function setColumnSize(column, count) {
-
       var size = getDefaultValues(count);
 
       if (size.small === undefined) {
@@ -8047,7 +8049,24 @@ Object.defineProperty(exports, "__esModule", {
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-exports.default = init;
+
+    var _createClass = function () {
+      function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+          var descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false;
+          descriptor.configurable = true;
+          if ("value" in descriptor) descriptor.writable = true;
+          Object.defineProperty(target, descriptor.key, descriptor);
+        }
+      }
+
+      return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+      };
+    }();
 
 var _component = require("./component");
 
@@ -8061,71 +8080,20 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function init(div) {
-  $.widget('plb.toolbox', {
-    options: {
-      debug: false
-    },
-    draggables: null,
-    _create: function _create() {
-      var that = this;
-      if (this.options.debug) {
-        window.console.log("debug mode enabled");
-        this.element.addClass("debug");
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    var Tool = function () {
+      function Tool() {
+        _classCallCheck(this, Tool);
       }
 
-      var li = void 0;
-      var span = void 0;
-
-      var components = that.initComponents();
-
-      jQuery.each(components, function (index, component) {
-        li = $("<li>");
-        li.data("data", component.toHTML());
-        span = $("<span>", { class: "label" });
-        span.text(component.name);
-        li.append(span);
-        $("#componentsContainer").append(li);
-      });
-
-      jQuery.each(that.initStructures(components), function (index, structure) {
-        li = $("<li>");
-        li.data("data", structure.toHTML());
-        span = $("<span>", { class: "label" });
-        span.text(structure.name);
-        li.append(span);
-        $("#structuresContainer").append(li);
-      });
-
-      jQuery.each(that.initGroups(components), function (index, group) {
-        li = $("<li>");
-        li.data("data", group.toHTML());
-        span = $("<span>", { class: "label" });
-        span.text(group.name);
-        li.append(span);
-        $("#groupsContainer").append(li);
-      });
-
-      that.draggables = $("#componentsContainer, #structuresContainer, #groupsContainer").children();
-    },
-    newPLB: function newPLB() {
-      var editable = $("#editable-area");
-
-      this.draggables.draggable({
-        opacity: 0.5,
-        appendTo: editable,
-        containment: editable,
-        helper: "clone",
-        start: function start() {
-          editable.content('initDroppables');
-        },
-        stop: function stop() {
-          editable.find(".droppables-container").remove();
-          editable.find(".droppables-container-nested").remove();
-        }
-      });
-    },
-    initComponents: function initComponents() {
+      _createClass(Tool, null, [{
+        key: "initComponents",
+        value: function initComponents() {
       var components = {},
           shortLoremIpsum = "Lorem ipsum dolor sit amet",
           loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -8146,8 +8114,10 @@ function init(div) {
       });
 
       return components;
-    },
-    initStructures: function initStructures(components) {
+        }
+      }, {
+        key: "initStructures",
+        value: function initStructures(components) {
       var structures = {};
       structures.input = new Composite.Structure("Test", new _component2.default("Label", "label", { "text": "Text: " }), [new _component2.default("Input", "input", { "type": "txt" })]);
 
@@ -8182,8 +8152,10 @@ function init(div) {
       structures.figure = new Composite.Structure("Figures", mediaObject, [mos1, mos2]);
 
       return structures;
-    },
-    initGroups: function initGroups(components) {
+        }
+      }, {
+        key: "initGroups",
+        value: function initGroups(components) {
       var groups = {};
       var Test = new Composite.Group("Test", { "medium": 6, "large": 6 }, [components.image, components.image]);
       groups.test1 = Test;
@@ -8191,11 +8163,101 @@ function init(div) {
 
       return groups;
     }
+      }]);
+
+      return Tool;
+    }();
+
+    exports.default = Tool;
+
+  }, {"./component": 300, "./composite": 301}],
+  310: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = init;
+
+    var _tool = require("./tool");
+
+    var _tool2 = _interopRequireDefault(_tool);
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : {default: obj};
+    }
+
+    function init(div) {
+      $.widget('plb.toolbox', {
+        options: {
+          debug: false
+        },
+        draggables: null,
+        _create: function _create() {
+          var that = this;
+          if (this.options.debug) {
+            window.console.log("debug mode enabled");
+            this.element.addClass("debug");
+          }
+
+          var li = void 0;
+          var span = void 0;
+
+          var components = _tool2.default.initComponents();
+          var structures = _tool2.default.initStructures(components);
+          var groups = _tool2.default.initGroups(components);
+
+          jQuery.each(components, function (index, component) {
+            li = $("<li>");
+            li.data("data", component.toHTML());
+            span = $("<span>", {class: "label"});
+            span.text(component.name);
+            li.append(span);
+            $("#componentsContainer").append(li);
+          });
+
+          jQuery.each(structures, function (index, structure) {
+            li = $("<li>");
+            li.data("data", structure.toHTML());
+            span = $("<span>", {class: "label"});
+            span.text(structure.name);
+            li.append(span);
+            $("#structuresContainer").append(li);
+          });
+
+          jQuery.each(groups, function (index, group) {
+            li = $("<li>");
+            li.data("data", group.toHTML());
+            span = $("<span>", {class: "label"});
+            span.text(group.name);
+            li.append(span);
+            $("#groupsContainer").append(li);
+          });
+
+          that.draggables = $("#componentsContainer, #structuresContainer, #groupsContainer").children();
+        },
+        newPLB: function newPLB() {
+          var editable = $("#editable-area");
+
+          this.draggables.draggable({
+            opacity: 0.5,
+            appendTo: editable,
+            containment: editable,
+            helper: "clone",
+            start: function start() {
+              editable.content('initDroppables');
+            },
+            stop: function stop() {
+              editable.find(".droppables-container").remove();
+              editable.find(".droppables-container-nested").remove();
+            }
+          });
+        }
   });
 
   div.toolbox({ debug: false });
   div.toolbox("newPLB");
 }
 
-  }, {"./component": 301, "./composite": 302}]
+  }, {"./tool": 309}]
 }, {}, [299]);
