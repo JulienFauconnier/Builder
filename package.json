@@ -7,13 +7,13 @@
     "build": "browserify public/ES6/app.js -t babelify --outfile public/javascripts/app.js"
   },
   "dependencies": {
-    "body-parser": "~1.13.2",
-    "cookie-parser": "~1.3.5",
+    "body-parser": "^1.15.1",
+    "cookie-parser": "^1.4.3",
     "debug": "~2.2.0",
     "express": "~4.13.1",
     "jade": "~1.11.0",
-    "morgan": "~1.6.1",
-    "node-sass-middleware": "0.8.0",
+    "morgan": "^1.7.0",
+    "node-sass-middleware": "^0.9.8",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {

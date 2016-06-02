@@ -7888,7 +7888,6 @@ function firstDroppable(editable) {
       _createClass(Requirement, null, [{
         key: 'defineColumnsPriority',
 
-
     /**
      * This function is supposed to set (or return) columns "small" size
      * using content height.
@@ -7995,7 +7994,7 @@ Object.defineProperty(exports, "__esModule", {
     }
         if (cls[i].indexOf("large-") > -1) {
           size.large = cls[i];
-        }
+    }
       }
       return size;
     }
@@ -8093,6 +8092,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
       _createClass(Tool, null, [{
         key: "initComponents",
+
+        /**
+         *
+         * @returns {{}}
+         */
         value: function initComponents() {
       var components = {},
           shortLoremIpsum = "Lorem ipsum dolor sit amet",
@@ -8109,12 +8113,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         "data-text": "Double-cliquez pour éditer",
         "text": test
       });
+
       components.image = new _component2.default("Image", "img", {
         "src": "https://placeholdit.imgix.net/~text?txtsize=42&txt=Your+Picture+Here&w=250&h=150"
       });
 
       return components;
         }
+
+        /**
+         *
+         * @param components
+         * @returns {{}}
+         */
+
       }, {
         key: "initStructures",
         value: function initStructures(components) {
@@ -8153,6 +8165,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
       return structures;
         }
+
+        /**
+         *
+         * @param components
+         * @returns {{}}
+         */
+
       }, {
         key: "initGroups",
         value: function initGroups(components) {
@@ -8250,7 +8269,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
             stop: function stop() {
               editable.find(".droppables-container").remove();
               editable.find(".droppables-container-nested").remove();
-            }
+        }
           });
         }
   });
