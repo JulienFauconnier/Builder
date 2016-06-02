@@ -1,4 +1,5 @@
 import * as layout from "./layout";
+import * as resp from "./responsive";
 import * as droppable from "./droppable";
 
 export default function init(div) {
@@ -168,9 +169,9 @@ export default function init(div) {
             thisOne.dragging = true;
 
             next = $(this).next();
-            oldSize = layout.getColumnSize($(this)).medium;
+            oldSize = resp.getColumnSize($(this)).medium;
             oldSize = parseInt(oldSize.slice(7, oldSize.length));
-            oldNextSize = layout.getColumnSize(next).medium;
+            oldNextSize = resp.getColumnSize(next).medium;
             oldNextSize = parseInt(oldNextSize.slice(7, oldNextSize.length));
 
             console.log(`${oldSize} ${oldNextSize}`);
@@ -187,8 +188,8 @@ export default function init(div) {
             newSize = parseInt(that.helper.width() / parseFloat(o.grid[0]));
             newNextSize = oldNextSize + (oldSize - newSize);
 
-            layout.setColumnSize($(this), {"medium": newSize, "large": newSize});
-            layout.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
+            resp.setColumnSize($(this), {"medium": newSize, "large": newSize});
+            resp.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
 
             $(this).css("width", "");
             $(this).css("height", "");

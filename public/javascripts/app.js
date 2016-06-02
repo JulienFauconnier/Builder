@@ -6884,7 +6884,7 @@ var tools = $("#toolbox");
 
 // TODO: Add tags: tables, lists, forms, videos, audio, objects
 
-}, {"./modules/content": 303, "./modules/toolbox": 308, "babel-polyfill": 1}],
+}, {"./modules/content": 303, "./modules/toolbox": 309, "babel-polyfill": 1}],
   300: [function (require, module, exports) {
 "use strict";
 
@@ -7203,6 +7203,10 @@ exports.default = init;
 
     var layout = _interopRequireWildcard(_layout);
 
+    var _responsive = require("./responsive");
+
+    var resp = _interopRequireWildcard(_responsive);
+
     var _droppable = require("./droppable");
 
     var droppable = _interopRequireWildcard(_droppable);
@@ -7385,9 +7389,9 @@ function init(div) {
             thisOne.dragging = true;
 
             next = $(this).next();
-            oldSize = layout.getColumnSize($(this)).medium;
+            oldSize = resp.getColumnSize($(this)).medium;
             oldSize = parseInt(oldSize.slice(7, oldSize.length));
-            oldNextSize = layout.getColumnSize(next).medium;
+            oldNextSize = resp.getColumnSize(next).medium;
             oldNextSize = parseInt(oldNextSize.slice(7, oldNextSize.length));
 
             console.log(oldSize + " " + oldNextSize);
@@ -7406,8 +7410,8 @@ function init(div) {
             newSize = parseInt(that.helper.width() / parseFloat(o.grid[0]));
             newNextSize = oldNextSize + (oldSize - newSize);
 
-            layout.setColumnSize($(this), {"medium": newSize, "large": newSize});
-            layout.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
+            resp.setColumnSize($(this), {"medium": newSize, "large": newSize});
+            resp.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
 
             $(this).css("width", "");
             $(this).css("height", "");
@@ -7457,7 +7461,7 @@ function init(div) {
   div.content("newPLB");
 }
 
-  }, {"./droppable": 304, "./layout": 305}],
+  }, {"./droppable": 304, "./layout": 305, "./responsive": 307}],
   304: [function (require, module, exports) {
     "use strict";
 
@@ -7659,15 +7663,13 @@ function firstDroppable(editable) {
   droppablesContainer.appendTo(editable);
 }
 
-  }, {"./CSS": 300, "./requirement": 306, "./shared": 307}],
+  }, {"./CSS": 300, "./requirement": 306, "./shared": 308}],
   305: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.getColumnSize = getColumnSize;
-    exports.setColumnSize = setColumnSize;
     exports.updateRow = updateRow;
     exports.newRow = newRow;
     exports.newColumn = newColumn;
@@ -7677,6 +7679,10 @@ function firstDroppable(editable) {
     var _shared = require("./shared");
 
     var shared = _interopRequireWildcard(_shared);
+
+    var _responsive = require("./responsive");
+
+    var resp = _interopRequireWildcard(_responsive);
 
     function _interopRequireWildcard(obj) {
       if (obj && obj.__esModule) {
@@ -7695,78 +7701,6 @@ function firstDroppable(editable) {
 
     /**
      *
-     * @param count
-     * @returns {{small: number, medium: number, large: number}}
-     */
-    function getDefaultValues(count) {
-      var values = void 0;
-
-      switch (count) {
-        case 1:
-          values = {"small": 12, "medium": 12, "large": 12};
-          break;
-        case 2:
-          values = {"small": 6, "medium": 6, "large": 6};
-          break;
-        case 3:
-          values = {"small": 12, "medium": 4, "large": 4};
-          break;
-        case 4:
-          values = {"small": 12, "medium": 3, "large": 3};
-          break;
-        default:
-          break;
-      }
-      return values;
-    }
-
-    /**
-     *
-     * @param column
-     * @returns {*}
-     */
-    function getColumnSize(column) {
-      var size = {};
-      var cls = column.attr('class').split(' ');
-      for (var i = 0; i < cls.length; i++) {
-        if (cls[i].indexOf("small-") > -1) {
-          size.small = cls[i];
-    }
-        if (cls[i].indexOf("medium-") > -1) {
-          size.medium = cls[i];
-        }
-        if (cls[i].indexOf("large-") > -1) {
-          size.large = cls[i];
-        }
-      }
-      return size;
-    }
-
-    /**
-     *
-     * @param column
-     * @param size
-     */
-    function setColumnSize(column, size) {
-      if (size.small === undefined) {
-        size.small = getColumnSize(column).small;
-        size.small = size.small.slice(6, size.small.length);
-      }
-
-      column.removeClass(function (index, css) {
-        return (css.match(/(^|\s)small-\S+/g) || []).join(' ');
-      });
-      column.removeClass(function (index, css) {
-        return (css.match(/(^|\s)medium-\S+/g) || []).join(' ');
-      });
-      column.removeClass(function (index, css) {
-        return (css.match(/(^|\s)large-\S+/g) || []).join(' ');
-      });
-      column.addClass("small-" + size.small + " medium-" + size.medium + " large-" + size.large);
-    }
-
-    /**
-     *
      * @param row
      */
     function updateRow(row) {
@@ -7774,7 +7708,7 @@ function firstDroppable(editable) {
         columns = row.children();
 
       jQuery.each(columns, function (index, column) {
-        setColumnSize($(column), getDefaultValues(childrenCount));
+        resp.setColumnSize($(column), childrenCount);
       });
     }
 
@@ -7862,8 +7796,8 @@ function firstDroppable(editable) {
         replacementColumn = $("<div>", {class: oldColumn.attr("class")});
 
       replacementColumn.addClass("nested-container");
-      setColumnSize(oldColumn, getDefaultValues(1));
-      setColumnSize(draggable, getDefaultValues(1));
+      resp.setColumnSize(oldColumn, 1);
+      resp.setColumnSize(draggable, 1);
       newRow2.append(draggable);
       oldColumn.wrap(replacementColumn);
       oldColumn.wrap(newRow1);
@@ -7912,7 +7846,7 @@ function firstDroppable(editable) {
       });
     }
 
-  }, {"./shared": 307}],
+  }, {"./responsive": 307, "./shared": 308}],
   306: [function (require, module, exports) {
     'use strict';
 
@@ -8012,6 +7946,90 @@ function firstDroppable(editable) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+    exports.getColumnSize = getColumnSize;
+    exports.setColumnSize = setColumnSize;
+    /**
+     *
+     * @param count
+     * @returns {{small: number, medium: number, large: number}}
+     */
+    function getDefaultValues(count) {
+      var values = void 0;
+
+      switch (count) {
+        case 1:
+          values = {"small": 12, "medium": 12, "large": 12};
+          break;
+        case 2:
+          values = {"small": 6, "medium": 6, "large": 6};
+          break;
+        case 3:
+          values = {"small": 12, "medium": 4, "large": 4};
+          break;
+        case 4:
+          values = {"small": 12, "medium": 3, "large": 3};
+          break;
+        default:
+          break;
+      }
+      return values;
+    }
+
+    /**
+     *
+     * @param column
+     * @returns {*}
+     */
+    function getColumnSize(column) {
+      var size = {};
+      var cls = column.attr('class').split(' ');
+      for (var i = 0; i < cls.length; i++) {
+        if (cls[i].indexOf("small-") > -1) {
+          size.small = cls[i];
+    }
+        if (cls[i].indexOf("medium-") > -1) {
+          size.medium = cls[i];
+        }
+        if (cls[i].indexOf("large-") > -1) {
+          size.large = cls[i];
+        }
+      }
+      return size;
+    }
+
+    /**
+     *
+     * @param column
+     * @param count
+     */
+    function setColumnSize(column, count) {
+
+      var size = getDefaultValues(count);
+
+      if (size.small === undefined) {
+        size.small = getColumnSize(column).small;
+        size.small = size.small.slice(6, size.small.length);
+      }
+
+      column.removeClass(function (index, css) {
+        return (css.match(/(^|\s)small-\S+/g) || []).join(' ');
+      });
+      column.removeClass(function (index, css) {
+        return (css.match(/(^|\s)medium-\S+/g) || []).join(' ');
+      });
+      column.removeClass(function (index, css) {
+        return (css.match(/(^|\s)large-\S+/g) || []).join(' ');
+      });
+      column.addClass("small-" + size.small + " medium-" + size.medium + " large-" + size.large);
+    }
+
+  }, {}],
+  308: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
     exports.hasOneChildOnly = hasOneChildOnly;
     /**
      *
@@ -8023,7 +8041,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 
   }, {}],
-  308: [function (require, module, exports) {
+  309: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
