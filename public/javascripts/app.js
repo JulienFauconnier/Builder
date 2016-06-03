@@ -7104,7 +7104,7 @@ function init(div) {
             if (update) {
               layout.updateRow(parentRow);
             } else {
-              parentRow.remove();
+              layout.removeDiv(parentRow).remove();
             }
           });
           if (!$(this).is(':last-child')) {
@@ -7160,7 +7160,7 @@ function init(div) {
           handles: 'e',
           distance: 10,
           //alsoResizeReverse: 'resizable-reverse',
-          //helper: "resizable-helper",
+          helper: "resizable-helper",
           ghost: true,
           create: function create() {
             var that = $(this).resizable("instance"),
@@ -7190,12 +7190,8 @@ function init(div) {
             newSize = parseInt(that.helper.width() / parseFloat(o.grid[0]));
             newNextSize = oldNextSize + (oldSize - newSize);
 
-            console.log(newSize + " et " + newNextSize);
-
             resp.setColumnSize($(this), {"medium": newSize, "large": newSize});
             resp.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
-
-            console.log("blop");
 
             $(this).css("width", "");
             $(this).css("height", "");
@@ -7684,6 +7680,7 @@ function firstDroppable(editable) {
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
+    exports.removeDiv = removeDiv;
     exports.updateRow = updateRow;
     exports.newRow = newRow;
     exports.newColumn = newColumn;
@@ -7711,6 +7708,19 @@ function firstDroppable(editable) {
         newObj.default = obj;
         return newObj;
       }
+    }
+
+    /**
+     * A simple (but awesome) recursive function to delete 'future-empty' after nesting
+     * @param element
+     * @returns {*}
+     */
+    function removeDiv(element) {
+      var eParent = element.parent();
+
+      if (eParent.children().length < 2) element = removeDiv(eParent);
+
+      return element;
     }
 
     /**
@@ -8172,24 +8182,6 @@ Object.defineProperty(exports, "__esModule", {
       value: true
     });
 
-    var _createClass = function () {
-      function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-          var descriptor = props[i];
-          descriptor.enumerable = descriptor.enumerable || false;
-          descriptor.configurable = true;
-          if ("value" in descriptor) descriptor.writable = true;
-          Object.defineProperty(target, descriptor.key, descriptor);
-        }
-      }
-
-      return function (Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) defineProperties(Constructor, staticProps);
-        return Constructor;
-      };
-    }();
-
 var _component = require("./component");
 
 var _component2 = _interopRequireDefault(_component);
@@ -8204,117 +8196,172 @@ var _component2 = _interopRequireDefault(_component);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-    function _classCallCheck(instance, Constructor) {
-      if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-      }
-    }
-
 // TODO: Improve this mess
 
-    var Tool = function () {
-      function Tool() {
-        _classCallCheck(this, Tool);
-      }
+    var components = {},
+      shortLoremIpsum = "Lorem ipsum dolor sit amet",
+      loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-      _createClass(Tool, null, [{
-        key: "initComponents",
-
-        /**
-         *
-         * @returns {{}}
-         */
-        value: function initComponents() {
-      var components = {},
-          shortLoremIpsum = "Lorem ipsum dolor sit amet",
-          loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          test = loremIpsum;
-
-      components.header1 = new _component2.default("Header 1", "h1", { "contenteditable": "true", "text": shortLoremIpsum });
-      components.header2 = new _component2.default("Header 2", "h2", { "contenteditable": "true", "text": shortLoremIpsum });
-      components.header3 = new _component2.default("Header 3", "h3", { "contenteditable": "true", "text": shortLoremIpsum });
-      components.header4 = new _component2.default("Header 4", "h4", { "contenteditable": "true", "text": shortLoremIpsum });
-      components.p = new _component2.default("Paragraphe", "p", { "contenteditable": "true", "text": shortLoremIpsum });
-      components.richText = new _component2.default("Texte enrichi", "div", {
+    var parametersComponents = [{
+      id: "header1",
+      name: "Header 1",
+      tag: "h1",
+      attributes: {"contenteditable": "true", "text": shortLoremIpsum}
+    }, {
+      id: "header2",
+      name: "Header 2",
+      tag: "h2",
+      attributes: {"contenteditable": "true", "text": shortLoremIpsum}
+    }, {
+      id: "header3",
+      name: "Header 3",
+      tag: "h3",
+      attributes: {"contenteditable": "true", "text": shortLoremIpsum}
+    }, {
+      id: "header4",
+      name: "Header 4",
+      tag: "h4",
+      attributes: {"contenteditable": "true", "text": shortLoremIpsum}
+    }, {
+      id: "header5",
+      name: "Header 5",
+      tag: "h5",
+      attributes: {"contenteditable": "true", "text": shortLoremIpsum}
+    }, {
+      id: "header6",
+      name: "Header 6",
+      tag: "h6",
+      attributes: {"contenteditable": "true", "text": shortLoremIpsum}
+    }, {id: "p", name: "Paragraphe", tag: "p", attributes: {"contenteditable": "true", "text": shortLoremIpsum}}, {
+      id: "rt", name: "Texte Riche", tag: "div", attributes: {
         class: "tiny-mce",
         "data-text": "Double-cliquez pour éditer",
-        "text": test
-      });
-
-      components.image = new _component2.default("Image", "img", {
+        "text": loremIpsum
+      }
+    }, {
+      id: "img", name: "Image", tag: "img", attributes: {
         "src": "https://placeholdit.imgix.net/~text?txtsize=42&txt=Your+Picture+Here&w=250&h=150"
-      });
+      }
+    }];
 
-      return components;
+    var Tool = {
+      /**
+       *
+       * @returns {{}}
+       */
+
+      initComponents: function initComponents() {
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = parametersComponents[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var parameters = _step.value;
+
+            components["" + parameters.id] = new _component2.default(parameters.name, parameters.tag, parameters.attributes);
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+        }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
         }
 
-        /**
-         *
-         * @param components
-         * @returns {{}}
-         */
+        return components;
+      },
 
-      }, {
-        key: "initStructures",
-        value: function initStructures(components) {
-      var structures = {};
-          structures.input = new _structure2.default("Test", new _component2.default("Label", "label", {"text": "Text: "}), [new _component2.default("Input", "input", {"type": "txt"})]);
 
-      var mediaObject = new _component2.default("MediaObject", "div", { class: "media-object stack-for-small" });
+      /**
+       *
+       * @param components
+       * @returns {{}}
+       */
+      initStructures: function initStructures(components) {
+        var structures = {};
+        structures.input = new _structure2.default("Test", new _component2.default("Label", "label", {"text": "Text: "}), [new _component2.default("Input", "input", {"type": "txt"})]);
 
-      var mediaObjectSection = new _component2.default("MOS1", "div", { class: "media-object-section" });
+        var mediaObject = new _component2.default("MediaObject", "div", {class: "media-object stack-for-small"});
 
-          var thumb = new _structure2.default("Thumb", $("<div>", {class: "thumbnail"}), [components.image]);
+        var mediaObjectSection = new _component2.default("MOS1", "div", {class: "media-object-section"});
 
-          var mos1 = new _structure2.default("MOS2", mediaObjectSection, [thumb]);
+        var thumb = new _structure2.default("Thumb", new _component2.default("ImgContainer", "div", {class: "thumbnail"}), [components.img]);
 
-      var title = new _component2.default("Strong", "strong", {
-        "contenteditable": "true",
-        "text": "Lorem ipsum dolor sit amet, consectetur ai"
-      });
+        var img = new _structure2.default("ImgContainer", new _component2.default("ImgContainer", "div", {class: "text-center"}), [components.img]);
 
-      var text = new _component2.default("Span", "span", {
-        "contenteditable": "true",
-        "text": "Lorem ipsum dolor sit amet, consectetur ai"
-      });
+        var mos1 = new _structure2.default("MOS2", mediaObjectSection, [thumb]);
 
-          var test = new _structure2.default("Test", new _component2.default("Span", "span", {}), [title]);
+        var title = new _component2.default("Strong", "strong", {
+          "contenteditable": "true",
+          "text": "Lorem ipsum dolor sit amet, consectetur ai"
+        });
 
-      var link = new _component2.default("Lien", "a", {
-        "contenteditable": "true",
-        "href": "#",
-        "text": "Super lien, clique vite"
-      });
+        var text = new _component2.default("Span", "span", {
+          "contenteditable": "true",
+          "text": "Lorem ipsum dolor sit amet, consectetur ai"
+        });
 
-          var mos2 = new _structure2.default("MOS2", mediaObjectSection, [test, new _component2.default("Span", "br", {}), text, new _component2.default("Span", "br", {}), link]);
+        var test = new _structure2.default("Test", new _component2.default("Span", "span", {}), [title]);
 
-          structures.figure = new _structure2.default("Figures", mediaObject, [mos1, mos2]);
+        var link = new _component2.default("Lien", "a", {
+          "contenteditable": "true",
+          "href": "#",
+          "text": "Super lien, clique vite"
+        });
 
-      return structures;
-        }
+        var mos2 = new _structure2.default("MOS2", mediaObjectSection, [test, new _component2.default("Span", "br", {}), text, new _component2.default("Span", "br", {}), link]);
 
-        /**
-         *
-         * @param components
-         * @returns {{}}
-         */
+        structures.figure = new _structure2.default("Figure", mediaObject, [mos1, mos2]);
 
-      }, {
-        key: "initGroups",
-        value: function initGroups(components) {
-      var groups = {};
-          var Test = new _group2.default("Test", {"medium": 6, "large": 6}, [components.image, components.image]);
-      groups.test1 = Test;
-          groups.test2 = new _group2.default("TestNested", {"medium": 6, "large": 6}, [Test, Test]);
+        structures.image = img;
 
-      return groups;
-    }
-      }]);
+        return structures;
+      },
 
-      return Tool;
-    }();
+
+      /**
+       *
+       * @param components
+       * @returns {{}}
+       */
+      initGroups: function initGroups(components) {
+        var groups = {};
+        var Test = new _group2.default("Test", {"medium": 6, "large": 6}, [components.img, components.img]);
+        groups.test1 = Test;
+        groups.test2 = new _group2.default("TestNested", {"medium": 6, "large": 6}, [Test, Test]);
+
+        return groups;
+      }
+    };
 
     exports.default = Tool;
+
+
+    var namespace = {
+      get singleton() {
+        // BEGIN iife
+        var singleton = void 0;
+        return function () {
+          if (!singleton) {
+            singleton = {
+              amethod: function amethod() {
+                console.log("amethod");
+              }
+            };
+          }
+          return singleton;
+        };
+      } // END iife
+    };
+// Invoke: namespace.singleton().amethod()
 
   }, {"./component": 300, "./group": 305, "./structure": 310}],
   312: [function (require, module, exports) {

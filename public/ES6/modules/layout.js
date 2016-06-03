@@ -2,6 +2,20 @@ import * as shared from "./shared";
 import * as resp from "./responsive";
 
 /**
+ * A simple (but awesome) recursive function to delete 'future-empty' after nesting
+ * @param element
+ * @returns {*}
+ */
+export function removeDiv(element) {
+  let eParent = element.parent();
+
+  if (eParent.children().length < 2)
+    element = removeDiv(eParent);
+
+  return element;
+}
+
+/**
  *
  * @param row
  */

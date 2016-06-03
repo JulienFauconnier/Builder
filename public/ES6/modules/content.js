@@ -102,7 +102,7 @@ export default function init(div) {
               layout.updateRow(parentRow);
             }
             else {
-              parentRow.remove();
+              layout.removeDiv(parentRow).remove();
             }
           });
           if (!$(this).is(':last-child')) {
@@ -156,7 +156,7 @@ export default function init(div) {
           handles: 'e',
           distance: 10,
           //alsoResizeReverse: 'resizable-reverse',
-          //helper: "resizable-helper",
+          helper: "resizable-helper",
           ghost: true,
           create() {
             const that = $(this).resizable("instance"), o = that.options;
