@@ -9,7 +9,6 @@ export default function init(div) {
     _create() {
       const that = this;
       if (this.options.debug) {
-        window.console.log("debug mode enabled");
         this.element.addClass("debug");
       }
 

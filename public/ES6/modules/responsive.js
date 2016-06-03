@@ -54,7 +54,12 @@ export function getColumnSize(column) {
  * @param count
  */
 export function setColumnSize(column, count) {
-  const size = getDefaultValues(count);
+  let size;
+
+  if (Number.isInteger(count))
+    size = getDefaultValues(count);
+  else
+    size = count;
 
   if (size.small === undefined) {
     size.small = getColumnSize(column).small;

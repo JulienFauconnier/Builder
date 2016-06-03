@@ -7008,7 +7008,6 @@ function init(div) {
     dragging: false,
     _create: function _create() {
       if (this.options.debug) {
-        window.console.log("debug mode enabled");
         this.element.addClass("debug");
       }
       this.draggables = this.element.find(".draggable");
@@ -7074,8 +7073,6 @@ function init(div) {
             layout.newInside($(this), ui);
           } else if ($(this).is('[class*="new-nested"]')) {
             layout.newNested($(this), ui);
-          } else {
-            console.warn("Wrong drop: " + event);
           }
         }
       });
@@ -7163,7 +7160,7 @@ function init(div) {
           handles: 'e',
           distance: 10,
           //alsoResizeReverse: 'resizable-reverse',
-          helper: "resizable-helper",
+          //helper: "resizable-helper",
           ghost: true,
           create: function create() {
             var that = $(this).resizable("instance"),
@@ -7179,8 +7176,6 @@ function init(div) {
             oldNextSize = resp.getColumnSize(next).medium;
             oldNextSize = parseInt(oldNextSize.slice(7, oldNextSize.length));
 
-            console.log(oldSize + " " + oldNextSize);
-
             var that = $(this).resizable("instance"),
                 o = that.options;
 
@@ -7195,8 +7190,12 @@ function init(div) {
             newSize = parseInt(that.helper.width() / parseFloat(o.grid[0]));
             newNextSize = oldNextSize + (oldSize - newSize);
 
+            console.log(newSize + " et " + newNextSize);
+
             resp.setColumnSize($(this), {"medium": newSize, "large": newSize});
             resp.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
+
+            console.log("blop");
 
             $(this).css("width", "");
             $(this).css("height", "");
@@ -8018,7 +8017,9 @@ Object.defineProperty(exports, "__esModule", {
      * @param count
      */
     function setColumnSize(column, count) {
-      var size = getDefaultValues(count);
+      var size = void 0;
+
+      if (Number.isInteger(count)) size = getDefaultValues(count); else size = count;
 
       if (size.small === undefined) {
         size.small = getColumnSize(column).small;
@@ -8341,7 +8342,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         _create: function _create() {
           var that = this;
           if (this.options.debug) {
-            window.console.log("debug mode enabled");
             this.element.addClass("debug");
           }
 
@@ -8390,7 +8390,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
             containment: editable,
             helper: "clone",
             start: function start() {
-              console.log('blop');
               editable.content('initDroppables');
             },
             stop: function stop() {

@@ -12,7 +12,6 @@ export default function init(div) {
     dragging: false,
     _create() {
       if (this.options.debug) {
-        window.console.log("debug mode enabled");
         this.element.addClass("debug");
       }
       this.draggables = this.element.find(".draggable");
@@ -72,8 +71,6 @@ export default function init(div) {
             layout.newInside($(this), ui);
           } else if ($(this).is('[class*="new-nested"]')) {
             layout.newNested($(this), ui);
-          } else {
-            console.warn(`Wrong drop: ${event}`);
           }
         }
       });
@@ -159,7 +156,7 @@ export default function init(div) {
           handles: 'e',
           distance: 10,
           //alsoResizeReverse: 'resizable-reverse',
-          helper: "resizable-helper",
+          //helper: "resizable-helper",
           ghost: true,
           create() {
             const that = $(this).resizable("instance"), o = that.options;
@@ -173,8 +170,6 @@ export default function init(div) {
             oldSize = parseInt(oldSize.slice(7, oldSize.length));
             oldNextSize = resp.getColumnSize(next).medium;
             oldNextSize = parseInt(oldNextSize.slice(7, oldNextSize.length));
-
-            console.log(`${oldSize} ${oldNextSize}`);
 
             const that = $(this).resizable("instance"), o = that.options;
 
