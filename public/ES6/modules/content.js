@@ -38,6 +38,7 @@ export default function init(div) {
           if (parent.is("ul")) {
             ui.draggable = $("<div>", {class: "columns draggable"}).append(content.clone());
             that.initDraggables(ui.draggable);
+            that.initSelectables(ui.draggable);
             ui.draggable.dblclick(function () {
               $(this).enableSelection();
               if ($(this).children(":first").hasClass("tiny-mce") && !that.edition) {
@@ -135,6 +136,22 @@ export default function init(div) {
           that.element.find(".droppables-container").remove();
           that.element.find(".droppables-container-nested").remove();
           $(this).removeClass('drag-active');
+        }
+      });
+    },
+    /**
+     *
+     * @param selectables
+     */
+    initSelectables(selectables) {
+      const that = this;
+
+      selectables.selectable({
+        selected(event, ui) {
+          window.console.log(`Hodor`);
+        },
+        unselected(event, ui) {
+          window.console.log(`Don't Hodor`);
         }
       });
     },

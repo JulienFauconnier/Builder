@@ -17,12 +17,12 @@ export default function init(div) {
 
       const components = Tool.initComponents();
       const structures = Tool.initStructures(components);
-      const groups = Tool.initGroups(components);
+      const groups = Tool.initGroups(components, structures);
 
       jQuery.each(components, (index, component) => {
         li = $("<li>");
         li.data("data", component.toHTML());
-        span = $("<span>", {class: "label"});
+        span = $("<span>", {class: "label small expanded hollow button"});
         span.text(component.name);
         li.append(span);
         $("#componentsContainer").append(li);
@@ -31,7 +31,7 @@ export default function init(div) {
       jQuery.each(structures, (index, structure) => {
         li = $("<li>");
         li.data("data", structure.toHTML());
-        span = $("<span>", {class: "label"});
+        span = $("<span>", {class: "label small expanded hollow button"});
         span.text(structure.name);
         li.append(span);
         $("#structuresContainer").append(li);
@@ -40,7 +40,7 @@ export default function init(div) {
       jQuery.each(groups, (index, group) => {
         li = $("<li>");
         li.data("data", group.toHTML());
-        span = $("<span>", {class: "label"});
+        span = $("<span>", {class: "label small expanded hollow button"});
         span.text(group.name);
         li.append(span);
         $("#groupsContainer").append(li);

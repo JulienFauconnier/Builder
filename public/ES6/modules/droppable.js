@@ -25,6 +25,7 @@ function createAddToNestedDroppables(nestedDroppablesContainer) {
         droppableRowBefore.data("insertFunction", $(this).insertBefore);
         nestedDroppablesContainer.append(droppableRowBefore);
       }
+
       if ($(this).is(":last-child")) {
         const droppableRowAfter = $("<div>", {
           class: "droppable new-nested-after"
@@ -49,6 +50,7 @@ function createRowDroppables(droppablesContainer) {
       // Jump to next iteration: because we move a single element
       return true;
     }
+
     if (!shared.hasOneChildOnly($(draggableContainer).prev(".row.draggables-container"))) {
       const droppableRowBefore = $("<div>", {
         class: "droppable new-row-before"
@@ -57,6 +59,7 @@ function createRowDroppables(droppablesContainer) {
       droppableRowBefore.data("insertFunction", $(draggableContainer).insertBefore);
       droppablesContainer.append(droppableRowBefore);
     }
+
     if ($(draggableContainer).next(".row.draggables-container").length === 0) {
       const droppableRowAfter = $("<div>", {
         class: "droppable new-row-after"

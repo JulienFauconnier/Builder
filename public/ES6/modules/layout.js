@@ -3,6 +3,7 @@ import * as resp from "./responsive";
 
 /**
  * A simple (but awesome) recursive function to delete 'future-empty' after nesting
+ * TODO: Fix when removing by moving to another existing row
  * @param element
  * @returns {*}
  */
@@ -42,16 +43,19 @@ function prepareContainersOperations(containers, type) {
   if (shared.hasOneChildOnly(origin)) {
     functionsList.push(origin.remove);
   }
+
   if (type === "column" && origin[0] !== target[0]) {
     if (functionsList.length !== 1) {
       functionsList.push(() => {
         updateRow(origin);
       });
     }
+
     functionsList.push(() => {
       updateRow(target);
     });
   }
+
   if (!shared.hasOneChildOnly(origin) && type === "row") {
     functionsList.push(() => {
       updateRow(origin);

@@ -4,8 +4,7 @@ import Group from "./group";
 
 // TODO: Improve this mess
 
-const components = {},
-  shortLoremIpsum = "Lorem ipsum dolor sit amet",
+const shortLoremIpsum = "Lorem ipsum dolor sit amet",
   loremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
 
 let parametersComponents = [
@@ -27,6 +26,12 @@ let parametersComponents = [
     id: "img", name: "Image", tag: "img", attributes: {
     "src": "https://placeholdit.imgix.net/~text?txtsize=42&txt=Your+Picture+Here&w=250&h=150"
   }
+  },
+  {
+    id: "btn", name: "Button", tag: "button", attributes: {
+    class: "success button",
+    "text": "Click me"
+  }
   }
 ];
 
@@ -36,6 +41,8 @@ let Tool = {
    * @returns {{}}
    */
   initComponents() {
+    let components = {};
+
     for (let parameters of parametersComponents) {
       components[`${parameters.id}`] = new Component(parameters.name, parameters.tag, parameters.attributes);
     }
@@ -49,9 +56,62 @@ let Tool = {
    * @returns {{}}
    */
   initStructures(components) {
-    const structures = {};
-    structures.input = new Structure("Test", new Component("Label", "label", {"text": "Text: "}),
-      [new Component("Input", "input", {"type": "txt"})]
+    let structures = {};
+
+    structures.textArea = new Structure("Text Area", new Component("Label", "label", {"text": "Text Area: "}),
+      [new Component("Text Area", "textarea", {"placeholder": "none"})]
+    );
+
+    structures.inputText = new Structure("Input Text", new Component("Label", "label", {"text": "Text: "}),
+      [new Component("Input", "input", {"type": "text"})]
+    );
+
+    structures.inputDate = new Structure("Input Date", new Component("Label", "label", {"text": "Date: "}),
+      [new Component("Input", "input", {"type": "date"})]
+    );
+
+    structures.inputDateTime = new Structure("Input DateTime", new Component("Label", "label", {"text": "Datetime: "}),
+      [new Component("Input", "input", {"type": "datetime"})]
+    );
+
+    structures.inputDTL = new Structure("Input DateTime-Local", new Component("Label", "label", {"text": "Datetime-Local: "}),
+      [new Component("Input", "input", {"type": "datetime-local"})]
+    );
+
+    structures.inputEmail = new Structure("Input Email", new Component("Label", "label", {"text": "Email: "}),
+      [new Component("Input", "input", {"type": "email"})]
+    );
+
+    structures.inputMonth = new Structure("Input Month", new Component("Label", "label", {"text": "Month: "}),
+      [new Component("Input", "input", {"type": "month"})]
+    );
+
+    structures.inputNumber = new Structure("Input Number", new Component("Label", "label", {"text": "Number: "}),
+      [new Component("Input", "input", {"type": "number"})]
+    );
+
+    structures.inputPassword = new Structure("Input Password", new Component("Label", "label", {"text": "Password: "}),
+      [new Component("Input", "input", {"type": "password"})]
+    );
+
+    structures.inputSearch = new Structure("Input Search", new Component("Label", "label", {"text": "Search: "}),
+      [new Component("Input", "input", {"type": "search"})]
+    );
+
+    structures.inputTel = new Structure("Input Tel", new Component("Label", "label", {"text": "Tel: "}),
+      [new Component("Input", "input", {"type": "tel"})]
+    );
+
+    structures.inputTime = new Structure("Input Time", new Component("Label", "label", {"text": "Time: "}),
+      [new Component("Input", "input", {"type": "time"})]
+    );
+
+    structures.inputURL = new Structure("Input URL", new Component("Label", "label", {"text": "URL: "}),
+      [new Component("Input", "input", {"type": "url"})]
+    );
+
+    structures.inputWeek = new Structure("Input Week", new Component("Label", "label", {"text": "Week: "}),
+      [new Component("Input", "input", {"type": "week"})]
     );
 
     const mediaObject = (new Component("MediaObject", "div", {class: "media-object stack-for-small"}));
@@ -104,21 +164,52 @@ let Tool = {
   /**
    *
    * @param components
+   * @param structures
    * @returns {{}}
    */
-  initGroups(components) {
-    const groups = {};
-    const Test = (new Group("Test", {"medium": 6, "large": 6},
-      [components.img, components.img]));
-    groups.test1 = Test;
-    groups.test2 = new Group("TestNested", {"medium": 6, "large": 6}, [Test, Test]);
+  initGroups(components, structures) {
+    let groups = {};
+
+    groups.login = new Group("Login",
+      [{layout: {"medium": 4, "large": 4}, content: structures.inputEmail},
+        {layout: {"medium": 4, "large": 4}, content: structures.inputPassword},
+        {layout: {"medium": 4, "large": 4}, content: components.btn}]
+    );
+
+    groups.contact = new Group("Contact",
+      [{layout: {"medium": 6, "large": 6}, content: structures.inputEmail},
+        {layout: {"medium": 6, "large": 6}, content: structures.inputTel},
+        {layout: {"medium": 12, "large": 12}, content: structures.textArea},
+        {layout: {"medium": 12, "large": 12}, content: components.btn}]
+    );
+
+    const details = new Group("Details",
+      [{layout: {"medium": 12, "large": 12}, content: structures.inputText},
+        {layout: {"medium": 12, "large": 12}, content: structures.inputText}]
+    );
+
+    groups.profile = new Group("Profile",
+      [{layout: {"medium": 3, "large": 3}, content: components.img},
+        {layout: {"medium": 9, "large": 9}, content: details},
+        {layout: {"medium": 12, "large": 12}, content: components.btn}]
+    );
+
+    groups.address = new Group("Address",
+      [{layout: {"medium": 12, "large": 12}, content: structures.inputText},
+        {layout: {"medium": 12, "large": 12}, content: structures.inputText},
+        {layout: {"medium": 12, "large": 12}, content: structures.inputText},
+        {layout: {"medium": 12, "large": 12}, content: structures.inputText},
+        {layout: {"medium": 12, "large": 12}, content: structures.inputText},
+        {layout: {"medium": 12, "large": 12}, content: structures.inputText},
+        {layout: {"medium": 12, "large": 12}, content: structures.inputText},
+        {layout: {"medium": 12, "large": 12}, content: components.btn}]
+    );
 
     return groups;
   }
 };
 
 export default Tool;
-
 
 let namespace = {
   get singleton() { // BEGIN iife

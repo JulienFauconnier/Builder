@@ -20,11 +20,24 @@
 .off-canvas.position-left {
   height: 100%; }
 
+.off-canvas.position-left ul {
+  margin-left: 0;
+}
+
 .draggable {
   position: relative; }
 
 .droppable {
   position: absolute; }
+
+.selectable > .ui-selecting {
+  background: #feca40;
+}
+
+.selectable > .ui-selected {
+  background: #f39814;
+  color: #fff;
+}
 
 .ui-resizable-e {
   cursor: ew-resize; }

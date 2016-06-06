@@ -1,37 +1,28 @@
 import Composite from "./composite";
 
 export default class Group extends Composite {
-  constructor(name, layout, components) {
+  constructor(name, elements) {
     super(name);
-    this._m_layout = layout;
-    this._m_components = components;
+    this._m_elements = elements;
   }
 
-  get layout() {
-    return this._m_layout;
+  get elements() {
+    return this._m_elements;
   }
 
-  set layout(value) {
-    this._m_layout = value;
-  }
-
-  get components() {
-    return this._m_components;
-  }
-
-  set components(value) {
-    this._m_components = value;
+  set elements(value) {
+    this._m_elements = value;
   }
 
   toHTML() {
     const content = $("<div>", {class: "row"});
     let container;
 
-    jQuery.each(this.components, (key, component) => {
+    jQuery.each(this.elements, (key, element) => {
       container = $("<div>", {
-        class: `columns medium-${this.layout.medium} large-${this.layout.large}`
+        class: `columns medium-${element.layout.medium} large-${element.layout.large}`
       });
-      container.append(component.toHTML());
+      container.append(element.content.toHTML());
       content.append(container);
     });
 

@@ -7036,6 +7036,7 @@ function init(div) {
           if (parent.is("ul")) {
             ui.draggable = $("<div>", { class: "columns draggable" }).append(content.clone());
             that.initDraggables(ui.draggable);
+            that.initSelectables(ui.draggable);
             ui.draggable.dblclick(function () {
               var _this = this;
 
@@ -7138,6 +7139,23 @@ function init(div) {
           that.element.find(".droppables-container").remove();
           that.element.find(".droppables-container-nested").remove();
           $(this).removeClass('drag-active');
+        }
+      });
+    },
+
+    /**
+     *
+     * @param selectables
+     */
+    initSelectables: function initSelectables(selectables) {
+      var that = this;
+
+      selectables.selectable({
+        selected: function selected(event, ui) {
+          window.console.log("Hodor");
+        },
+        unselected: function unselected(event, ui) {
+          window.console.log("Don't Hodor");
         }
       });
     },
@@ -7422,6 +7440,7 @@ function createAddToNestedDroppables(nestedDroppablesContainer) {
         _droppableRowBefore.data("insertFunction", $(this).insertBefore);
         nestedDroppablesContainer.append(_droppableRowBefore);
       }
+
       if ($(this).is(":last-child")) {
         var droppableRowAfter = $("<div>", {
           class: "droppable new-nested-after"
@@ -7446,6 +7465,7 @@ function createRowDroppables(droppablesContainer) {
       // Jump to next iteration: because we move a single element
       return true;
     }
+
     if (!shared.hasOneChildOnly($(draggableContainer).prev(".row.draggables-container"))) {
       var droppableRowBefore = $("<div>", {
         class: "droppable new-row-before"
@@ -7454,6 +7474,7 @@ function createRowDroppables(droppablesContainer) {
       droppableRowBefore.data("insertFunction", $(draggableContainer).insertBefore);
       droppablesContainer.append(droppableRowBefore);
     }
+
     if ($(draggableContainer).next(".row.draggables-container").length === 0) {
       var droppableRowAfter = $("<div>", {
         class: "droppable new-row-after"
@@ -7622,50 +7643,39 @@ function firstDroppable(editable) {
     var Group = function (_Composite) {
       _inherits(Group, _Composite);
 
-      function Group(name, layout, components) {
+      function Group(name, elements) {
         _classCallCheck(this, Group);
 
         var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Group).call(this, name));
 
-        _this._m_layout = layout;
-        _this._m_components = components;
+        _this._m_elements = elements;
         return _this;
       }
 
       _createClass(Group, [{
         key: "toHTML",
         value: function toHTML() {
-          var _this2 = this;
-
           var content = $("<div>", {class: "row"});
           var container = void 0;
 
-          jQuery.each(this.components, function (key, component) {
+          jQuery.each(this.elements, function (key, element) {
             container = $("<div>", {
-              class: "columns medium-" + _this2.layout.medium + " large-" + _this2.layout.large
+              class: "columns medium-" + element.layout.medium + " large-" + element.layout.large
             });
-            container.append(component.toHTML());
+            container.append(element.content.toHTML());
             content.append(container);
       });
 
           return content;
     }
       }, {
-        key: "layout",
+        key: "elements",
         get: function get() {
-          return this._m_layout;
+          return this._m_elements;
         },
         set: function set(value) {
-          this._m_layout = value;
+          this._m_elements = value;
     }
-      }, {
-        key: "components",
-        get: function get() {
-          return this._m_components;
-        },
-        set: function set(value) {
-          this._m_components = value;
-        }
       }]);
 
       return Group;
@@ -7712,6 +7722,7 @@ function firstDroppable(editable) {
 
     /**
      * A simple (but awesome) recursive function to delete 'future-empty' after nesting
+     * TODO: Fix when removing by moving to another existing row
      * @param element
      * @returns {*}
      */
@@ -7750,16 +7761,19 @@ function firstDroppable(editable) {
       if (shared.hasOneChildOnly(origin)) {
         functionsList.push(origin.remove);
       }
+
       if (type === "column" && origin[0] !== target[0]) {
         if (functionsList.length !== 1) {
           functionsList.push(function () {
             updateRow(origin);
       });
     }
+
         functionsList.push(function () {
           updateRow(target);
         });
       }
+
       if (!shared.hasOneChildOnly(origin) && type === "row") {
         functionsList.push(function () {
           updateRow(origin);
@@ -8198,8 +8212,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // TODO: Improve this mess
 
-    var components = {},
-      shortLoremIpsum = "Lorem ipsum dolor sit amet",
+    var shortLoremIpsum = "Lorem ipsum dolor sit amet",
       loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
     var parametersComponents = [{
@@ -8242,6 +8255,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
       id: "img", name: "Image", tag: "img", attributes: {
         "src": "https://placeholdit.imgix.net/~text?txtsize=42&txt=Your+Picture+Here&w=250&h=150"
       }
+    }, {
+      id: "btn", name: "Button", tag: "button", attributes: {
+        class: "success button",
+        "text": "Click me"
+      }
     }];
 
     var Tool = {
@@ -8251,6 +8269,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
        */
 
       initComponents: function initComponents() {
+        var components = {};
+
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
         var _iteratorError = undefined;
@@ -8272,7 +8292,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
           } finally {
             if (_didIteratorError) {
               throw _iteratorError;
-            }
+        }
           }
         }
 
@@ -8287,7 +8307,34 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
        */
       initStructures: function initStructures(components) {
         var structures = {};
-        structures.input = new _structure2.default("Test", new _component2.default("Label", "label", {"text": "Text: "}), [new _component2.default("Input", "input", {"type": "txt"})]);
+
+        structures.textArea = new _structure2.default("Text Area", new _component2.default("Label", "label", {"text": "Text Area: "}), [new _component2.default("Text Area", "textarea", {"placeholder": "none"})]);
+
+        structures.inputText = new _structure2.default("Input Text", new _component2.default("Label", "label", {"text": "Text: "}), [new _component2.default("Input", "input", {"type": "text"})]);
+
+        structures.inputDate = new _structure2.default("Input Date", new _component2.default("Label", "label", {"text": "Date: "}), [new _component2.default("Input", "input", {"type": "date"})]);
+
+        structures.inputDateTime = new _structure2.default("Input DateTime", new _component2.default("Label", "label", {"text": "Datetime: "}), [new _component2.default("Input", "input", {"type": "datetime"})]);
+
+        structures.inputDTL = new _structure2.default("Input DateTime-Local", new _component2.default("Label", "label", {"text": "Datetime-Local: "}), [new _component2.default("Input", "input", {"type": "datetime-local"})]);
+
+        structures.inputEmail = new _structure2.default("Input Email", new _component2.default("Label", "label", {"text": "Email: "}), [new _component2.default("Input", "input", {"type": "email"})]);
+
+        structures.inputMonth = new _structure2.default("Input Month", new _component2.default("Label", "label", {"text": "Month: "}), [new _component2.default("Input", "input", {"type": "month"})]);
+
+        structures.inputNumber = new _structure2.default("Input Number", new _component2.default("Label", "label", {"text": "Number: "}), [new _component2.default("Input", "input", {"type": "number"})]);
+
+        structures.inputPassword = new _structure2.default("Input Password", new _component2.default("Label", "label", {"text": "Password: "}), [new _component2.default("Input", "input", {"type": "password"})]);
+
+        structures.inputSearch = new _structure2.default("Input Search", new _component2.default("Label", "label", {"text": "Search: "}), [new _component2.default("Input", "input", {"type": "search"})]);
+
+        structures.inputTel = new _structure2.default("Input Tel", new _component2.default("Label", "label", {"text": "Tel: "}), [new _component2.default("Input", "input", {"type": "tel"})]);
+
+        structures.inputTime = new _structure2.default("Input Time", new _component2.default("Label", "label", {"text": "Time: "}), [new _component2.default("Input", "input", {"type": "time"})]);
+
+        structures.inputURL = new _structure2.default("Input URL", new _component2.default("Label", "label", {"text": "URL: "}), [new _component2.default("Input", "input", {"type": "url"})]);
+
+        structures.inputWeek = new _structure2.default("Input Week", new _component2.default("Label", "label", {"text": "Week: "}), [new _component2.default("Input", "input", {"type": "week"})]);
 
         var mediaObject = new _component2.default("MediaObject", "div", {class: "media-object stack-for-small"});
 
@@ -8330,13 +8377,54 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
       /**
        *
        * @param components
+       * @param structures
        * @returns {{}}
        */
-      initGroups: function initGroups(components) {
+      initGroups: function initGroups(components, structures) {
         var groups = {};
-        var Test = new _group2.default("Test", {"medium": 6, "large": 6}, [components.img, components.img]);
-        groups.test1 = Test;
-        groups.test2 = new _group2.default("TestNested", {"medium": 6, "large": 6}, [Test, Test]);
+
+        groups.login = new _group2.default("Login", [{
+          layout: {"medium": 4, "large": 4},
+          content: structures.inputEmail
+        }, {layout: {"medium": 4, "large": 4}, content: structures.inputPassword}, {
+          layout: {"medium": 4, "large": 4},
+          content: components.btn
+        }]);
+
+        groups.contact = new _group2.default("Contact", [{
+          layout: {"medium": 6, "large": 6},
+          content: structures.inputEmail
+        }, {layout: {"medium": 6, "large": 6}, content: structures.inputTel}, {
+          layout: {"medium": 12, "large": 12},
+          content: structures.textArea
+        }, {layout: {"medium": 12, "large": 12}, content: components.btn}]);
+
+        var details = new _group2.default("Details", [{
+          layout: {"medium": 12, "large": 12},
+          content: structures.inputText
+        }, {layout: {"medium": 12, "large": 12}, content: structures.inputText}]);
+
+        groups.profile = new _group2.default("Profile", [{
+          layout: {"medium": 3, "large": 3},
+          content: components.img
+        }, {layout: {"medium": 9, "large": 9}, content: details}, {
+          layout: {"medium": 12, "large": 12},
+          content: components.btn
+        }]);
+
+        groups.address = new _group2.default("Address", [{
+          layout: {"medium": 12, "large": 12},
+          content: structures.inputText
+        }, {layout: {"medium": 12, "large": 12}, content: structures.inputText}, {
+          layout: {"medium": 12, "large": 12},
+          content: structures.inputText
+        }, {layout: {"medium": 12, "large": 12}, content: structures.inputText}, {
+          layout: {"medium": 12, "large": 12},
+          content: structures.inputText
+        }, {layout: {"medium": 12, "large": 12}, content: structures.inputText}, {
+          layout: {"medium": 12, "large": 12},
+          content: structures.inputText
+        }, {layout: {"medium": 12, "large": 12}, content: components.btn}]);
 
         return groups;
       }
@@ -8354,11 +8442,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
             singleton = {
               amethod: function amethod() {
                 console.log("amethod");
-              }
-            };
+          }
+        };
           }
           return singleton;
-        };
+    };
       } // END iife
     };
 // Invoke: namespace.singleton().amethod()
@@ -8397,12 +8485,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
           var components = _tool2.default.initComponents();
           var structures = _tool2.default.initStructures(components);
-          var groups = _tool2.default.initGroups(components);
+          var groups = _tool2.default.initGroups(components, structures);
 
           jQuery.each(components, function (index, component) {
             li = $("<li>");
             li.data("data", component.toHTML());
-            span = $("<span>", {class: "label"});
+            span = $("<span>", {class: "label small expanded hollow button"});
             span.text(component.name);
             li.append(span);
             $("#componentsContainer").append(li);
@@ -8411,7 +8499,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
           jQuery.each(structures, function (index, structure) {
             li = $("<li>");
             li.data("data", structure.toHTML());
-            span = $("<span>", {class: "label"});
+            span = $("<span>", {class: "label small expanded hollow button"});
             span.text(structure.name);
             li.append(span);
             $("#structuresContainer").append(li);
@@ -8420,7 +8508,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
           jQuery.each(groups, function (index, group) {
             li = $("<li>");
             li.data("data", group.toHTML());
-            span = $("<span>", {class: "label"});
+            span = $("<span>", {class: "label small expanded hollow button"});
             span.text(group.name);
             li.append(span);
             $("#groupsContainer").append(li);
