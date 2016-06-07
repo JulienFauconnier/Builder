@@ -3,7 +3,7 @@ import * as resp from "./responsive";
 
 /**
  * A simple (but awesome) recursive function to delete 'future-empty' after nesting
- * TODO: Fix when removing by moving to another existing row
+ * FIXME: Fix when removing by moving to another existing row
  * @param element
  * @returns {*}
  */

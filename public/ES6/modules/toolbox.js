@@ -48,6 +48,10 @@ export default function init(div) {
 
       that.draggables = $("#componentsContainer, #structuresContainer, #groupsContainer").children();
     },
+
+    /**
+     *
+     */
     newPLB() {
       const editable = $("#editable-area");
 

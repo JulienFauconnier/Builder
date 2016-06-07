@@ -8,7 +8,7 @@ export default function init(div) {
       debug: false
     },
     draggables: null,
-    edition: false,
+    editing: false,
     dragging: false,
     _create() {
       if (this.options.debug) {
@@ -16,6 +16,7 @@ export default function init(div) {
       }
       this.draggables = this.element.find(".draggable");
     },
+
     /**
      *
      */
@@ -39,24 +40,30 @@ export default function init(div) {
             ui.draggable = $("<div>", {class: "columns draggable"}).append(content.clone());
             that.initDraggables(ui.draggable);
             that.initSelectables(ui.draggable);
+            ui.draggable.click(function () {
+              console.log("ttt");
+              // TODO: Add generating options with "data-link=$(this)"
+            });
             ui.draggable.dblclick(function () {
               $(this).enableSelection();
-              if ($(this).children(":first").hasClass("tiny-mce") && !that.edition) {
-                that.edition = true;
+              if ($(this).children(":first").hasClass("tiny-mce") && !that.editing) {
+                that.editing = true;
                 $(this).tinymce({
                   script_url: '../bower_components/tinymce/tinymce.jquery.min.js',
                   inline: true,
                   setup(editor) {
                     editor.on('focus', () => {
-                      that.edition = true;
+                      that.editing = true;
                     });
+
                     editor.on('blur', () => {
-                      that.edition = false;
+                      that.editing = false;
                       ui.draggable.disableSelection();
                       tinymce.remove();
                     });
                   }
                 });
+
                 const targetToFocus = $(this);
                 setTimeout(() => {
                   targetToFocus.focus();
@@ -64,6 +71,7 @@ export default function init(div) {
               }
             });
           }
+
           if ($(this).is('[class*="new-row"]')) {
             layout.newRow($(this), ui);
           } else if ($(this).is('[class*="new-column"]')) {
@@ -76,6 +84,7 @@ export default function init(div) {
         }
       });
     },
+
     /**
      *
      * @param draggables
@@ -87,7 +96,8 @@ export default function init(div) {
       draggables.disableSelection();
 
       draggables.hover(function () {
-        if (that.edition === false) {
+        const thisOne = this;
+        if (!that.editing && !that.dragging) {
           const dragHandle = $("<div>", {class: "draggable-move icon-arrows"});
           const delHandle = $("<div>", {class: "draggable-del icon-trash"});
           $(this).append(dragHandle);
@@ -106,6 +116,7 @@ export default function init(div) {
               layout.removeDiv(parentRow).remove();
             }
           });
+
           if (!$(this).is(':last-child')) {
             that.createHorizontalResizable($(this));
             $(this).next().addClass("resizable-reverse");
@@ -116,6 +127,7 @@ export default function init(div) {
         $(".draggable-del").remove();
         $(this).next().removeClass("resizable-reverse");
       });
+
       draggables.draggable({
         helper() {
           const width = 100;
@@ -126,6 +138,7 @@ export default function init(div) {
         handle: ".draggable-move",
         cursorAt: {left: 0, top: 0},
         start() {
+          that.dragging = true;
           if ($(this).resizable("instance")) {
             $(this).resizable("destroy");
           }
@@ -136,22 +149,21 @@ export default function init(div) {
           that.element.find(".droppables-container").remove();
           that.element.find(".droppables-container-nested").remove();
           $(this).removeClass('drag-active');
+          that.dragging = false;
         }
       });
     },
+
     /**
      *
      * @param selectables
      */
     initSelectables(selectables) {
       const that = this;
-
       selectables.selectable({
         selected(event, ui) {
-          window.console.log(`Hodor`);
         },
         unselected(event, ui) {
-          window.console.log(`Don't Hodor`);
         }
       });
     },
@@ -214,6 +226,7 @@ export default function init(div) {
         });
       }
     },
+
     /**
      *
      * @param row
@@ -240,7 +253,92 @@ export default function init(div) {
         });
       }
     },
+
+    test() {
+      $.ui.selectable.prototype._mouseStart = function (event) {
+        if ($(event.target).hasClass('draggable-del')) {
+          return;
+        }
+
+        let that = this,
+          options = this.options;
+
+        this.opos = [event.pageX, event.pageY];
+        this.elementPos = $(this.element[0]).offset();
+
+        if (this.options.disabled) {
+          return;
+        }
+
+        this.selectees = $(options.filter, this.element[0]);
+
+        this._trigger("start", event);
+
+        $(options.appendTo).append(this.helper);
+
+        // position helper (lasso)
+        this.helper.css({
+          "left": event.pageX,
+          "top": event.pageY,
+          "width": 0,
+          "height": 0
+        });
+
+        if (options.autoRefresh) {
+          this.refresh();
+        }
+
+        this.selectees.filter(".ui-selected").each(function () {
+          let selectee = $.data(this, "selectable-item");
+          selectee.startselected = true;
+          if (!event.metaKey && !event.ctrlKey) {
+            selectee.$element.removeClass("ui-selected");
+            selectee.selected = false;
+            selectee.$element.addClass("ui-unselecting");
+            selectee.unselecting = true;
+
+            // selectable UNSELECTING callback
+            that._trigger("unselecting", event, {
+              unselecting: selectee.element
+            });
+          }
+        });
+
+        $(event.target).parents().addBack().each(function () {
+          let doSelect,
+            selectee = $.data(this, "selectable-item");
+
+          if (selectee) {
+            doSelect = ( !event.metaKey && !event.ctrlKey ) || !selectee.$element.hasClass("ui-selected");
+            $(selectee.$element).removeClass(doSelect ? "ui-unselecting" : "ui-selected").addClass(doSelect ? "ui-selecting" : "ui-unselecting");
+
+            selectee.unselecting = !doSelect;
+            selectee.selecting = doSelect;
+            selectee.selected = doSelect;
+
+            // selectable (UN)SELECTING callback
+            if (doSelect) {
+              that._trigger("selecting", event, {
+                selecting: selectee.element
+              });
+            } else {
+              that._trigger("unselecting", event, {
+                unselecting: selectee.element
+              });
+            }
+            return false;
+          }
+        });
+
+
+      }
+    },
+
+    /**
+     *
+     */
     newPLB() {
+      this.test();
       this.initDraggables(this.draggables);
     }
   });

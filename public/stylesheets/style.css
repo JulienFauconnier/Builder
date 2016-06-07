@@ -30,11 +30,11 @@
 .droppable {
   position: absolute; }
 
-.selectable > .ui-selecting {
+.ui-selectable .ui-selecting {
   background: #feca40;
 }
 
-.selectable > .ui-selected {
+.ui-selectable .ui-selected {
   background: #f39814;
   color: #fff;
 }

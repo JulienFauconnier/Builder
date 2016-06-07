@@ -7004,7 +7004,7 @@ function init(div) {
       debug: false
     },
     draggables: null,
-    edition: false,
+    editing: false,
     dragging: false,
     _create: function _create() {
       if (this.options.debug) {
@@ -7012,6 +7012,7 @@ function init(div) {
       }
       this.draggables = this.element.find(".draggable");
     },
+
 
     /**
      *
@@ -7037,27 +7038,33 @@ function init(div) {
             ui.draggable = $("<div>", { class: "columns draggable" }).append(content.clone());
             that.initDraggables(ui.draggable);
             that.initSelectables(ui.draggable);
+            ui.draggable.click(function () {
+              console.log("ttt");
+              // TODO: Add generating options with "data-link=$(this)"
+            });
             ui.draggable.dblclick(function () {
               var _this = this;
 
               $(this).enableSelection();
-              if ($(this).children(":first").hasClass("tiny-mce") && !that.edition) {
+              if ($(this).children(":first").hasClass("tiny-mce") && !that.editing) {
                 (function () {
-                  that.edition = true;
+                  that.editing = true;
                   $(_this).tinymce({
                     script_url: '../bower_components/tinymce/tinymce.jquery.min.js',
                     inline: true,
                     setup: function setup(editor) {
                       editor.on('focus', function () {
-                        that.edition = true;
+                        that.editing = true;
                       });
+
                       editor.on('blur', function () {
-                        that.edition = false;
+                        that.editing = false;
                         ui.draggable.disableSelection();
                         tinymce.remove();
                       });
                     }
                   });
+
                   var targetToFocus = $(_this);
                   setTimeout(function () {
                     targetToFocus.focus();
@@ -7066,6 +7073,7 @@ function init(div) {
               }
             });
           }
+
           if ($(this).is('[class*="new-row"]')) {
             layout.newRow($(this), ui);
           } else if ($(this).is('[class*="new-column"]')) {
@@ -7079,6 +7087,7 @@ function init(div) {
       });
     },
 
+
     /**
      *
      * @param draggables
@@ -7090,7 +7099,8 @@ function init(div) {
       draggables.disableSelection();
 
       draggables.hover(function () {
-        if (that.edition === false) {
+        var thisOne = this;
+        if (!that.editing && !that.dragging) {
           var dragHandle = $("<div>", { class: "draggable-move icon-arrows" });
           var delHandle = $("<div>", { class: "draggable-del icon-trash" });
           $(this).append(dragHandle);
@@ -7108,6 +7118,7 @@ function init(div) {
               layout.removeDiv(parentRow).remove();
             }
           });
+
           if (!$(this).is(':last-child')) {
             that.createHorizontalResizable($(this));
             $(this).next().addClass("resizable-reverse");
@@ -7118,6 +7129,7 @@ function init(div) {
         $(".draggable-del").remove();
         $(this).next().removeClass("resizable-reverse");
       });
+
       draggables.draggable({
         helper: function helper() {
           var width = 100;
@@ -7129,6 +7141,7 @@ function init(div) {
         handle: ".draggable-move",
         cursorAt: { left: 0, top: 0 },
         start: function start() {
+          that.dragging = true;
           if ($(this).resizable("instance")) {
             $(this).resizable("destroy");
           }
@@ -7139,9 +7152,11 @@ function init(div) {
           that.element.find(".droppables-container").remove();
           that.element.find(".droppables-container-nested").remove();
           $(this).removeClass('drag-active');
+          that.dragging = false;
         }
       });
     },
+
 
     /**
      *
@@ -7149,13 +7164,10 @@ function init(div) {
      */
     initSelectables: function initSelectables(selectables) {
       var that = this;
-
       selectables.selectable({
         selected: function selected(event, ui) {
-          window.console.log("Hodor");
         },
         unselected: function unselected(event, ui) {
-          window.console.log("Don't Hodor");
         }
       });
     },
@@ -7223,6 +7235,7 @@ function init(div) {
       }
     },
 
+
     /**
      *
      * @param row
@@ -7250,7 +7263,90 @@ function init(div) {
         });
       }
     },
+    test: function test() {
+      $.ui.selectable.prototype._mouseStart = function (event) {
+        if ($(event.target).hasClass('draggable-del')) {
+          return;
+        }
+
+        var that = this,
+          options = this.options;
+
+        this.opos = [event.pageX, event.pageY];
+        this.elementPos = $(this.element[0]).offset();
+
+        if (this.options.disabled) {
+          return;
+        }
+
+        this.selectees = $(options.filter, this.element[0]);
+
+        this._trigger("start", event);
+
+        $(options.appendTo).append(this.helper);
+
+        // position helper (lasso)
+        this.helper.css({
+          "left": event.pageX,
+          "top": event.pageY,
+          "width": 0,
+          "height": 0
+        });
+
+        if (options.autoRefresh) {
+          this.refresh();
+        }
+
+        this.selectees.filter(".ui-selected").each(function () {
+          var selectee = $.data(this, "selectable-item");
+          selectee.startselected = true;
+          if (!event.metaKey && !event.ctrlKey) {
+            selectee.$element.removeClass("ui-selected");
+            selectee.selected = false;
+            selectee.$element.addClass("ui-unselecting");
+            selectee.unselecting = true;
+
+            // selectable UNSELECTING callback
+            that._trigger("unselecting", event, {
+              unselecting: selectee.element
+            });
+          }
+        });
+
+        $(event.target).parents().addBack().each(function () {
+          var doSelect = void 0,
+            selectee = $.data(this, "selectable-item");
+
+          if (selectee) {
+            doSelect = !event.metaKey && !event.ctrlKey || !selectee.$element.hasClass("ui-selected");
+            $(selectee.$element).removeClass(doSelect ? "ui-unselecting" : "ui-selected").addClass(doSelect ? "ui-selecting" : "ui-unselecting");
+
+            selectee.unselecting = !doSelect;
+            selectee.selecting = doSelect;
+            selectee.selected = doSelect;
+
+            // selectable (UN)SELECTING callback
+            if (doSelect) {
+              that._trigger("selecting", event, {
+                selecting: selectee.element
+              });
+            } else {
+              that._trigger("unselecting", event, {
+                unselecting: selectee.element
+              });
+            }
+            return false;
+          }
+        });
+      };
+    },
+
+
+    /**
+     *
+     */
     newPLB: function newPLB() {
+      this.test();
       this.initDraggables(this.draggables);
     }
   });
@@ -7722,7 +7818,7 @@ function firstDroppable(editable) {
 
     /**
      * A simple (but awesome) recursive function to delete 'future-empty' after nesting
-     * TODO: Fix when removing by moving to another existing row
+     * FIXME: Fix when removing by moving to another existing row
      * @param element
      * @returns {*}
      */
@@ -8212,7 +8308,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // TODO: Improve this mess
 
-    var shortLoremIpsum = "Lorem ipsum dolor sit amet",
+    var shortLoremIpsum = "Wingardium Leviosa",
       loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
     var parametersComponents = [{
@@ -8516,6 +8612,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
           that.draggables = $("#componentsContainer, #structuresContainer, #groupsContainer").children();
         },
+
+
+        /**
+         *
+         */
         newPLB: function newPLB() {
           var editable = $("#editable-area");
 
