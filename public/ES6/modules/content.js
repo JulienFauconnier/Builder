@@ -39,11 +39,6 @@ export default function init(div) {
           if (parent.is("ul")) {
             ui.draggable = $("<div>", {class: "columns draggable"}).append(content.clone());
             that.initDraggables(ui.draggable);
-            that.initSelectables(ui.draggable);
-            ui.draggable.click(function () {
-              console.log("ttt");
-              // TODO: Add generating options with "data-link=$(this)"
-            });
             ui.draggable.dblclick(function () {
               $(this).enableSelection();
               if ($(this).children(":first").hasClass("tiny-mce") && !that.editing) {
@@ -81,6 +76,7 @@ export default function init(div) {
           } else if ($(this).is('[class*="new-nested"]')) {
             layout.newNested($(this), ui);
           }
+          that.initSelectables($(".draggables-container"));
         }
       });
     },
@@ -160,10 +156,16 @@ export default function init(div) {
      */
     initSelectables(selectables) {
       const that = this;
+      console.log(`HODOR ! ${selectables}`);
       selectables.selectable({
         selected(event, ui) {
+          const nOption = $("<p>", {text: "ttt", class: "option", "data-target": ui});
+          nOption.appendTo($(".nSetting"));
         },
         unselected(event, ui) {
+          $(".nSetting").children().remove();
+          // FIXME: Remove when column delete
+          // FIXME: Remove when row delete
         }
       });
     },
