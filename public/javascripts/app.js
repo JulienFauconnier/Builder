@@ -6884,7 +6884,7 @@ var tools = $("#toolbox");
 
 // TODO: Add tags: tables, lists, forms, videos, audio, objects
 
-}, {"./modules/content": 302, "./modules/toolbox": 312, "babel-polyfill": 1}],
+}, {"./modules/content": 305, "./modules/toolbox": 315, "babel-polyfill": 1}],
   300: [function (require, module, exports) {
 "use strict";
 
@@ -6895,6 +6895,241 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+    /**
+     * Created by uneek on 08/06/16.
+     */
+
+    var instance = null;
+
+    var Layout = function () {
+      function Layout(row, column) {
+        _classCallCheck(this, Layout);
+
+        if (!instance) {
+          instance = this;
+        }
+
+        this._m_row = row;
+        this._m_column = column;
+        this._m_time = new Date();
+
+        return instance;
+      }
+
+      _createClass(Layout, [{
+        key: "row",
+        get: function get() {
+          return this._m_row;
+        },
+        set: function set(value) {
+          this._m_row = value;
+        }
+      }, {
+        key: "column",
+        get: function get() {
+          return this._m_column;
+        },
+        set: function set(value) {
+          this._m_column = value;
+        }
+      }, {
+        key: "time",
+        get: function get() {
+          return this._m_time;
+        }
+      }]);
+
+      return Layout;
+    }();
+
+    exports.default = Layout;
+
+  }, {}],
+  301: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+
+    var _base = require("./base");
+
+    Object.keys(_base).forEach(function (key) {
+      if (key === "default") return;
+      Object.defineProperty(exports, key, {
+        enumerable: true,
+        get: function get() {
+          return _base[key];
+        }
+      });
+    });
+
+    var _base2 = _interopRequireDefault(_base);
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : {default: obj};
+    }
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    function _possibleConstructorReturn(self, call) {
+      if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+      }
+      return call && (typeof call === "object" || typeof call === "function") ? call : self;
+    }
+
+    function _inherits(subClass, superClass) {
+      if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+      }
+      subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+          value: subClass,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+      if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+    }
+
+    /**
+     * Created by uneek on 08/06/16.
+     */
+
+    var instance = null;
+
+    var Bootstrap3 = function (_Base) {
+      _inherits(Bootstrap3, _Base);
+
+      function Bootstrap3(row, column) {
+        var _ret;
+
+        _classCallCheck(this, Bootstrap3);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Bootstrap3).call(this, row, column));
+
+        if (!instance) {
+          instance = _this;
+        }
+
+        return _ret = instance, _possibleConstructorReturn(_this, _ret);
+      }
+
+      return Bootstrap3;
+    }(_base2.default);
+
+    exports.default = Bootstrap3;
+
+  }, {"./base": 300}],
+  302: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+
+    var _base = require("./base");
+
+    var _base2 = _interopRequireDefault(_base);
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : {default: obj};
+    }
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    function _possibleConstructorReturn(self, call) {
+      if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+      }
+      return call && (typeof call === "object" || typeof call === "function") ? call : self;
+    }
+
+    function _inherits(subClass, superClass) {
+      if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+      }
+      subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+          value: subClass,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+      if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+    }
+
+    /**
+     * Created by uneek on 08/06/16.
+     */
+
+    var instance = null;
+
+    var Foundation6 = function (_Base) {
+      _inherits(Foundation6, _Base);
+
+      function Foundation6(row, column) {
+        var _ret;
+
+        _classCallCheck(this, Foundation6);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Foundation6).call(this, row, column));
+
+        if (!instance) {
+          instance = _this;
+        }
+
+        return _ret = instance, _possibleConstructorReturn(_this, _ret);
+      }
+
+      return Foundation6;
+    }(_base2.default);
+
+    exports.default = Foundation6;
+
+  }, {"./base": 300}],
+  303: [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+
+    var _createClass = function () {
+      function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+          var descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false;
+          descriptor.configurable = true;
+          if ("value" in descriptor) descriptor.writable = true;
+          Object.defineProperty(target, descriptor.key, descriptor);
+        }
+      }
+
+      return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+      };
+    }();
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
 
 var Component = function () {
   function Component(name, tag, attributes) {
@@ -6942,7 +7177,7 @@ var Component = function () {
 exports.default = Component;
 
   }, {}],
-  301: [function (require, module, exports) {
+  304: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6976,7 +7211,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     exports.default = Composite;
 
   }, {}],
-  302: [function (require, module, exports) {
+  305: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6992,6 +7227,18 @@ exports.default = init;
 
     var droppable = _interopRequireWildcard(_droppable);
 
+    var _bootstrap = require("./base/bootstrap3");
+
+    var _bootstrap2 = _interopRequireDefault(_bootstrap);
+
+    var _foundation = require("./base/foundation6");
+
+    var _foundation2 = _interopRequireDefault(_foundation);
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : {default: obj};
+    }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function init(div) {
@@ -7003,6 +7250,7 @@ function init(div) {
     draggables: null,
     editing: false,
     dragging: false,
+    base: null,
     _create: function _create() {
       if (this.options.debug) {
         this.element.addClass("debug");
@@ -7157,7 +7405,6 @@ function init(div) {
      */
     initSelectables: function initSelectables(selectables) {
       var that = this;
-      console.log("HODOR ! " + selectables);
       selectables.selectable({
         selected: function selected(event, ui) {
           // TODO: Other possibility -> Add elements to list, then generate options
@@ -7264,22 +7511,24 @@ function init(div) {
       }
     },
     test: function test() {
+      var that = this;
+
       $.ui.selectable.prototype._mouseStart = function (event) {
         if ($(event.target).hasClass('draggable-del')) {
           return;
         }
 
         var that = this,
-          options = this.options;
+          options = that.options;
 
         this.opos = [event.pageX, event.pageY];
-        this.elementPos = $(this.element[0]).offset();
+        this.elementPos = $(that.element[0]).offset();
 
-        if (this.options.disabled) {
+        if (that.options.disabled) {
           return;
         }
 
-        this.selectees = $(options.filter, this.element[0]);
+        this.selectees = $(options.filter, that.element[0]);
 
         this._trigger("start", event);
 
@@ -7346,17 +7595,23 @@ function init(div) {
      *
      */
     newPLB: function newPLB() {
+      if (this.options.base === "bootstrap3") {
+        this.base = new _bootstrap2.default("row", "");
+      } else {
+        this.base = new _foundation2.default("row", "column");
+      }
+
       this.test();
       this.initDraggables(this.draggables);
     }
   });
 
-  div.content({debug: true});
+  div.content({debug: false});
   div.content("newPLB");
 }
 
-  }, {"./droppable": 304, "./layout": 306}],
-  303: [function (require, module, exports) {
+  }, {"./base/bootstrap3": 301, "./base/foundation6": 302, "./droppable": 307, "./layout": 309}],
+  306: [function (require, module, exports) {
     "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7474,14 +7729,13 @@ Object.defineProperty(exports, "__esModule", {
     }
 
   }, {}],
-  304: [function (require, module, exports) {
+  307: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-exports.createDroppables = createDroppables;
-exports.firstDroppable = firstDroppable;
+    exports.firstDroppable = exports.createDroppables = undefined;
 
     var _shared = require("./shared");
 
@@ -7514,10 +7768,14 @@ exports.firstDroppable = firstDroppable;
       }
     }
 
+    exports.createDroppables = createDroppables;
+    exports.firstDroppable = firstDroppable;
+
 /**
  *
  * @param nestedDroppablesContainer
  */
+
 function createAddToNestedDroppables(nestedDroppablesContainer) {
   $(".columns.nested-container").each(function () {
     $(this).children().each(function () {
@@ -7674,8 +7932,8 @@ function firstDroppable(editable) {
   droppablesContainer.appendTo(editable);
 }
 
-  }, {"./css": 303, "./requirement": 307, "./shared": 309}],
-  305: [function (require, module, exports) {
+  }, {"./css": 306, "./requirement": 310, "./shared": 312}],
+  308: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -7779,13 +8037,14 @@ function firstDroppable(editable) {
 
     exports.default = Group;
 
-  }, {"./composite": 301}],
-  306: [function (require, module, exports) {
+  }, {"./composite": 304}],
+  309: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
+    exports.newNested = exports.newInside = exports.newColumn = exports.newRow = exports.updateRow = exports.removeDiv = undefined;
 
     var _responsive = require("./responsive");
 
@@ -7798,12 +8057,6 @@ function firstDroppable(editable) {
         }
       });
     });
-    exports.removeDiv = removeDiv;
-    exports.updateRow = updateRow;
-    exports.newRow = newRow;
-    exports.newColumn = newColumn;
-    exports.newInside = newInside;
-    exports.newNested = newNested;
 
     var _shared = require("./shared");
 
@@ -7825,6 +8078,14 @@ function firstDroppable(editable) {
         return newObj;
       }
     }
+
+    exports.removeDiv = removeDiv;
+    exports.updateRow = updateRow;
+    exports.newRow = newRow;
+    exports.newColumn = newColumn;
+    exports.newInside = newInside;
+    exports.newNested = newNested;
+
 
     /**
      * A simple (but awesome) recursive function to delete 'future-empty' after nesting
@@ -7872,7 +8133,7 @@ function firstDroppable(editable) {
         if (functionsList.length !== 1) {
           functionsList.push(function () {
             updateRow(origin);
-      });
+          });
     }
 
         functionsList.push(function () {
@@ -7990,8 +8251,8 @@ function firstDroppable(editable) {
       });
     }
 
-  }, {"./responsive": 308, "./shared": 309}],
-  307: [function (require, module, exports) {
+  }, {"./responsive": 311, "./shared": 312}],
+  310: [function (require, module, exports) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -8083,7 +8344,7 @@ function firstDroppable(editable) {
     exports.default = Requirement;
 
   }, {}],
-  308: [function (require, module, exports) {
+  311: [function (require, module, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8091,11 +8352,13 @@ Object.defineProperty(exports, "__esModule", {
 });
     exports.getColumnSize = getColumnSize;
     exports.setColumnSize = setColumnSize;
+
     /**
      *
      * @param count
      * @returns {{small: number, medium: number, large: number}}
      */
+
     function getDefaultValues(count) {
       var values = void 0;
 
@@ -8115,15 +8378,17 @@ Object.defineProperty(exports, "__esModule", {
         default:
           break;
       }
+      console.log();
       return values;
     }
 
     /**
      *
      * @param column
+     * @param sizesList
      * @returns {*}
      */
-    function getColumnSize(column) {
+    function getColumnSize(column, sizesList) {
       var size = {};
       var cls = column.attr('class').split(' ');
 
@@ -8145,8 +8410,9 @@ Object.defineProperty(exports, "__esModule", {
      *
      * @param column
      * @param count
+     * @param sizesList
      */
-    function setColumnSize(column, count) {
+    function setColumnSize(column, count, sizesList) {
       var size = void 0;
 
       if (Number.isInteger(count)) size = getDefaultValues(count); else size = count;
@@ -8169,24 +8435,26 @@ Object.defineProperty(exports, "__esModule", {
     }
 
   }, {}],
-  309: [function (require, module, exports) {
+  312: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
     exports.hasOneChildOnly = hasOneChildOnly;
+
     /**
      *
      * @param row
      * @returns {boolean}
      */
+
     function hasOneChildOnly(row) {
       return row.children().not(".ui-draggable-dragging").length === 1 && row.children(".ui-draggable-dragging").length === 1;
     }
 
   }, {}],
-  310: [function (require, module, exports) {
+  313: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -8294,8 +8562,8 @@ Object.defineProperty(exports, "__esModule", {
 
     exports.default = Structure;
 
-  }, {"./composite": 301}],
-  311: [function (require, module, exports) {
+  }, {"./composite": 304}],
+  314: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -8557,8 +8825,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     };
 // Invoke: namespace.singleton().amethod()
 
-  }, {"./component": 300, "./group": 305, "./structure": 310}],
-  312: [function (require, module, exports) {
+  }, {"./component": 303, "./group": 308, "./structure": 313}],
+  315: [function (require, module, exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -8650,5 +8918,5 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   div.toolbox("newPLB");
 }
 
-  }, {"./tool": 311}]
+  }, {"./tool": 314}]
 }, {}, [299]);

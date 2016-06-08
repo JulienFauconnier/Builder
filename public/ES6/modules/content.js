@@ -1,5 +1,7 @@
 import * as layout from "./layout";
 import * as droppable from "./droppable";
+import Bootstrap3 from "./base/bootstrap3";
+import Foundation6 from "./base/foundation6";
 
 export default function init(div) {
   $.widget('plb.content', {
@@ -10,6 +12,7 @@ export default function init(div) {
     draggables: null,
     editing: false,
     dragging: false,
+    base: null,
     _create() {
       if (this.options.debug) {
         this.element.addClass("debug");
@@ -156,7 +159,6 @@ export default function init(div) {
      */
     initSelectables(selectables) {
       const that = this;
-      console.log(`HODOR ! ${selectables}`);
       selectables.selectable({
         selected(event, ui) {
           // TODO: Other possibility -> Add elements to list, then generate options
@@ -258,22 +260,24 @@ export default function init(div) {
     },
 
     test() {
+      const that = this;
+
       $.ui.selectable.prototype._mouseStart = function (event) {
         if ($(event.target).hasClass('draggable-del')) {
           return;
         }
 
         let that = this,
-          options = this.options;
+          options = that.options;
 
         this.opos = [event.pageX, event.pageY];
-        this.elementPos = $(this.element[0]).offset();
+        this.elementPos = $(that.element[0]).offset();
 
-        if (this.options.disabled) {
+        if (that.options.disabled) {
           return;
         }
 
-        this.selectees = $(options.filter, this.element[0]);
+        this.selectees = $(options.filter, that.element[0]);
 
         this._trigger("start", event);
 
@@ -332,8 +336,6 @@ export default function init(div) {
             return false;
           }
         });
-
-
       }
     },
 
@@ -341,11 +343,18 @@ export default function init(div) {
      *
      */
     newPLB() {
+      if (this.options.base === "bootstrap3") {
+        this.base = new Bootstrap3("row", "");
+      }
+      else {
+        this.base = new Foundation6("row", "column");
+      }
+
       this.test();
       this.initDraggables(this.draggables);
     }
   });
 
-  div.content({debug: true});
+  div.content({debug: false});
   div.content("newPLB");
 }

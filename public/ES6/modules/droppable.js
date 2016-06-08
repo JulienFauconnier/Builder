@@ -2,6 +2,7 @@ import * as shared from "./shared";
 import rq from "./requirement";
 import getCSSValues from "./css";
 
+export {createDroppables, firstDroppable};
 
 /**
  *
@@ -132,7 +133,7 @@ function createNestingDroppables(droppablesContainer) {
  *
  * @param editable
  */
-export function createDroppables(editable) {
+function createDroppables(editable) {
   const droppablesContainer = $("<div>", {class: "droppables-container"}),
     nestedDroppablesContainer = $("<div>", {class: "droppables-container-nested"});
 
@@ -149,7 +150,7 @@ export function createDroppables(editable) {
  *
  * @param editable
  */
-export function firstDroppable(editable) {
+function firstDroppable(editable) {
   const droppablesContainer = $("<div>", {class: "droppables-container"});
 
   const droppableRow = $("<div>", {

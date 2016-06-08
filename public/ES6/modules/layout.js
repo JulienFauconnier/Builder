@@ -1,6 +1,7 @@
 import * as shared from "./shared";
 import * as resp from "./responsive";
 
+export {removeDiv, updateRow, newRow, newColumn, newInside, newNested};
 export * from "./responsive"
 
 /**
@@ -9,7 +10,7 @@ export * from "./responsive"
  * @param element
  * @returns {*}
  */
-export function removeDiv(element) {
+function removeDiv(element) {
   let eParent = element.parent();
 
   if (eParent.children().length < 2)
@@ -22,7 +23,7 @@ export function removeDiv(element) {
  *
  * @param row
  */
-export function updateRow(row) {
+function updateRow(row) {
   const childrenCount = row.children().not(".ui-draggable-dragging").length,
     columns = row.children();
 
@@ -71,7 +72,7 @@ function prepareContainersOperations(containers, type) {
  * @param droppable
  * @param ui
  */
-export function newRow(droppable, ui) {
+function newRow(droppable, ui) {
   const containers = [ui.draggable.parent(), droppable.data("row").parent()],
     updateList = prepareContainersOperations(containers, "row"),
     draggablesContainer = $("<div>", {class: "row draggables-container"});
@@ -92,7 +93,7 @@ export function newRow(droppable, ui) {
  * @param droppable
  * @param ui
  */
-export function newColumn(droppable, ui) {
+function newColumn(droppable, ui) {
   const containers = [ui.draggable.parent(), droppable.data("column").parent()],
     updateList = prepareContainersOperations(containers, "column");
 
@@ -132,7 +133,7 @@ function wrappingRowIntoColumn(droppable, draggable) {
  * @param droppable
  * @param ui
  */
-export function newInside(droppable, ui) {
+function newInside(droppable, ui) {
   const containers = [ui.draggable.parent(), droppable.data("column").parent()],
     updateList = prepareContainersOperations(containers, "column");
 
@@ -152,7 +153,7 @@ export function newInside(droppable, ui) {
  * @param droppable
  * @param ui
  */
-export function newNested(droppable, ui) {
+function newNested(droppable, ui) {
   const containers = [ui.draggable.parent(), droppable.data("row").parent()],
     updateList = prepareContainersOperations(containers, "row"),
     draggablesContainer = $("<div>", {class: "row"});
