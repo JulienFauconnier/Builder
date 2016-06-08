@@ -1,0 +1,29 @@
+*,
+:after,
+:before {
+  box-sizing: inherit;
+}
+
+.draggable-model {
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 1px solid #2199e8;
+  border-radius: 0;
+  color: #2199e8;
+  cursor: pointer;
+  display: block;
+  font-size: .75rem;
+  line-height: 1;
+  margin: 0 0 1rem;
+  padding: .33333rem .5rem;
+  text-align: center;
+  transition: background-color .25s ease-out, color .25s ease-out;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 100%;
+
+  &:focus,
+  &:hover {
+    background-color: transparent;
+  }
+}

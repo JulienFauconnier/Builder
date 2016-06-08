@@ -6988,10 +6988,6 @@ exports.default = init;
 
     var layout = _interopRequireWildcard(_layout);
 
-    var _responsive = require("./responsive");
-
-    var resp = _interopRequireWildcard(_responsive);
-
     var _droppable = require("./droppable");
 
     var droppable = _interopRequireWildcard(_droppable);
@@ -7001,7 +6997,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function init(div) {
   $.widget('plb.content', {
     options: {
-      debug: false
+      debug: false,
+      base: "bootstrap3"
     },
     draggables: null,
     editing: false,
@@ -7163,6 +7160,7 @@ function init(div) {
       console.log("HODOR ! " + selectables);
       selectables.selectable({
         selected: function selected(event, ui) {
+          // TODO: Other possibility -> Add elements to list, then generate options
           var nOption = $("<p>", {text: "ttt", class: "option", "data-target": ui});
           nOption.appendTo($(".nSetting"));
         },
@@ -7353,11 +7351,11 @@ function init(div) {
     }
   });
 
-  div.content({ debug: false });
+  div.content({debug: true});
   div.content("newPLB");
 }
 
-  }, {"./droppable": 304, "./layout": 306, "./responsive": 308}],
+  }, {"./droppable": 304, "./layout": 306}],
   303: [function (require, module, exports) {
     "use strict";
 
@@ -7788,6 +7786,18 @@ function firstDroppable(editable) {
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
+
+    var _responsive = require("./responsive");
+
+    Object.keys(_responsive).forEach(function (key) {
+      if (key === "default") return;
+      Object.defineProperty(exports, key, {
+        enumerable: true,
+        get: function get() {
+          return _responsive[key];
+        }
+      });
+    });
     exports.removeDiv = removeDiv;
     exports.updateRow = updateRow;
     exports.newRow = newRow;
@@ -7798,8 +7808,6 @@ function firstDroppable(editable) {
     var _shared = require("./shared");
 
     var shared = _interopRequireWildcard(_shared);
-
-    var _responsive = require("./responsive");
 
     var resp = _interopRequireWildcard(_responsive);
 
@@ -8588,7 +8596,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
           jQuery.each(components, function (index, component) {
             li = $("<li>");
             li.data("data", component.toHTML());
-            span = $("<span>", {class: "label small expanded hollow button"});
+            span = $("<span>", {class: "draggable-model"});
             span.text(component.name);
             li.append(span);
             $("#componentsContainer").append(li);
@@ -8597,7 +8605,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
           jQuery.each(structures, function (index, structure) {
             li = $("<li>");
             li.data("data", structure.toHTML());
-            span = $("<span>", {class: "label small expanded hollow button"});
+            span = $("<span>", {class: "draggable-model"});
             span.text(structure.name);
             li.append(span);
             $("#structuresContainer").append(li);
@@ -8606,7 +8614,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
           jQuery.each(groups, function (index, group) {
             li = $("<li>");
             li.data("data", group.toHTML());
-            span = $("<span>", {class: "label small expanded hollow button"});
+            span = $("<span>", {class: "draggable-model"});
             span.text(group.name);
             li.append(span);
             $("#groupsContainer").append(li);

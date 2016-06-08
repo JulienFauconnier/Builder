@@ -22,7 +22,7 @@ export default function init(div) {
       jQuery.each(components, (index, component) => {
         li = $("<li>");
         li.data("data", component.toHTML());
-        span = $("<span>", {class: "label small expanded hollow button"});
+        span = $("<span>", {class: "draggable-model"});
         span.text(component.name);
         li.append(span);
         $("#componentsContainer").append(li);
@@ -31,7 +31,7 @@ export default function init(div) {
       jQuery.each(structures, (index, structure) => {
         li = $("<li>");
         li.data("data", structure.toHTML());
-        span = $("<span>", {class: "label small expanded hollow button"});
+        span = $("<span>", {class: "draggable-model"});
         span.text(structure.name);
         li.append(span);
         $("#structuresContainer").append(li);
@@ -40,7 +40,7 @@ export default function init(div) {
       jQuery.each(groups, (index, group) => {
         li = $("<li>");
         li.data("data", group.toHTML());
-        span = $("<span>", {class: "label small expanded hollow button"});
+        span = $("<span>", {class: "draggable-model"});
         span.text(group.name);
         li.append(span);
         $("#groupsContainer").append(li);

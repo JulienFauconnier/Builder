@@ -1,11 +1,11 @@
 import * as layout from "./layout";
-import * as resp from "./responsive";
 import * as droppable from "./droppable";
 
 export default function init(div) {
   $.widget('plb.content', {
     options: {
-      debug: false
+      debug: false,
+      base: "bootstrap3"
     },
     draggables: null,
     editing: false,
@@ -159,6 +159,7 @@ export default function init(div) {
       console.log(`HODOR ! ${selectables}`);
       selectables.selectable({
         selected(event, ui) {
+          // TODO: Other possibility -> Add elements to list, then generate options
           const nOption = $("<p>", {text: "ttt", class: "option", "data-target": ui});
           nOption.appendTo($(".nSetting"));
         },
@@ -345,6 +346,6 @@ export default function init(div) {
     }
   });
 
-  div.content({debug: false});
+  div.content({debug: true});
   div.content("newPLB");
 }

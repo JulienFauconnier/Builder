@@ -1,6 +1,8 @@
 import * as shared from "./shared";
 import * as resp from "./responsive";
 
+export * from "./responsive"
+
 /**
  * A simple (but awesome) recursive function to delete 'future-empty' after nesting
  * FIXME: Fix when removing by moving to another existing row
