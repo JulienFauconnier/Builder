@@ -6961,7 +6961,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         enumerable: true,
         get: function get() {
           return _base[key];
-        }
+    }
       });
     });
 
@@ -7406,6 +7406,7 @@ function init(div) {
     initSelectables: function initSelectables(selectables) {
       var that = this;
       selectables.selectable({
+        cancel: ".draggable-del",
         selected: function selected(event, ui) {
           // TODO: Other possibility -> Add elements to list, then generate options
           var nOption = $("<p>", {text: "ttt", class: "option", "data-target": ui});
@@ -7510,85 +7511,6 @@ function init(div) {
         });
       }
     },
-    test: function test() {
-      var that = this;
-
-      $.ui.selectable.prototype._mouseStart = function (event) {
-        if ($(event.target).hasClass('draggable-del')) {
-          return;
-        }
-
-        var that = this,
-          options = that.options;
-
-        this.opos = [event.pageX, event.pageY];
-        this.elementPos = $(that.element[0]).offset();
-
-        if (that.options.disabled) {
-          return;
-        }
-
-        this.selectees = $(options.filter, that.element[0]);
-
-        this._trigger("start", event);
-
-        $(options.appendTo).append(this.helper);
-
-        // position helper (lasso)
-        this.helper.css({
-          "left": event.pageX,
-          "top": event.pageY,
-          "width": 0,
-          "height": 0
-        });
-
-        if (options.autoRefresh) {
-          this.refresh();
-        }
-
-        this.selectees.filter(".ui-selected").each(function () {
-          var selectee = $.data(this, "selectable-item");
-          selectee.startselected = true;
-          if (!event.metaKey && !event.ctrlKey) {
-            selectee.$element.removeClass("ui-selected");
-            selectee.selected = false;
-            selectee.$element.addClass("ui-unselecting");
-            selectee.unselecting = true;
-
-            // selectable UNSELECTING callback
-            that._trigger("unselecting", event, {
-              unselecting: selectee.element
-            });
-          }
-        });
-
-        $(event.target).parents().addBack().each(function () {
-          var doSelect = void 0,
-            selectee = $.data(this, "selectable-item");
-
-          if (selectee) {
-            doSelect = !event.metaKey && !event.ctrlKey || !selectee.$element.hasClass("ui-selected");
-            $(selectee.$element).removeClass(doSelect ? "ui-unselecting" : "ui-selected").addClass(doSelect ? "ui-selecting" : "ui-unselecting");
-
-            selectee.unselecting = !doSelect;
-            selectee.selecting = doSelect;
-            selectee.selected = doSelect;
-
-            // selectable (UN)SELECTING callback
-            if (doSelect) {
-              that._trigger("selecting", event, {
-                selecting: selectee.element
-              });
-            } else {
-              that._trigger("unselecting", event, {
-                unselecting: selectee.element
-              });
-            }
-            return false;
-          }
-        });
-      };
-    },
 
 
     /**
@@ -7601,7 +7523,6 @@ function init(div) {
         this.base = new _foundation2.default("row", "column");
       }
 
-      this.test();
       this.initDraggables(this.draggables);
     }
   });
