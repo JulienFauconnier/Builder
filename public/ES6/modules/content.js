@@ -209,9 +209,9 @@ export default function init(div) {
             thisOne.dragging = true;
 
             next = $(this).next();
-            oldSize = resp.getColumnSize($(this)).medium;
+            oldSize = layout.getColumnSize($(this)).medium;
             oldSize = parseInt(oldSize.slice(7, oldSize.length));
-            oldNextSize = resp.getColumnSize(next).medium;
+            oldNextSize = layout.getColumnSize(next).medium;
             oldNextSize = parseInt(oldNextSize.slice(7, oldNextSize.length));
 
             const that = $(this).resizable("instance"), o = that.options;
@@ -226,8 +226,8 @@ export default function init(div) {
             newSize = parseInt(that.helper.width() / parseFloat(o.grid[0]));
             newNextSize = oldNextSize + (oldSize - newSize);
 
-            resp.setColumnSize($(this), {"medium": newSize, "large": newSize});
-            resp.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
+            layout.setColumnSize($(this), {"medium": newSize, "large": newSize});
+            layout.setColumnSize(next, {"medium": newNextSize, "large": newNextSize});
 
             $(this).css("width", "");
             $(this).css("height", "");
