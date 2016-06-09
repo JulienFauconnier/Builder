@@ -163,15 +163,20 @@ export default function init(div) {
         cancel: ".draggable-del",
         selected(event, ui) {
           // TODO: Other possibility -> Add elements to list, then generate options
-          const nOption = $("<p>", {text: "ttt", class: "option", "data-target": ui});
+          let settings;
           let child = ui.selected.children;
+          
           jQuery.each(child, (key, element) => {
-            window.console.log(`${key}: ${element}`);
-            //$(".nSettings").append("<dd name='." + key + "' class='accordion-navigation'><a href='#" + key + "_acc'>" + key + "</a><div id='" + key + "_acc' class='content'>" + toolList("." + key, classList[key]) + "</div></dd>");
-            if (true) {
-              //$('.nSettings').append(toolList(this));
-              $('.nSetting').append(nOption);
-            }
+            let option;
+            window.console.log(element.tagName);
+            /*
+             settings = parametersList[element.tagName];
+             for (let setting of settings) {
+             option = $(".nSettings").append("<dd name='." + key + "' class='accordion-navigation'><a href='#" + key + "_acc'>" + key + "</a><div id='" + key + "_acc' class='content'>" + toolList("." + key, classList[key]) + "</div></dd>");
+             option.data("target", ui.selected);
+             option.appendTo();
+             }
+             */
           });
         },
         unselected(event, ui) {

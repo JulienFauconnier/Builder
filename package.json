@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "build": "browserify public/ES6/app.js -t babelify --outfile public/javascripts/app.js"
+    "build": "browserify public/ES6/app.js --debug -t [ babelify --sourceMaps ] --outfile public/javascripts/app.js"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
