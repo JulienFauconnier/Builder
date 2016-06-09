@@ -164,10 +164,18 @@ export default function init(div) {
         selected(event, ui) {
           // TODO: Other possibility -> Add elements to list, then generate options
           const nOption = $("<p>", {text: "ttt", class: "option", "data-target": ui});
-          nOption.appendTo($(".nSetting"));
+          let child = ui.selected.children;
+          jQuery.each(child, (key, element) => {
+            window.console.log(`${key}: ${element}`);
+            //$(".nSettings").append("<dd name='." + key + "' class='accordion-navigation'><a href='#" + key + "_acc'>" + key + "</a><div id='" + key + "_acc' class='content'>" + toolList("." + key, classList[key]) + "</div></dd>");
+            if (true) {
+              //$('.nSettings').append(toolList(this));
+              $('.nSetting').append(nOption);
+            }
+          });
         },
         unselected(event, ui) {
-          $(".nSetting").children().remove();
+          $(".nSetting").empty();
           // FIXME: Remove when column delete
           // FIXME: Remove when row delete
         }

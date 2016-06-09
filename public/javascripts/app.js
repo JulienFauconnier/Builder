@@ -7410,10 +7410,18 @@ function init(div) {
         selected: function selected(event, ui) {
           // TODO: Other possibility -> Add elements to list, then generate options
           var nOption = $("<p>", {text: "ttt", class: "option", "data-target": ui});
-          nOption.appendTo($(".nSetting"));
+          var child = ui.selected.children;
+          jQuery.each(child, function (key, element) {
+            window.console.log(key + ": " + element);
+            //$(".nSettings").append("<dd name='." + key + "' class='accordion-navigation'><a href='#" + key + "_acc'>" + key + "</a><div id='" + key + "_acc' class='content'>" + toolList("." + key, classList[key]) + "</div></dd>");
+            if (true) {
+              //$('.nSettings').append(toolList(this));
+              $('.nSetting').append(nOption);
+            }
+          });
         },
         unselected: function unselected(event, ui) {
-          $(".nSetting").children().remove();
+          $(".nSetting").empty();
           // FIXME: Remove when column delete
           // FIXME: Remove when row delete
         }
