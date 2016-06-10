@@ -78,6 +78,7 @@ $new-inside-ab-color4: rgba(255, 255, 255, 0);
   font-size: 24px;
   position: absolute;
   top: 0;
+  z-index: 1000;
 }
 
 .draggable-move {
