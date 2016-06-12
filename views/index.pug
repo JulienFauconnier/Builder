@@ -1,9 +1,9 @@
-extends layout
+extends layout.pug
 
 block content
   div(class='off-canvas-wrapper')
     div(class='off-canvas-wrapper-inner' data-off-canvas-wrapper)
       div(class='off-canvas position-left reveal-for-large' data-off-canvas)
-        include ./includes/menu.jade
+        include includes/menu.pug
 
       div(class='off-canvas-content' data-off-canvas-content)

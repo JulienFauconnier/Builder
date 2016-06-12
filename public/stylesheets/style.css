@@ -18,13 +18,11 @@
   position: absolute; }
 
 .ui-selectable .ui-selecting {
-  background: #feca40;
-}
+  background: #feca40; }
 
 .ui-selectable .ui-selected {
   background: #f39814;
-  color: #fff;
-}
+  color: #fff; }
 
 .ui-resizable-e {
   cursor: ew-resize; }
@@ -43,8 +41,7 @@
   font-size: 24px;
   position: absolute;
   top: 0;
-  z-index: 1000;
-}
+  z-index: 1000; }
 
 .draggable-move {
   color: #00f;
@@ -88,25 +85,18 @@
 *,
 :after,
 :before {
-  box-sizing: inherit;
-}
+  box-sizing: inherit; }
 
 .off-canvas-wrapper {
-  height: 100%;
-}
-
-.off-canvas-wrapper-inner {
-  height: 100%;
-  overflow-y: scroll;
-}
+  height: 100%; }
+  .off-canvas-wrapper-inner {
+    height: 100%;
+    overflow-y: scroll; }
 
 .off-canvas.position-left {
-  height: 100%;
-}
-
-.off-canvas.position-left ul {
-  margin-left: 0;
-}
+  height: 100%; }
+  .off-canvas.position-left ul {
+    margin-left: 0; }
 
 .draggable-model {
   -webkit-appearance: none;
@@ -124,12 +114,9 @@
   transition: background-color .25s ease-out, color .25s ease-out;
   vertical-align: middle;
   white-space: nowrap;
-  width: 100%;
-}
-
-.draggable-model:focus, .draggable-model:hover {
-  background-color: transparent;
-}
+  width: 100%; }
+  .draggable-model:focus, .draggable-model:hover {
+    background-color: transparent; }
 
 .debug > .droppables-container > .droppable {
   opacity: .5;
