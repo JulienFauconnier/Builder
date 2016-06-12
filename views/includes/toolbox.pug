@@ -1,4 +1,4 @@
-//- includes/toolbox.jade
+//- includes/toolbox.pug
 ul(class='tabs' data-tabs id='tabs')
     li(class='tabs-title is-active')
         a(href='#panel1' aria-selected='true') Test
@@ -7,6 +7,6 @@ ul(class='tabs' data-tabs id='tabs')
 
 div(class='tabs-content' data-tabs-content='tabs')
     ul(class='tabs-panel is-active' id='panel1') Toolbox
-        include ./toolbox/_models.jade
+        include ./toolbox/_models.pug
     ul(class="tabs-panel" id="panel2") Settings
-        include ./toolbox/_settings.jade
+        include ./toolbox/_settings.pug
