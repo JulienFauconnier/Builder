@@ -3,35 +3,43 @@
  */
 
 let paramList = {
-  'p': ["color", "font-size", "margin", "padding", "letter-spacing", "line-height", "text-align",
+  'P': ["color", "font-size", "margin", "padding", "letter-spacing", "line-height", "text-align",
     "text-transform", "text-shadow", "font-weight"],
-  'a': ["background-color", "border", "border-radius", "color", "margin", "padding", "letter-spacing",
+  'A': ["background-color", "border", "border-radius", "color", "margin", "padding", "letter-spacing",
     "line-height", "text-align", "text-transform", "text-shadow", "font-weight"],
-  'h1': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
+  'H1': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
     "text-align", "text-transform", "text-shadow", "font-weight"],
-  'h2': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
+  'H2': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
     "text-align", "text-transform", "text-shadow", "font-weight"],
-  'h3': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
+  'H3': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
     "text-align", "text-transform", "text-shadow", "font-weight"],
-  'h4': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
+  'H4': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
     "text-align", "text-transform", "text-shadow", "font-weight"],
-  'h5': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
+  'H5': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
     "text-align", "text-transform", "text-shadow", "font-weight"],
-  'h6': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
+  'H6': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
     "text-align", "text-transform", "text-shadow", "font-weight"],
-  'div': ["background", "margin", "padding", "border", "border-radius", "box-shadow"],
-  'img': ["margin", "border-radius", "opacity", "width"],
-  'label': ["color", "font-size", "text-shadow", "text-transform"],
-  'input': ["background-color", "color", "font-size", "border", "border-radius", "box-shadow", "font-size",
+  'DIV': ["background", "margin", "padding", "border", "border-radius", "box-shadow"],
+  'IMG': ["margin", "border-radius", "opacity", "width"],
+  'LABEL': ["color", "font-size", "text-shadow", "text-transform"],
+  'INPUT': ["background-color", "color", "font-size", "border", "border-radius", "box-shadow", "font-size",
     "margin", "padding", "text-align"],
-  'select': ["background-color", "border", "border-radius", "box-shadow", "font-size", "margin", "padding",
+  'SELECT': ["background-color", "border", "border-radius", "box-shadow", "font-size", "margin", "padding",
     "text-align"],
-  'textarea': ["background-color", "border", "border-radius", "box-shadow", "font-size", "height", "margin",
+  'TEXTAREA': ["background-color", "border", "border-radius", "box-shadow", "font-size", "height", "margin",
     "padding", "text-align"],
-  'option': ["background-color", "color", "font-size", "text-transform"],
-  'button': ["background-color", "color", "font-size", "margin", "padding", "border", "border-radius",
+  'OPTION': ["background-color", "color", "font-size", "text-transform"],
+  'BUTTON': ["background-color", "color", "font-size", "margin", "padding", "border", "border-radius",
     "box-shadow", "font-weight", "text-transform", "text-shadow", "opacity"]
 };
+
+/**
+ *
+ * @returns {{P: string[], A: string[], H1: string[], H2: string[], H3: string[], H4: string[], H5: string[], H6: string[], DIV: string[], IMG: string[], LABEL: string[], INPUT: string[], SELECT: string[], TEXTAREA: string[], OPTION: string[], BUTTON: string[]}}
+ */
+export function getCustomizables() {
+  return paramList;
+}
 
 let optList = {
   'font-weight': ["normal", "bold", "bolder", "lighter", "initial", "inherit"],
@@ -42,20 +50,22 @@ let optList = {
 /*
  * Liste des Options
  */
-function optionList(select, defopt) {
+export function optionList(select, default_option) {
   var options = "";
   for (var i = 0; i < optList[select].length; i++) {
     options += "<option value='" + optList[select][i] + "' ";
-    if (defopt === optList[select][i]) {
+    if (default_option === optList[select][i]) {
       options += "selected"
     }
     options += ">" + optList[select][i] + "</option>";
   }
   return options;
 }
+
 /*
  * Liste des Outils
  */
+/*
 function toolList(target, typet) {
   var contenu = "";
   for (var i = 0; i < paramList[typet].length; i++) {
@@ -69,6 +79,7 @@ function toolList(target, typet) {
   }
   return contenu;
 }
+ */
 
 /*
  * Assignation des champs

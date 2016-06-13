@@ -1,5 +1,6 @@
 import * as layout from "./layout";
 import * as droppable from "./droppable";
+import * as settings from "./settings";
 import Bootstrap3 from "./base/bootstrap3";
 import Foundation6 from "./base/foundation6";
 
@@ -13,6 +14,7 @@ export default function init(div) {
     editing: false,
     dragging: false,
     base: null,
+    customizable: settings.getCustomizables(),
     _create() {
       if (this.options.debug) {
         this.element.addClass("debug");
@@ -47,7 +49,7 @@ export default function init(div) {
               if ($(this).children(":first").hasClass("tiny-mce") && !that.editing) {
                 that.editing = true;
                 $(this).tinymce({
-                  script_url: '../bower_components/tinymce/tinymce.jquery.min.js',
+                  script_url: 'javascripts/lib/tinymce/tinymce.jquery.min.js',
                   inline: true,
                   setup(editor) {
                     editor.on('focus', () => {
@@ -155,7 +157,6 @@ export default function init(div) {
 
     /**
      *
-     * @param selectables
      */
     initSelectables() {
       const that = this;
@@ -168,11 +169,31 @@ export default function init(div) {
           let elements = ui.selected.children;
 
           jQuery.each(elements, (index, value) => {
-            let list = $("<p>");
-            //let option = getOptions();
-            //option.appendTo(list);
-            list.data("target", value);
-            list.appendTo($(".nSetting"));
+            if (that.customizable[value.tagName] !== undefined) {
+              let list = $("<p>");
+              for (var i = 0; i < that.customizable[value.tagName].length; i++) {
+                let label = $("<label>", {text: that.customizable[value.tagName][i]});
+                let input;
+
+                if (that.customizable[value.tagName][i] === "text-align" || that.customizable[value.tagName][i] === "text-transform" || that.customizable[value.tagName][i] === "font-weight") {
+                  input = $("<select>");
+                  //let option = settings.optionList(that.customizable[value.tagName][i]);
+                  //option.appendTo(input);
+                } else if (that.customizable[value.tagName][i] === "background") {
+                  input = $("<input>");
+                } else {
+                  input = $("<input>");
+                }
+
+                input.appendTo(label);
+                label.appendTo(list);
+              }
+
+              //let option = getOptions();
+              //option.appendTo(list);
+              list.data("target", value);
+              list.appendTo($(".nSetting"));
+            }
           });
         },
         unselected(event, ui) {
