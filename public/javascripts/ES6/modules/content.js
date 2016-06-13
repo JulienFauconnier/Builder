@@ -32,7 +32,7 @@ export default function init(div) {
         droppable.createDroppables(this.element);
       }
 
-      const that = this, droppables = $(".droppables-container .droppable, .droppables-container-nested .droppable");
+      const that = this, droppables = $(".droppable");
 
       droppables.droppable({
         hoverClass: "drop-hover",
@@ -44,32 +44,6 @@ export default function init(div) {
           if (parent.is("ul")) {
             ui.draggable = $("<div>", {class: "columns draggable"}).append(content.clone());
             that.initDraggables(ui.draggable);
-            ui.draggable.dblclick(function () {
-              $(this).enableSelection();
-              if ($(this).children(":first").hasClass("tiny-mce") && !that.editing) {
-                that.editing = true;
-                $(this).tinymce({
-                  script_url: 'javascripts/lib/tinymce/tinymce.jquery.min.js',
-                  inline: true,
-                  setup(editor) {
-                    editor.on('focus', () => {
-                      that.editing = true;
-                    });
-
-                    editor.on('blur', () => {
-                      that.editing = false;
-                      ui.draggable.disableSelection();
-                      tinymce.remove();
-                    });
-                  }
-                });
-
-                const targetToFocus = $(this);
-                setTimeout(() => {
-                  targetToFocus.focus();
-                }, 10)
-              }
-            });
           }
 
           if ($(this).is('[class*="new-row"]')) {
@@ -94,15 +68,15 @@ export default function init(div) {
     initDraggables(draggables) {
       const that = this;
 
-      draggables.disableSelection();
-
       draggables.hover(function () {
         const thisOne = this;
         if (!that.editing && !that.dragging) {
           const dragHandle = $("<div>", {class: "draggable-move icon-arrows"});
           const delHandle = $("<div>", {class: "draggable-del icon-trash"});
+          const editHandle = $("<div>", {class: "draggable-edit icon-pencil"});
           $(this).append(dragHandle);
           $(this).append(delHandle);
+          $(this).append(editHandle);
           $(".draggable-del").click(function () {
 
             const parentRow = $(this).parent().parent();
@@ -117,6 +91,34 @@ export default function init(div) {
               layout.removeDiv(parentRow).remove();
             }
           });
+          $(".draggable-edit").click(function () {
+            const edit = $(this);
+            div.selectable("disable");
+
+            if ($(this).children(":first").hasClass("tiny-mce") && !that.editing) {
+              that.editing = true;
+              $(this).tinymce({
+                script_url: 'javascripts/lib/tinymce/tinymce.jquery.min.js',
+                inline: true,
+                setup(editor) {
+                  editor.on('focus', () => {
+                    that.editing = true;
+                  });
+
+                  editor.on('blur', () => {
+                    that.editing = false;
+                    div.selectable("enable");
+                    tinymce.remove();
+                  });
+                }
+              });
+
+              const targetToFocus = $(this);
+              setTimeout(() => {
+                targetToFocus.focus();
+              }, 10)
+            }
+          });
 
           if (!$(this).is(':last-child')) {
             that.createHorizontalResizable($(this));
@@ -126,6 +128,7 @@ export default function init(div) {
       }, function () {
         $(".draggable-move").remove();
         $(".draggable-del").remove();
+        $(".draggable-edit").remove();
         $(this).next().removeClass("resizable-reverse");
       });
 
@@ -161,21 +164,26 @@ export default function init(div) {
     initSelectables() {
       const that = this;
       div.selectable({
-        cancel: ".draggable-del .draggable-move, .ui-resizable-handle",
+        cancel: ".draggable-del .draggable-move, .draggable-edit, .ui-resizable-handle",
         filter: $('.draggables-container').children('.draggable'),
         selected(event, ui) {
+          $(".nSetting").empty();
+
           // TODO: Other possibility -> Add elements to list, then generate options
-          let settings;
           let elements = ui.selected.children;
 
           jQuery.each(elements, (index, value) => {
             if (that.customizable[value.tagName] !== undefined) {
-              let list = $("<p>");
+              let list = $("<ul>", {text: value.tagName});
+
               for (var i = 0; i < that.customizable[value.tagName].length; i++) {
+                let option = $("<li>");
                 let label = $("<label>", {text: that.customizable[value.tagName][i]});
                 let input;
 
-                if (that.customizable[value.tagName][i] === "text-align" || that.customizable[value.tagName][i] === "text-transform" || that.customizable[value.tagName][i] === "font-weight") {
+                if (that.customizable[value.tagName][i] === "text-align"
+                  || that.customizable[value.tagName][i] === "text-transform"
+                  || that.customizable[value.tagName][i] === "font-weight") {
                   input = $("<select>");
                   //let option = settings.optionList(that.customizable[value.tagName][i]);
                   //option.appendTo(input);
@@ -186,14 +194,22 @@ export default function init(div) {
                 }
 
                 input.appendTo(label);
-                label.appendTo(list);
+                label.appendTo(option);
+                option.appendTo(list);
               }
 
               //let option = getOptions();
               //option.appendTo(list);
+              list.data("function", $(this).css);
               list.data("target", value);
               list.appendTo($(".nSetting"));
             }
+          });
+
+          $('#panel2 input, select, textarea').on("change input", function () {
+            let fun = $(this).parent().parent().parent().data("function");
+            let target = $(this).parent().parent().parent().data("target");
+            fun.apply($(target), ["color", $(this).val()]);
           });
         },
         unselected(event, ui) {

@@ -1,6 +1,6 @@
 # Builder
+[![Build Status](https://travis-ci.com/JulienFauconnier/Builder.svg?token=dtQrr7GcBSXqBHdxHGqx&branch=master)](https://travis-ci.com/JulienFauconnier/Builder)
 
-This is a builder.
 It includes a Sass compiler.
 
 ## Installation

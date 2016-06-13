@@ -7,6 +7,7 @@ $draggable-clone-background: #fff;
 $draggable-clone-border-color: #000;
 $draggable-move-color: #00f;
 $draggable-del-color: #f00;
+$draggable-edit-color: #008000;
 
 $new-nested-ba-color1: rgba(142, 62, 12, 0);
 $new-nested-ba-color2: rgba(142, 62, 12, .8);
@@ -74,20 +75,28 @@ $new-inside-ab-color4: rgba(255, 255, 255, 0);
 }
 
 .draggable-move,
-.draggable-del {
+.draggable-del,
+.draggable-edit {
   font-size: 24px;
   position: absolute;
-  top: 0;
   z-index: 1000;
 }
 
 .draggable-move {
   color: $draggable-move-color;
   left: 0;
+  top: 0;
 }
 
 .draggable-del {
   color: $draggable-del-color;
+  right: 0;
+  top: 0;
+}
+
+.draggable-edit {
+  bottom: 0;
+  color: $draggable-edit-color;
   right: 0;
 }
 

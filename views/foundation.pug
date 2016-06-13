@@ -8,22 +8,7 @@ block content
     div(class='off-canvas-wrapper')
         div(class='off-canvas-wrapper-inner' data-off-canvas-wrapper)
             div(class='off-canvas position-left reveal-for-large' id='toolbox' data-off-canvas)
-                ul(class='tabs' data-tabs id='tabs')
-                    li(class='tabs-title is-active')
-                        a(href='#panel1' aria-selected='true') Test
-                    li(class='tabs-title')
-                        a(href='#panel2') Settings
-
-                div(class='tabs-content' data-tabs-content='tabs')
-                    ul(class='tabs-panel is-active' id='panel1') Toolbox
-                        li Components
-                            ul(id='componentsContainer' class='vertical menu')
-                        li Structures
-                            ul(id='structuresContainer' class='vertical menu')
-                        li Presets
-                            ul(id='groupsContainer' class='vertical menu')
-                    ul(class="tabs-panel" id="panel2") Settings
-                        div(class="nSetting")
+                include includes/toolbox.pug
 
             div(class='off-canvas-content editable' id='editable-area' data-off-canvas-content)
 

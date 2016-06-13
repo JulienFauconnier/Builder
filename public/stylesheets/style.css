@@ -37,18 +37,27 @@
   z-index: 1000; }
 
 .draggable-move,
-.draggable-del {
+.draggable-del,
+.draggable-edit {
   font-size: 24px;
   position: absolute;
-  top: 0;
   z-index: 1000; }
 
 .draggable-move {
   color: #00f;
-  left: 0; }
+  left: 0;
+  top: 0;
+}
 
 .draggable-del {
   color: #f00;
+  right: 0;
+  top: 0;
+}
+
+.draggable-edit {
+  bottom: 0;
+  color: #008000;
   right: 0; }
 
 .resizable-helper {

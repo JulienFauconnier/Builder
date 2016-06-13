@@ -17,3 +17,6 @@ before_install:
 env:
   global:
     - NODE_ENV=development
+
+notifications:
+  email: false
