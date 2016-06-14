@@ -19,14 +19,23 @@ export default function init(div) {
       if (this.options.debug) {
         this.element.addClass("debug");
       }
+      this.updateDraggables();
+    },
+
+    /**
+     *
+     */
+    updateDraggables() {
       this.draggables = this.element.find(".draggable");
+      this.initDraggables(this.draggables);
+      this.createHandles(this.draggables);
     },
 
     /**
      *
      */
     initDroppables() {
-      if (this.element.children(".draggables-container").length < 1) {
+      if (this.element.children(".draggables-container, .droppables-container").length < 1) {
         droppable.firstDroppable(this.element);
       } else {
         droppable.createDroppables(this.element);
@@ -43,7 +52,7 @@ export default function init(div) {
 
           if (parent.is("ul")) {
             ui.draggable = $("<div>", {class: "columns draggable"}).append(content.clone());
-            that.initDraggables(ui.draggable);
+            //that.initDraggables(ui.draggable);
           }
 
           if ($(this).is('[class*="new-row"]')) {
@@ -55,6 +64,9 @@ export default function init(div) {
           } else if ($(this).is('[class*="new-nested"]')) {
             layout.newNested($(this), ui);
           }
+
+          that.updateDraggables();
+
           that.initSelectables();
         }
       });
@@ -67,70 +79,6 @@ export default function init(div) {
      */
     initDraggables(draggables) {
       const that = this;
-
-      draggables.hover(function () {
-        const thisOne = this;
-        if (!that.editing && !that.dragging) {
-          const dragHandle = $("<div>", {class: "draggable-move icon-arrows"});
-          const delHandle = $("<div>", {class: "draggable-del icon-trash"});
-          const editHandle = $("<div>", {class: "draggable-edit icon-pencil"});
-          $(this).append(dragHandle);
-          $(this).append(delHandle);
-          $(this).append(editHandle);
-          $(".draggable-del").click(function () {
-
-            const parentRow = $(this).parent().parent();
-            const update = parentRow.children().length > 1;
-
-            $(this).parent().remove();
-
-            if (update) {
-              layout.updateRow(parentRow);
-            }
-            else {
-              layout.removeDiv(parentRow).remove();
-            }
-          });
-          $(".draggable-edit").click(function () {
-            const edit = $(this);
-            div.selectable("disable");
-
-            if ($(this).children(":first").hasClass("tiny-mce") && !that.editing) {
-              that.editing = true;
-              $(this).tinymce({
-                script_url: 'javascripts/lib/tinymce/tinymce.jquery.min.js',
-                inline: true,
-                setup(editor) {
-                  editor.on('focus', () => {
-                    that.editing = true;
-                  });
-
-                  editor.on('blur', () => {
-                    that.editing = false;
-                    div.selectable("enable");
-                    tinymce.remove();
-                  });
-                }
-              });
-
-              const targetToFocus = $(this);
-              setTimeout(() => {
-                targetToFocus.focus();
-              }, 10)
-            }
-          });
-
-          if (!$(this).is(':last-child')) {
-            that.createHorizontalResizable($(this));
-            $(this).next().addClass("resizable-reverse");
-          }
-        }
-      }, function () {
-        $(".draggable-move").remove();
-        $(".draggable-del").remove();
-        $(".draggable-edit").remove();
-        $(this).next().removeClass("resizable-reverse");
-      });
 
       draggables.draggable({
         helper() {
@@ -209,7 +157,7 @@ export default function init(div) {
           $('#panel2 input, select, textarea').on("change input", function () {
             let fun = $(this).parent().parent().parent().data("function");
             let target = $(this).parent().parent().parent().data("target");
-            fun.apply($(target), ["color", $(this).val()]);
+            fun.apply($(target), ["background-color", $(this).val()]);
           });
         },
         unselected(event, ui) {
@@ -222,17 +170,94 @@ export default function init(div) {
 
     /**
      *
+     * @param draggables
+     */
+    createHandles(draggables) {
+      const that = this;
+
+      draggables.hover(function () {
+
+        if (!that.editing && !that.dragging) {
+          const dragHandle = $("<div>", {class: "draggable-move icon-arrows"});
+          const delHandle = $("<div>", {class: "draggable-del icon-trash"});
+          const editHandle = $("<div>", {class: "draggable-edit icon-pencil"});
+
+          $(this).append(dragHandle);
+          $(this).append(delHandle);
+          $(this).append(editHandle);
+
+          $(".draggable-del").click(function () {
+
+            const parentRow = $(this).parent().parent();
+            const update = parentRow.children().length > 1;
+
+            $(this).parent().remove();
+
+            if (update) {
+              layout.updateRow(parentRow);
+            }
+            else {
+              layout.removeDiv(parentRow).remove();
+            }
+          });
+
+          $(".draggable-edit").click(function () {
+            const edit = $(this).parent().children(":first");
+
+            if (edit.hasClass("tiny-mce") && !that.editing) {
+              that.editing = true;
+              edit.tinymce({
+                script_url: './lib/tinymce/tinymce.jquery.min.js',
+                inline: true,
+                setup(editor) {
+                  editor.on('focus', () => {
+                    that.editing = true;
+                    div.selectable("disable");
+                  });
+
+                  editor.on('blur', () => {
+                    that.editing = false;
+                    div.selectable("enable");
+                    tinymce.remove();
+                  });
+                }
+              });
+
+              setTimeout(() => {
+                edit.focus();
+              }, 10)
+            }
+            else {
+              window.console.log("ttt");
+            }
+          });
+
+          if (!$(this).is(':last-child')) {
+            that.createHorizontalResizable($(this));
+            $(this).next().addClass("resizable-reverse");
+          }
+        }
+      }, function () {
+        $(".draggable-move").remove();
+        $(".draggable-del").remove();
+        $(".draggable-edit").remove();
+        $(this).next().removeClass("resizable-reverse");
+      });
+    },
+
+    /**
+     *
      * @param column
      */
     createHorizontalResizable(column) {
-      const thisOne = this;
+      const that = this;
       let next,
         oldSize,
         newSize,
         oldNextSize,
         newNextSize;
 
-      if (!thisOne.dragging) {
+      if (!that.dragging) {
         column.resizable({
           handles: 'e',
           distance: 10,
@@ -244,7 +269,7 @@ export default function init(div) {
             o.grid = [(parseInt($(this).parent().css("width")) / 12), 0];
           },
           start() {
-            thisOne.dragging = true;
+            that.dragging = true;
 
             next = $(this).next();
             oldSize = layout.getColumnSize($(this)).medium;
@@ -273,7 +298,7 @@ export default function init(div) {
             next.css("width", "");
             next.css("height", "");
 
-            thisOne.dragging = false;
+            that.dragging = false;
           }
         });
       }
@@ -283,6 +308,7 @@ export default function init(div) {
      *
      * @param row
      */
+    /*
     createVerticalResizable(row) {
       const that = this;
 
@@ -305,6 +331,7 @@ export default function init(div) {
         });
       }
     },
+     */
 
     /**
      *
@@ -316,8 +343,6 @@ export default function init(div) {
       else {
         this.base = new Foundation6("row", "column");
       }
-
-      this.initDraggables(this.draggables);
     }
   });
 

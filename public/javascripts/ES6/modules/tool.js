@@ -8,13 +8,13 @@ const shortLoremIpsum = "Wingardium Leviosa",
   loremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
 
 let parametersComponents = [
-  {id: "header1", name: "Header 1", tag: "h1", attributes: {"contenteditable": "true", "text": shortLoremIpsum}},
-  {id: "header2", name: "Header 2", tag: "h2", attributes: {"contenteditable": "true", "text": shortLoremIpsum}},
-  {id: "header3", name: "Header 3", tag: "h3", attributes: {"contenteditable": "true", "text": shortLoremIpsum}},
-  {id: "header4", name: "Header 4", tag: "h4", attributes: {"contenteditable": "true", "text": shortLoremIpsum}},
-  {id: "header5", name: "Header 5", tag: "h5", attributes: {"contenteditable": "true", "text": shortLoremIpsum}},
-  {id: "header6", name: "Header 6", tag: "h6", attributes: {"contenteditable": "true", "text": shortLoremIpsum}},
-  {id: "p", name: "Paragraphe", tag: "p", attributes: {"contenteditable": "true", "text": shortLoremIpsum}},
+  {id: "header1", name: "Header 1", tag: "h1", attributes: {class: "tiny-mce", "text": shortLoremIpsum}},
+  {id: "header2", name: "Header 2", tag: "h2", attributes: {class: "tiny-mce", "text": shortLoremIpsum}},
+  {id: "header3", name: "Header 3", tag: "h3", attributes: {class: "tiny-mce", "text": shortLoremIpsum}},
+  {id: "header4", name: "Header 4", tag: "h4", attributes: {class: "tiny-mce", "text": shortLoremIpsum}},
+  {id: "header5", name: "Header 5", tag: "h5", attributes: {class: "tiny-mce", "text": shortLoremIpsum}},
+  {id: "header6", name: "Header 6", tag: "h6", attributes: {class: "tiny-mce", "text": shortLoremIpsum}},
+  {id: "p", name: "Paragraphe", tag: "p", attributes: {class: "tiny-mce", "text": shortLoremIpsum}},
   {
     id: "rt", name: "Texte Riche", tag: "div", attributes: {
     class: "tiny-mce",
