@@ -227,9 +227,6 @@ export default function init(div) {
                 edit.focus();
               }, 10)
             }
-            else {
-              window.console.log("ttt");
-            }
           });
 
           if (!$(this).is(':last-child')) {
@@ -265,7 +262,7 @@ export default function init(div) {
           helper: "resizable-helper",
           ghost: true,
           create() {
-            const that = $(this).resizable("instance"), o = that.options;
+            const instance = $(this).resizable("instance"), o = instance.options;
             o.grid = [(parseInt($(this).parent().css("width")) / 12), 0];
           },
           start() {
@@ -277,16 +274,16 @@ export default function init(div) {
             oldNextSize = layout.getColumnSize(next).medium;
             oldNextSize = parseInt(oldNextSize.slice(7, oldNextSize.length));
 
-            const that = $(this).resizable("instance"), o = that.options;
+            const instance = $(this).resizable("instance"), o = instance.options;
 
             o.minWidth = o.grid[0];
             o.maxWidth = (oldSize + oldNextSize - 1) * o.minWidth;
           },
           stop() {
-            const that = $(this).resizable("instance"), o = that.options;
+            const instance = $(this).resizable("instance"), o = instance.options;
             next = $(this).next();
 
-            newSize = parseInt(that.helper.width() / parseFloat(o.grid[0]));
+            newSize = parseInt(instance.helper.width() / parseFloat(o.grid[0]));
             newNextSize = oldNextSize + (oldSize - newSize);
 
             layout.setColumnSize($(this), {"medium": newSize, "large": newSize});
