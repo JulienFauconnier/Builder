@@ -14,10 +14,10 @@ function recursive(element) {
   let Result = {"title": '', "json": {}};
   let json = {};
   let cur_json_key = '';
-  if (element.nodeType == 3)
+  if (element.nodeType == 3) {
 
-  else
-  {
+  }
+  else {
     //console.log( element.nodeType, element );
 
     var nodeName = element.nodeName.toLowerCase();
