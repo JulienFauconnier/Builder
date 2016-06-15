@@ -186,7 +186,7 @@ export default function init(div) {
           $(this).append(delHandle);
           $(this).append(editHandle);
 
-          $(".draggable-del").click(function () {
+          $(".draggable-del").on("click", function () {
 
             const parentRow = $(this).parent().parent();
             const update = parentRow.children().length > 1;
@@ -201,7 +201,7 @@ export default function init(div) {
             }
           });
 
-          $(".draggable-edit").click(function () {
+          $(".draggable-edit").on("click", function () {
             const edit = $(this).parent().children(":first");
 
             if (edit.hasClass("tiny-mce") && !that.editing) {
@@ -211,14 +211,14 @@ export default function init(div) {
                 inline: true,
                 setup(editor) {
                   editor.on('focus', () => {
+                    div.selectable("destroy");
                     that.editing = true;
-                    div.selectable("disable");
                   });
 
                   editor.on('blur', () => {
                     that.editing = false;
-                    div.selectable("enable");
                     tinymce.remove();
+                    that.initSelectables();
                   });
                 }
               });

@@ -56,9 +56,10 @@
 }
 
 .draggable-edit {
-  bottom: 0;
   color: #008000;
-  right: 0; }
+  left: 25px;
+  top: 0;
+}
 
 .resizable-helper {
   border: 1px dotted #000; }
@@ -95,6 +96,10 @@
 :after,
 :before {
   box-sizing: inherit; }
+
+.center {
+  text-align: center;
+}
 
 .off-canvas-wrapper {
   height: 100%; }

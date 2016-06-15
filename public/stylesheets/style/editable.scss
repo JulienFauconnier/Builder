@@ -95,9 +95,9 @@ $new-inside-ab-color4: rgba(255, 255, 255, 0);
 }
 
 .draggable-edit {
-  bottom: 0;
   color: $draggable-edit-color;
-  right: 0;
+  left: 25px;
+  top: 0;
 }
 
 .resizable-helper {

@@ -1,4 +1,5 @@
 import Tool from "./tool";
+import * as template from "./template";
 
 export default function init(div) {
   $.widget('plb.toolbox', {
@@ -67,6 +68,10 @@ export default function init(div) {
           editable.find(".droppables-container").remove();
           editable.find(".droppables-container-nested").remove();
         }
+      });
+
+      $(".submit-template").on("click", function () {
+        template.exportTemplate($("#editable-area"));
       });
     }
   });
