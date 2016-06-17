@@ -25,8 +25,6 @@ function importTemplate() {
 function toJSON(node) {
   node = node || this;
 
-  window.console.log(node);
-
   let obj = {};
   let nodeType;
   let nodeSize = false;
@@ -45,13 +43,15 @@ function toJSON(node) {
     nodeType = $(node).prop("tagName");
   }
 
+  obj.attributes = {};
+
   if (nodeSize) {
     let size = resp.getColumnSize($(node));
-    obj.small = parseInt(size.small.slice(6, size.small.length));
-    obj.large = parseInt(size.large.slice(6, size.large.length));
+    obj.attributes.small = parseInt(size.small.slice(6, size.small.length));
+    obj.attributes.large = parseInt(size.large.slice(6, size.large.length));
   }
 
-  obj.class = node.classList;
+  obj.attributes.class = node.classList;
 
   let childNodes = $(node).children();
 
