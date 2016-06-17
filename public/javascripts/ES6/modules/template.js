@@ -43,15 +43,14 @@ function toJSON(node) {
     nodeType = $(node).prop("tagName");
   }
 
-  obj.attributes = {};
 
   if (nodeSize) {
     let size = resp.getColumnSize($(node));
-    obj.attributes.small = parseInt(size.small.slice(6, size.small.length));
-    obj.attributes.large = parseInt(size.large.slice(6, size.large.length));
+    obj["@small"] = parseInt(size.small.slice(6, size.small.length));
+    obj["@large"] = parseInt(size.large.slice(6, size.large.length));
   }
 
-  obj.attributes.class = node.classList;
+  obj["@class"] = "Test"; //node.classList;
 
   let childNodes = $(node).children();
 
