@@ -13,7 +13,7 @@ function exportTemplate(node) {
 
   //let finalJSON = JSON.stringify(test, null, 2);
 
-  console.log(JSON.stringify(toJSON(node)));
+  window.console.log(JSON.stringify(toJSON(node)));
   //window.console.log(finalJSON);
 }
 
@@ -25,7 +25,7 @@ function importTemplate() {
 function toJSON(node) {
   node = node || this;
 
-  console.log(node);
+  window.console.log(node);
 
   let obj = {};
   let nodeType;
@@ -50,6 +50,8 @@ function toJSON(node) {
     obj.small = parseInt(size.small.slice(6, size.small.length));
     obj.large = parseInt(size.large.slice(6, size.large.length));
   }
+
+  obj.class = node.classList;
 
   let childNodes = $(node).children();
 
@@ -76,13 +78,13 @@ function toDOM(obj) {
   if (typeof obj == 'string') {
     obj = JSON.parse(obj);
   }
-  var node, nodeType = obj.nodeType;
+  let node, nodeType = obj.nodeType;
   switch (nodeType) {
     case 1: //ELEMENT_NODE
       node = document.createElement(obj.tagName);
       var attributes = obj.attributes || [];
-      for (var i = 0, len = attributes.length; i < len; i++) {
-        var attr = attributes[i];
+      for (let i = 0, len = attributes.length; i < len; i++) {
+        let attr = attributes[i];
         node.setAttribute(attr[0], attr[1]);
       }
       break;
@@ -105,8 +107,10 @@ function toDOM(obj) {
       return node;
   }
   if (nodeType == 1 || nodeType == 11) {
-    var childNodes = obj.childNodes || [];
-    for (i = 0, len = childNodes.length; i < len; i++) {
+    let childNodes = obj.childNodes || [];
+    let i;
+    let len = childNodes.length;
+    for (i = 0; i < len; i++) {
       node.appendChild(toDOM(childNodes[i]));
     }
   }
@@ -117,12 +121,15 @@ function toDOM(obj) {
  *
  */
 function reloadCSS() {
-  $("#result").contents().find("*").removeAttr("style");
+  const res = $("#result");
+  res.contents().find("*").removeAttr("style");
   for (let init = 0; init < 3; init++) {
     for (let target in data['children']) {
-      if ((!target.match("^.") && !target.match("^#") && init == 0) || (target.match("^.") && init == 1) || (target.match("^#") && init == 2))
+      if ((!target.match("^.") && !target.match("^#") && init == 0)
+        || (target.match("^.") && init == 1)
+        || (target.match("^#") && init == 2))
         for (let cssName in data['children'][target]['attributes'])
-          $("#result").contents().find(target).css(cssName, data['children'][target]['attributes'][cssName]);
+          res.contents().find(target).css(cssName, data['children'][target]['attributes'][cssName]);
     }
   }
 }
@@ -130,31 +137,11 @@ function reloadCSS() {
 /**
  *
  */
-$("#submit").on("click", function () {
-  $.post("setStyle.php", {
-    'data': process(CSSJSON.toCSS(data))
-  });
-  alert("CSS Applied");
-});
-
-/**
- *
- */
-$("#prod").on("click", function () {
-  let confirmation = confirm('Dialogue');
-
-  if (confirmation) {
-    $.post("setProd.php");
-    alert("CSS now in Prod");
-  } else {
-    alert("Operation Cancelled");
-  }
-});
-
-/**
- *
- */
 $("#export").on("click", function () {
+  ddlTemplate();
+});
+
+function ddlTemplate() {
   let a = document.createElement('a');
   let now = new Date(Date.now());
   let options = {
@@ -167,17 +154,19 @@ $("#export").on("click", function () {
   };
 
   a.setAttribute('download', document.domain + '_' + now.toLocaleDateString('fr-FR', options) + '.json');
-  a.href = 'data:application/json,' + JSON.stringify(data);
+  a.href = 'data:application/json,' + exportTemplate();
   a.innerHTML = 'testing';
   a.style.display = 'none';
   document.body.appendChild(a);
 
   a.click();
-});
+}
 
 /**
  *
  */
 $("#import").on("click", function () {
   $("#fileInput").click();
+  toDOM();
+  reloadCSS();
 });
