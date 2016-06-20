@@ -138,11 +138,15 @@ export default function init(div) {
                 } else if (that.customizable[value.tagName][i] === "background") {
                   input = $("<input>");
                 } else {
-                  input = $("<input>");
+                  input = $("<input>", {
+                    value: $(value).css(that.customizable[value.tagName][i]),
+                    placeholder: $(value).css(that.customizable[value.tagName][i])
+                  });
                 }
 
                 input.appendTo(label);
                 label.appendTo(option);
+                option.data("parameter", that.customizable[value.tagName][i]);
                 option.appendTo(list);
               }
 
@@ -157,7 +161,9 @@ export default function init(div) {
           $('#panel2 input, select, textarea').on("change input", function () {
             let fun = $(this).parent().parent().parent().data("function");
             let target = $(this).parent().parent().parent().data("target");
-            fun.apply($(target), ["background-color", $(this).val()]);
+            let parameter = $(this).parent().parent().data("parameter");
+            let paramValue = $(this).val();
+            fun.apply($(target), [parameter, paramValue]);
           });
         },
         unselected(event, ui) {
@@ -300,35 +306,6 @@ export default function init(div) {
         });
       }
     },
-
-    /**
-     *
-     * @param row
-     */
-    /*
-    createVerticalResizable(row) {
-      const that = this;
-
-      if (!that.dragging) {
-        row.resizable({
-          helper: ".resizable-helper",
-          ghost: true,
-          create() {
-            const that = $(this).resizable("instance"), o = that.options;
-            const handleSouth = $("<div>", {class: "ui-resizable-handle ui-resizable-s", style: "z-index: 90;"});
-            handleSouth.appendTo($("body"));
-            o.handles = {"s": $("body").children("ui-resizable-handle")};
-          },
-          start() {
-            that.dragging = true;
-          },
-          stop() {
-            that.dragging = false;
-          }
-        });
-      }
-    },
-     */
 
     /**
      *

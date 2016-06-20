@@ -58,6 +58,29 @@ let Tool = {
   initStructures(components) {
     let structures = {};
 
+    const mediaObject = (new Component("MediaObject", "div", {class: "media-object"}));
+
+    const mediaObjectStack = (new Component("MediaObject", "div", {class: "media-object stack-for-small"}));
+
+    const mediaObjectSection = (new Component("MOS1", "div", {class: "media-object-section"}));
+
+    const headerImg = (new Structure("headerImg", mediaObjectSection,
+      [new Component("Little Img", "img", {
+          "src": "https://placeholdit.imgix.net/~text?txtsize=42&txt=Your+Picture+Here&w=250&h=150",
+          "style": "width: 20px; height: 20px"
+        }
+      )]
+    ));
+
+    const headerTitle = (new Structure("headerTitle", mediaObjectSection,
+      [new Component("Little Text", "h4", {class: "tiny-mce", "text": shortLoremIpsum})]
+    ));
+
+    structures.header = new Structure("Simple Header", mediaObject,
+      [headerImg, headerTitle]
+    );
+
+
     structures.textArea = new Structure("Text Area", new Component("Label", "label", {"text": "Text Area: "}),
       [new Component("Text Area", "textarea", {"placeholder": "none"})]
     );
@@ -114,10 +137,6 @@ let Tool = {
       [new Component("Input", "input", {"type": "week"})]
     );
 
-    const mediaObject = (new Component("MediaObject", "div", {class: "media-object stack-for-small"}));
-
-    const mediaObjectSection = (new Component("MOS1", "div", {class: "media-object-section"}));
-
     const thumb = (new Structure("Thumb", new Component("ImgContainer", "div", {class: "thumbnail"}),
       [components.img]
     ));
@@ -152,7 +171,7 @@ let Tool = {
       [test, new Component("Span", "br", {}), text, new Component("Span", "br", {}), link]
     ));
 
-    structures.figure = new Structure("Figure", mediaObject,
+    structures.figure = new Structure("Figure", mediaObjectStack,
       [mos1, mos2]
     );
 

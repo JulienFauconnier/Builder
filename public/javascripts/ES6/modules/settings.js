@@ -19,7 +19,7 @@ let paramList = {
     "text-align", "text-transform", "text-shadow", "font-weight"],
   'H6': ["color", "background-color", "font-size", "margin", "padding", "letter-spacing", "line-height",
     "text-align", "text-transform", "text-shadow", "font-weight"],
-  'DIV': ["background", "margin", "padding", "border", "border-radius", "box-shadow"],
+  'DIV': ["background", "margin", "padding", "border-style", "border-width", "border-color", "border-radius", "box-shadow"],
   'IMG': ["margin", "border-radius", "opacity", "width"],
   'LABEL': ["color", "font-size", "text-shadow", "text-transform"],
   'INPUT': ["background-color", "color", "font-size", "border", "border-radius", "box-shadow", "font-size",

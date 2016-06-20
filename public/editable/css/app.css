@@ -1,8 +1,84 @@
-h1, h2, h3, h4 {
-    margin: 15px 0 5px 0;
-    border-bottom: 5px solid deepskyblue;
+html {
+    margin: 0;
+    padding: 0
 }
 
-a[href] {
-    color: #ea613f;
+body {
+    background: #fff;
+    margin: 0;
+    padding: 0
+}
+
+.header,
+.footer {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-left: auto;
+    margin-right: auto;
+    table-layout: fixed;
+    overflow: hidden;
+    width: 620px
+}
+
+.header {
+    background: #ec7404;
+}
+
+.footer {
+    background: #d5d6d8;
+}
+
+.simple-header {
+    background: #f4f4f4;
+    border: 2px none #06bddd;
+    border-bottom-style: solid;
+    color: #000;
+    font: 700 12pt Verdana;
+    margin-bottom: 0;
+    padding: 0
+}
+
+.body_middle {
+    background: #f4f4f4;
+    height: 100%;
+    padding: 15px;
+    vertical-align: top;
+    width: 590px
+}
+
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    width: 220px
+}
+
+.main-picture,
+.logo-minimal {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.logo-filiale {
+    display: block;
+}
+
+.share-links {
+    color: #fff;
+    font: 9pt verdana, geneva;
+}
+
+.desc {
+    font: 10pt verdana, geneva;
+}
+
+.main-title {
+    color: #fff;
+    font-size: 18pt;
+}
+
+.media-object.item > .media-object-section > img {
+    width: 110px;
 }
