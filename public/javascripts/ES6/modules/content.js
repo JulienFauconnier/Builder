@@ -14,7 +14,8 @@ export default function init(div) {
     editing: false,
     dragging: false,
     base: null,
-    customizable: settings.getCustomizables(),
+    customParameters: settings.paramList,
+    customOptions: settings.optList,
     _create() {
       if (this.options.debug) {
         this.element.addClass("debug");
@@ -121,33 +122,32 @@ export default function init(div) {
           let elements = ui.selected.children;
 
           jQuery.each(elements, (index, value) => {
-            if (that.customizable[value.tagName] !== undefined) {
+            let selectTagName = that.customParameters[value.tagName];
+            if (selectTagName !== undefined) {
               let list = $("<ul>", {text: value.tagName});
 
-              for (var i = 0; i < that.customizable[value.tagName].length; i++) {
-                let option = $("<li>");
-                let label = $("<label>", {text: that.customizable[value.tagName][i]});
+              for (let i = 0; i < selectTagName.length; i++) {
+                let tagOption = selectTagName[i];
+                let param = $("<li>");
+                let label = $("<label>", {text: tagOption});
                 let input;
+                let options;
 
-                if (that.customizable[value.tagName][i] === "text-align"
-                  || that.customizable[value.tagName][i] === "text-transform"
-                  || that.customizable[value.tagName][i] === "font-weight") {
+                if (that.customOptions.hasOwnProperty(tagOption)) {
                   input = $("<select>");
-                  //let option = settings.optionList(that.customizable[value.tagName][i]);
-                  //option.appendTo(input);
-                } else if (that.customizable[value.tagName][i] === "background") {
-                  input = $("<input>");
+                  options = settings.initOptions(tagOption, $(value).css(tagOption));
+                  input.append(options);
                 } else {
                   input = $("<input>", {
-                    value: $(value).css(that.customizable[value.tagName][i]),
-                    placeholder: $(value).css(that.customizable[value.tagName][i])
+                    value: $(value).css(tagOption),
+                    placeholder: $(value).css(tagOption)
                   });
                 }
 
                 input.appendTo(label);
-                label.appendTo(option);
-                option.data("parameter", that.customizable[value.tagName][i]);
-                option.appendTo(list);
+                label.appendTo(param);
+                param.data("parameter", tagOption);
+                param.appendTo(list);
               }
 
               //let option = getOptions();
@@ -163,6 +163,7 @@ export default function init(div) {
             let target = $(this).parent().parent().parent().data("target");
             let parameter = $(this).parent().parent().data("parameter");
             let paramValue = $(this).val();
+            $(this).data("cssValue", paramValue);
             fun.apply($(target), [parameter, paramValue]);
           });
         },

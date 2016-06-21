@@ -150,19 +150,16 @@ let Tool = {
     ));
 
     const title = (new Component("Strong", "strong", {
-      "contenteditable": "true",
       "text": "Lorem ipsum dolor sit amet, consectetur ai"
     }));
 
     const text = (new Component("Span", "span", {
-      "contenteditable": "true",
       "text": "Lorem ipsum dolor sit amet, consectetur ai"
     }));
 
     const test = (new Structure("Test", new Component("Span", "span", {}), [title]));
 
     const link = (new Component("Lien", "a", {
-      "contenteditable": "true",
       "href": "#",
       "text": "Super lien, clique vite"
     }));

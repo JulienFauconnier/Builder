@@ -1,0 +1,460 @@
+{
+  "P": [
+    "color",
+    "font-size",
+    "margin",
+    "padding",
+    "letter-spacing",
+    "line-height",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    },
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    },
+    "text-shadow",
+    {
+      "font-weight": [
+        "normal",
+        "bold",
+        "bolder",
+        "lighter",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "A": [
+    "background-color",
+    "border",
+    "border-radius",
+    "color",
+    "margin",
+    "padding",
+    "letter-spacing",
+    "line-height",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    },
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    },
+    "text-shadow",
+    {
+      "font-weight": [
+        "normal",
+        "bold",
+        "bolder",
+        "lighter",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "H1": [
+    "color",
+    "background-color",
+    "font-size",
+    "margin",
+    "padding",
+    "letter-spacing",
+    "line-height",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    },
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    },
+    "text-shadow",
+    {
+      "font-weight": [
+        "normal",
+        "bold",
+        "bolder",
+        "lighter",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "H2": [
+    "color",
+    "background-color",
+    "font-size",
+    "margin",
+    "padding",
+    "letter-spacing",
+    "line-height",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    },
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    },
+    "text-shadow",
+    {
+      "font-weight": [
+        "normal",
+        "bold",
+        "bolder",
+        "lighter",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "H3": [
+    "color",
+    "background-color",
+    "font-size",
+    "margin",
+    "padding",
+    "letter-spacing",
+    "line-height",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    },
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    },
+    "text-shadow",
+    {
+      "font-weight": [
+        "normal",
+        "bold",
+        "bolder",
+        "lighter",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "H4": [
+    "color",
+    "background-color",
+    "font-size",
+    "margin",
+    "padding",
+    "letter-spacing",
+    "line-height",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    },
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    },
+    "text-shadow",
+    {
+      "font-weight": [
+        "normal",
+        "bold",
+        "bolder",
+        "lighter",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "H5": [
+    "color",
+    "background-color",
+    "font-size",
+    "margin",
+    "padding",
+    "letter-spacing",
+    "line-height",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    },
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    },
+    "text-shadow",
+    {
+      "font-weight": [
+        "normal",
+        "bold",
+        "bolder",
+        "lighter",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "H6": [
+    "color",
+    "background-color",
+    "font-size",
+    "margin",
+    "padding",
+    "letter-spacing",
+    "line-height",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    },
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    },
+    "text-shadow",
+    {
+      "font-weight": [
+        "normal",
+        "bold",
+        "bolder",
+        "lighter",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "DIV": [
+    "background",
+    "margin",
+    "padding",
+    "border-style",
+    "border-width",
+    "border-color",
+    "border-radius",
+    "box-shadow"
+  ],
+  "IMG": [
+    "margin",
+    "border-radius",
+    "opacity",
+    "width"
+  ],
+  "LABEL": [
+    "color",
+    "font-size",
+    "text-shadow",
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "INPUT": [
+    "background-color",
+    "color",
+    "font-size",
+    "border",
+    "border-radius",
+    "box-shadow",
+    "font-size",
+    "margin",
+    "padding",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "SELECT": [
+    "background-color",
+    "border",
+    "border-radius",
+    "box-shadow",
+    "font-size",
+    "margin",
+    "padding",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "TEXTAREA": [
+    "background-color",
+    "border",
+    "border-radius",
+    "box-shadow",
+    "font-size",
+    "height",
+    "margin",
+    "padding",
+    {
+      "text-align": [
+        "left",
+        "right",
+        "center",
+        "justify",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "OPTION": [
+    "background-color",
+    "color",
+    "font-size",
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    }
+  ],
+  "BUTTON": [
+    "background-color",
+    "color",
+    "font-size",
+    "margin",
+    "padding",
+    "border",
+    "border-radius",
+    "box-shadow",
+    {
+      "font-weight": [
+        "normal",
+        "bold",
+        "bolder",
+        "lighter",
+        "initial",
+        "inherit"
+      ]
+    },
+    {
+      "text-transform": [
+        "none",
+        "capitalize",
+        "uppercase",
+        "lowercase",
+        "initial",
+        "inherit"
+      ]
+    },
+    "text-shadow",
+    "opacity"
+  ]
+}
