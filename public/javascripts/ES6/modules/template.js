@@ -169,3 +169,28 @@ $("#import").on("click", function () {
   toDOM();
   reloadCSS();
 });
+
+/**
+ * Fields Assignation
+ */
+function registerCC() {
+  /*
+   $("dl[id='toolbox'] input,select,textarea").on("change input", function () {
+   var node = $(this).parent().parent().parent().attr("name");
+   if (!data['children'].hasOwnProperty(node)) {
+   data['children'][node] = {};
+   }
+   if (!data['children'][node].hasOwnProperty('attributes')) {
+   data['children'][node]['attributes'] = {};
+   }
+   if (!data['children'][node]['attributes'].hasOwnProperty($(this).attr("data-css"))) {
+   data['children'][node]['attributes'][$(this).attr("data-css")] = null;
+   }
+   data['children'][node]['attributes'][$(this).attr("data-css")] = $(this).val();
+   if (data['children'][node]['attributes'][$(this).attr("data-css")] == "") {
+   delete data['children'][node]['attributes'][$(this).attr("data-css")];
+   }
+   //reloadCSS();
+   });
+   */
+}

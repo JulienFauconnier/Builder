@@ -1,8 +1,6 @@
-/*
- * Paramètres des Types et Classes éditables
- */
+export {paramList, optList, initOptions};
 
-export let paramList = {
+let paramList = {
   "P": ["color", "font-size", "margin", "padding", "letter-spacing", "line-height", "text-align",
     "text-transform", "text-shadow", "font-weight"],
   "A": ["background-color", "border", "border-radius", "color", "margin", "padding", "letter-spacing",
@@ -33,16 +31,20 @@ export let paramList = {
     "box-shadow", "font-weight", "text-transform", "text-shadow", "opacity"]
 };
 
-export let optList = {
+let optList = {
   "font-weight": ["normal", "bold", "bolder", "lighter", "initial", "inherit"],
   "text-align": ["left", "right", "center", "justify", "initial", "inherit"],
   "text-transform": ["none", "capitalize", "uppercase", "lowercase", "initial", "inherit"]
 };
 
-/*
- * Liste des Options
+/**
+ * Init Options List
+ *
+ * @param select
+ * @param default_option
+ * @returns {string}
  */
-export function initOptions(select, default_option) {
+function initOptions(select, default_option) {
   let options = "";
   for (let i = 0; i < optList[select].length; i++) {
     options += "<option value='" + optList[select][i] + "' ";
@@ -53,26 +55,3 @@ export function initOptions(select, default_option) {
   }
   return options;
 }
-
-/*
- * Assignation des champs
- */
-/*
- $("dl[id='toolbox'] input,select,textarea").on("change input", function () {
- var node = $(this).parent().parent().parent().attr("name");
- if (!data['children'].hasOwnProperty(node)) {
- data['children'][node] = {};
- }
- if (!data['children'][node].hasOwnProperty('attributes')) {
- data['children'][node]['attributes'] = {};
- }
- if (!data['children'][node]['attributes'].hasOwnProperty($(this).attr("data-css"))) {
- data['children'][node]['attributes'][$(this).attr("data-css")] = null;
- }
- data['children'][node]['attributes'][$(this).attr("data-css")] = $(this).val();
- if (data['children'][node]['attributes'][$(this).attr("data-css")] == "") {
- delete data['children'][node]['attributes'][$(this).attr("data-css")];
- }
- //reloadCSS();
- });
- */
