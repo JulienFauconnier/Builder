@@ -1,4 +1,4 @@
-export {paramList, optList, initOptions};
+export {getParameters, getOptions, initOptions};
 
 let paramList = {
   "P": ["color", "font-size", "margin", "padding", "letter-spacing", "line-height", "text-align",
@@ -36,6 +36,20 @@ let optList = {
   "text-align": ["left", "right", "center", "justify", "initial", "inherit"],
   "text-transform": ["none", "capitalize", "uppercase", "lowercase", "initial", "inherit"]
 };
+
+/**
+ *
+ */
+function getParameters() {
+  return paramList;
+}
+
+/**
+ *
+ */
+function getOptions() {
+  return optList;
+}
 
 /**
  * Init Options List

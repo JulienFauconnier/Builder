@@ -14,8 +14,8 @@ export default function init(div) {
     editing: false,
     dragging: false,
     base: null,
-    customParameters: settings.paramList,
-    customOptions: settings.optList,
+    customParameters: settings.getParameters(),
+    customOptions: settings.getOptions(),
     _create() {
       if (this.options.debug) {
         this.element.addClass("debug");
