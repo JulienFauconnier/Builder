@@ -45,7 +45,10 @@ function importTemplate() {
     }
   };
 
-  $("").append(toDOM(test));
+  let testF = toDOM(test);
+  console.log(testF);
+
+  $(".editable").replaceWith(testF);
 }
 
 function toJSON(node) {
@@ -104,9 +107,32 @@ function toJSON(node) {
 }
 
 function toDOM(obj) {
+  console.log(obj);
   let node = [];
-  for (let test in obj) {
-    let element = $("<" + test + ">", {class: `${obj.test.small} ${obj.test.class}`});
+  for (let testO in obj) {
+    let tag;
+
+    if (testO === "container" || testO === "row" || testO === "columns")
+      tag = "div";
+
+    let attributes = obj[testO]["@"];
+    let content = obj[testO]["#"];
+    let element = $("<" + tag + ">", {class: attributes.class});
+
+    if (testO === "columns")
+      element.addClass(`small-${attributes.small} medium-${attributes.medium} large-${attributes.large}`);
+
+    if (Array.isArray(content)) {
+      let tab = content;
+
+      for (let sub in tab) {
+        console.log(sub);
+        element.append(toDOM(tab[sub]));
+      }
+    }
+    else {
+      element.append(content);
+    }
     node.push(element);
   }
 
