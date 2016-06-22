@@ -27,9 +27,9 @@ function updateRow(row) {
   const childrenCount = row.children().not(".ui-draggable-dragging").length,
     columns = row.children();
 
-  jQuery.each(columns, (index, column) => {
+  for (let column of columns) {
     resp.setColumnSize($(column), childrenCount);
-  });
+  }
 }
 
 /**

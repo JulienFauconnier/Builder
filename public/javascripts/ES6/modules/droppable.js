@@ -46,7 +46,7 @@ function createAddToNestedDroppables(nestedDroppablesContainer) {
 function createRowDroppables(droppablesContainer) {
   const draggablesContainer = $(".row.draggables-container");
 
-  jQuery.each(draggablesContainer, (index, draggableContainer) => {
+  for (let draggableContainer of draggablesContainer) {
     if (shared.hasOneChildOnly($(draggableContainer)) || rq.checkColumnLevel($(draggableContainer))) {
       // Jump to next iteration: because we move a single element
       return true;
@@ -69,7 +69,7 @@ function createRowDroppables(droppablesContainer) {
       droppableRowAfter.data("insertFunction", $(draggableContainer).insertAfter);
       droppablesContainer.append(droppableRowAfter);
     }
-  });
+  }
 }
 
 /**
@@ -79,7 +79,7 @@ function createRowDroppables(droppablesContainer) {
 function createColumnsDroppables(droppablesContainer) {
   const draggables = $(".draggable").not(".drag-active, .ui-draggable-dragging");
 
-  jQuery.each(draggables, (index, draggable) => {
+  for (let draggable of draggables) {
     if (!rq.checkColumnLevel($(draggable)) && !rq.checkMaximumColumnsByRow($(draggable).parent())) {
       if ($(draggable).is(':first-child')) {
         const droppableColumnBefore = $("<div>", {
@@ -99,7 +99,7 @@ function createColumnsDroppables(droppablesContainer) {
         droppablesContainer.append(droppableColumnAfter);
       }
     }
-  });
+  }
 }
 
 /**
@@ -110,7 +110,7 @@ function createColumnsDroppables(droppablesContainer) {
 function createNestingDroppables(droppablesContainer) {
   const draggables = $(".draggable").not(".drag-active, .ui-draggable-dragging");
 
-  jQuery.each(draggables, (index, draggable) => {
+  for (let draggable of draggables) {
     if ($(draggable).siblings().length > 0 && !rq.checkColumnLevel($(draggable)) && !rq.isColumnContainingRow($(draggable))) {
       const droppableRowAbove = $("<div>", {
         class: "droppable new-inside-above"
@@ -126,7 +126,7 @@ function createNestingDroppables(droppablesContainer) {
       droppableRowBelow.data("insertFunction", $(draggable).append);
       droppablesContainer.append(droppableRowBelow);
     }
-  });
+  }
 }
 
 /**

@@ -1,6 +1,7 @@
 /**
  *
  * @param input
+ * @param output
  */
 function readURL(input, output) {
   if (input.files && input.files[0]) {

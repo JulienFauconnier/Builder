@@ -26,9 +26,8 @@ export default class Structure extends Composite {
   toHTML() {
     const content = $(`<${this.parent.tag}>`, this.parent.attributes);
 
-    jQuery.each(this.childrens, (key, children) => {
+    for (let children of this.childrens)
       content.append(children.toHTML());
-    });
 
     return content;
   }

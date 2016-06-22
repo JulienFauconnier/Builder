@@ -24,17 +24,15 @@ function getDefaultValues(count) {
     default:
       break;
   }
-  console.log();
   return values;
 }
 
 /**
  *
  * @param column
- * @param sizesList
  * @returns {*}
  */
-function getColumnSize(column, sizesList) {
+function getColumnSize(column) {
   const size = {};
   const cls = column.attr('class').split(' ');
 
@@ -56,9 +54,8 @@ function getColumnSize(column, sizesList) {
  *
  * @param column
  * @param count
- * @param sizesList
  */
-function setColumnSize(column, count, sizesList) {
+function setColumnSize(column, count) {
   let size;
 
   if (Number.isInteger(count))

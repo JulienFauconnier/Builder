@@ -121,10 +121,10 @@ export default function init(div) {
           // TODO: Other possibility -> Add elements to list, then generate options
           let elements = ui.selected.children;
 
-          jQuery.each(elements, (index, value) => {
-            let selectTagName = that.customParameters[value.tagName];
+          jQuery.each(elements, (index, element) => {
+            let selectTagName = that.customParameters[element.tagName];
             if (selectTagName !== undefined) {
-              let list = $("<ul>", {text: value.tagName});
+              let list = $("<ul>", {text: element.tagName});
 
               for (let i = 0; i < selectTagName.length; i++) {
                 let tagOption = selectTagName[i];
@@ -135,12 +135,12 @@ export default function init(div) {
 
                 if (that.customOptions.hasOwnProperty(tagOption)) {
                   input = $("<select>");
-                  options = settings.initOptions(tagOption, $(value).css(tagOption));
+                  options = settings.initOptions(tagOption, $(element).css(tagOption));
                   input.append(options);
                 } else {
                   input = $("<input>", {
-                    value: $(value).css(tagOption),
-                    placeholder: $(value).css(tagOption)
+                    value: $(element).css(tagOption),
+                    placeholder: $(element).css(tagOption)
                   });
                 }
 
@@ -153,7 +153,7 @@ export default function init(div) {
               //let option = getOptions();
               //option.appendTo(list);
               list.data("function", $(this).css);
-              list.data("target", value);
+              list.data("target", element);
               list.appendTo($(".nSetting"));
             }
           });

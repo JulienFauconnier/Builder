@@ -18,13 +18,13 @@ export default class Group extends Composite {
     const content = $("<div>", {class: "row"});
     let container;
 
-    jQuery.each(this.elements, (key, element) => {
+    for (let element of this.elements) {
       container = $("<div>", {
         class: `columns medium-${element.layout.medium} large-${element.layout.large}`
       });
       container.append(element.content.toHTML());
       content.append(container);
-    });
+    }
 
     return content;
   }

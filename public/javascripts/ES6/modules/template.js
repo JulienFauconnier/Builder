@@ -18,9 +18,35 @@ function exportTemplate(node) {
 }
 
 function importTemplate() {
-  alert("Test");
-}
+  let test = {
+    "container": {
+      "@": {"class": "Test"},
+      "#": [{
+        "row": {
+          "@": {"class": "Test"},
+          "#": [{
+            "columns": {
+              "@": {"small": 4, "medium": 4, "large": 4, "class": "Test"},
+              "#": [{"H1": {"@": {"class": "Test"}, "#": "Alea Jacta Est"}}]
+            }
+          }, {
+            "columns": {
+              "@": {"small": 4, "medium": 4, "large": 4, "class": "Test"},
+              "#": [{"H1": {"@": {"class": "Test"}, "#": "Vini Vidi Vici"}}]
+            }
+          }, {
+            "columns": {
+              "@": {"small": 4, "medium": 4, "large": 4, "class": "Test"},
+              "#": [{"H1": {"@": {"class": "Test"}, "#": "Wingardium Leviosa"}}]
+            }
+          }]
+        }
+      }]
+    }
+  };
 
+  $("").append(toDOM(test));
+}
 
 function toJSON(node) {
   node = node || this;
@@ -43,30 +69,34 @@ function toJSON(node) {
     nodeType = $(node).prop("tagName");
   }
 
+  obj[nodeType] = {};
+
+  obj[nodeType]["@"] = {};
 
   if (nodeSize) {
     let size = resp.getColumnSize($(node));
-    obj["@small"] = parseInt(size.small.slice(6, size.small.length));
-    obj["@large"] = parseInt(size.large.slice(6, size.large.length));
+    obj[nodeType]["@"].small = parseInt(size.large.slice(6, size.large.length)) || 12;
+    obj[nodeType]["@"].medium = parseInt(size.medium.slice(7, size.medium.length)) || obj[nodeType]["@"].small;
+    obj[nodeType]["@"].large = parseInt(size.large.slice(6, size.large.length)) || obj[nodeType]["@"].medium;
   }
 
-  obj["@class"] = "Test"; //node.classList;
+  obj[nodeType]["@"].class = "Test"; //node.classList;
 
   let childNodes = $(node).children();
 
+  obj[nodeType]["#"] = [];
   if (childNodes.length > 0 && nodeType !== "P") {
-    obj[nodeType] = [];
-    jQuery.each(childNodes, (index, childNode) => {
+    for (let childNode of childNodes) {
       if ($(node).not(".js-off-canvas-exit"))
-        obj[nodeType].push(toJSON(childNode));
-    });
+        obj[nodeType]["#"].push(toJSON(childNode));
+    }
   }
   else {
     if (nodeType === "P") {
-      obj[nodeType] = $(node).html();
+      obj[nodeType]["#"] = $(node).html();
     }
     else {
-      obj[nodeType] = $(node).text();
+      obj[nodeType]["#"] = $(node).text();
     }
   }
 
@@ -74,60 +104,66 @@ function toJSON(node) {
 }
 
 function toDOM(obj) {
-  if (typeof obj == 'string') {
-    obj = JSON.parse(obj);
+  let node = [];
+  for (let test in obj) {
+    let element = $("<" + test + ">", {class: `${obj.test.small} ${obj.test.class}`});
+    node.push(element);
   }
-  let node, nodeType = obj.nodeType;
-  switch (nodeType) {
-    case 1: //ELEMENT_NODE
-      node = document.createElement(obj.tagName);
-      var attributes = obj.attributes || [];
-      for (let i = 0, len = attributes.length; i < len; i++) {
-        let attr = attributes[i];
-        node.setAttribute(attr[0], attr[1]);
-      }
-      break;
-    case 3: //TEXT_NODE
-      node = document.createTextNode(obj.nodeValue);
-      break;
-    case 8: //COMMENT_NODE
-      node = document.createComment(obj.nodeValue);
-      break;
-    case 9: //DOCUMENT_NODE
-      node = document.implementation.createDocument();
-      break;
-    case 10: //DOCUMENT_TYPE_NODE
-      node = document.implementation.createDocumentType(obj.nodeName);
-      break;
-    case 11: //DOCUMENT_FRAGMENT_NODE
-      node = document.createDocumentFragment();
-      break;
-    default:
-      return node;
-  }
-  if (nodeType == 1 || nodeType == 11) {
-    let childNodes = obj.childNodes || [];
-    let i;
-    let len = childNodes.length;
-    for (i = 0; i < len; i++) {
-      node.appendChild(toDOM(childNodes[i]));
-    }
-  }
+
+  /*
+   let node, nodeType = obj.nodeType;
+   switch (nodeType) {
+   case 1: //ELEMENT_NODE
+   node = document.createElement(obj.tagName);
+   var attributes = obj.attributes || [];
+   for (let i = 0, len = attributes.length; i < len; i++) {
+   let attr = attributes[i];
+   node.setAttribute(attr[0], attr[1]);
+   }
+   break;
+   case 3: //TEXT_NODE
+   node = document.createTextNode(obj.nodeValue);
+   break;
+   case 8: //COMMENT_NODE
+   node = document.createComment(obj.nodeValue);
+   break;
+   case 9: //DOCUMENT_NODE
+   node = document.implementation.createDocument();
+   break;
+   case 10: //DOCUMENT_TYPE_NODE
+   node = document.implementation.createDocumentType(obj.nodeName);
+   break;
+   case 11: //DOCUMENT_FRAGMENT_NODE
+   node = document.createDocumentFragment();
+   break;
+   default:
+   return node;
+   }
+   if (nodeType == 1 || nodeType == 11) {
+   let childNodes = obj.childNodes || [];
+   let i;
+   let len = childNodes.length;
+   for (i = 0; i < len; i++) {
+   node.appendChild(toDOM(childNodes[i]));
+   }
+   }
+   */
+
   return node;
 }
 
 /**
  *
  */
-function reloadCSS() {
+function reloadCSS(data) {
   const res = $("#result");
   res.contents().find("*").removeAttr("style");
   for (let init = 0; init < 3; init++) {
-    for (let target in data['children']) {
+    for (let target of data['children']) {
       if ((!target.match("^.") && !target.match("^#") && init == 0)
         || (target.match("^.") && init == 1)
         || (target.match("^#") && init == 2))
-        for (let cssName in data['children'][target]['attributes'])
+        for (let cssName of data['children'][target]['attributes'])
           res.contents().find(target).css(cssName, data['children'][target]['attributes'][cssName]);
     }
   }
