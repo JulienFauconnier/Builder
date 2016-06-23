@@ -18,26 +18,50 @@ function exportTemplate(node) {
 }
 
 function importTemplate() {
-  let test = {
+  const test = {
     "container": {
-      "@": {"class": "Test"},
+      "@": {"class": "off-canvas-content editable ui-selectable"},
       "#": [{
         "row": {
-          "@": {"class": "Test"},
+          "@": {"class": "row draggables-container"},
           "#": [{
             "columns": {
-              "@": {"small": 4, "medium": 4, "large": 4, "class": "Test"},
-              "#": [{"H1": {"@": {"class": "Test"}, "#": "Alea Jacta Est"}}]
+              "@": {
+                "small": 4,
+                "medium": 4,
+                "large": 4,
+                "class": "columns draggable small-12 medium-4 large-4 ui-draggable ui-resizable"
+              },
+              "#": [{
+                "H1": {
+                  "@": {"class": "tiny-mce"},
+                  "#": "Wingardium Leviosa"
+                }
+              }]
             }
           }, {
             "columns": {
-              "@": {"small": 4, "medium": 4, "large": 4, "class": "Test"},
-              "#": [{"H1": {"@": {"class": "Test"}, "#": "Vini Vidi Vici"}}]
+              "@": {
+                "small": 4,
+                "medium": 4,
+                "large": 4,
+                "class": "columns draggable ui-draggable ui-resizable small-12 medium-4 large-4"
+              },
+              "#": [{
+                "H1": {
+                  "@": {"class": "tiny-mce"},
+                  "#": "Wingardium Leviosa"
+                }
+              }]
             }
           }, {
             "columns": {
-              "@": {"small": 4, "medium": 4, "large": 4, "class": "Test"},
-              "#": [{"H1": {"@": {"class": "Test"}, "#": "Wingardium Leviosa"}}]
+              "@": {
+                "small": 4,
+                "medium": 4,
+                "large": 4,
+                "class": "columns draggable ui-draggable ui-selectee small-12 medium-4 large-4"
+              }, "#": [{"H1": {"@": {"class": "tiny-mce"}, "#": "Wingardium Leviosa"}}]
             }
           }]
         }
@@ -45,16 +69,15 @@ function importTemplate() {
     }
   };
 
-  let testF = toDOM(test);
-  console.log(testF);
+  const testF = toDOM(test);
 
   $(".editable").replaceWith(testF);
+
+  // FIXME: Initialization
 }
 
-function toJSON(node) {
-  node = node || this;
-
-  let obj = {};
+function toJSON(node = this) {
+  const obj = {};
   let nodeType;
   let nodeSize = false;
 
@@ -77,19 +100,19 @@ function toJSON(node) {
   obj[nodeType]["@"] = {};
 
   if (nodeSize) {
-    let size = resp.getColumnSize($(node));
+    const size = resp.getColumnSize($(node));
     obj[nodeType]["@"].small = parseInt(size.large.slice(6, size.large.length)) || 12;
     obj[nodeType]["@"].medium = parseInt(size.medium.slice(7, size.medium.length)) || obj[nodeType]["@"].small;
     obj[nodeType]["@"].large = parseInt(size.large.slice(6, size.large.length)) || obj[nodeType]["@"].medium;
   }
 
-  obj[nodeType]["@"].class = "Test"; //node.classList;
+  obj[nodeType]["@"].class = $(node).prop("class");
 
-  let childNodes = $(node).children();
+  const childNodes = $(node).children();
 
   obj[nodeType]["#"] = [];
   if (childNodes.length > 0 && nodeType !== "P") {
-    for (let childNode of childNodes) {
+    for (const childNode of childNodes) {
       if ($(node).not(".js-off-canvas-exit"))
         obj[nodeType]["#"].push(toJSON(childNode));
     }
@@ -107,26 +130,26 @@ function toJSON(node) {
 }
 
 function toDOM(obj) {
-  console.log(obj);
-  let node = [];
-  for (let testO in obj) {
+  const node = [];
+  for (const testO in obj) {
     let tag;
 
     if (testO === "container" || testO === "row" || testO === "columns")
       tag = "div";
+    else
+      tag = testO;
 
-    let attributes = obj[testO]["@"];
-    let content = obj[testO]["#"];
-    let element = $("<" + tag + ">", {class: attributes.class});
+    const attributes = obj[testO]["@"];
+    const content = obj[testO]["#"];
+    const element = $(`<${tag}>`, {class: attributes.class});
 
     if (testO === "columns")
       element.addClass(`small-${attributes.small} medium-${attributes.medium} large-${attributes.large}`);
 
     if (Array.isArray(content)) {
-      let tab = content;
+      const tab = content;
 
-      for (let sub in tab) {
-        console.log(sub);
+      for (const sub in tab) {
         element.append(toDOM(tab[sub]));
       }
     }
@@ -185,11 +208,11 @@ function reloadCSS(data) {
   const res = $("#result");
   res.contents().find("*").removeAttr("style");
   for (let init = 0; init < 3; init++) {
-    for (let target of data['children']) {
+    for (const target of data['children']) {
       if ((!target.match("^.") && !target.match("^#") && init == 0)
         || (target.match("^.") && init == 1)
         || (target.match("^#") && init == 2))
-        for (let cssName of data['children'][target]['attributes'])
+        for (const cssName of data['children'][target]['attributes'])
           res.contents().find(target).css(cssName, data['children'][target]['attributes'][cssName]);
     }
   }
@@ -198,14 +221,14 @@ function reloadCSS(data) {
 /**
  *
  */
-$("#export").on("click", function () {
+$("#export").on("click", () => {
   ddlTemplate();
 });
 
 function ddlTemplate() {
-  let a = document.createElement('a');
-  let now = new Date(Date.now());
-  let options = {
+  const a = document.createElement('a');
+  const now = new Date(Date.now());
+  const options = {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -214,8 +237,8 @@ function ddlTemplate() {
     second: '2-digit'
   };
 
-  a.setAttribute('download', document.domain + '_' + now.toLocaleDateString('fr-FR', options) + '.json');
-  a.href = 'data:application/json,' + exportTemplate();
+  a.setAttribute('download', `${document.domain}_${now.toLocaleDateString('fr-FR', options)}.json`);
+  a.href = `data:application/json,${exportTemplate()}`;
   a.innerHTML = 'testing';
   a.style.display = 'none';
   document.body.appendChild(a);
@@ -226,7 +249,7 @@ function ddlTemplate() {
 /**
  *
  */
-$("#import").on("click", function () {
+$("#import").on("click", () => {
   $("#fileInput").click();
   toDOM();
   reloadCSS();

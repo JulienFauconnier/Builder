@@ -72,6 +72,7 @@ export default function init(div) {
 
       $(".submit-template").on("click", function () {
         template.exportTemplate($("#editable-area"));
+
       });
 
       $(".set-template").on("click", function () {
