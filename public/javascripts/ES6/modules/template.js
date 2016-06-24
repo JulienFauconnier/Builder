@@ -20,7 +20,7 @@ function exportTemplate(node) {
   console.log(toXML(backup));
 
   var obj = {
-    container: {
+    container: [{
       row: [
         {
           columns: [
@@ -29,15 +29,8 @@ function exportTemplate(node) {
                 '@test': "lol",
                 '#text': "lolilol"
               },
-              '@class': "test",
-              '@small': 4,
-              '@medium': 4,
-              '@large': 4
-            },
-            {
-              H2: {
-                '@test': "lol",
-                '#text': "lolilol"
+              P: {
+                '#text': "bla bla bla"
               },
               '@class': "test",
               '@small': 4,
@@ -45,20 +38,35 @@ function exportTemplate(node) {
               '@large': 4
             },
             {
-              H2: {
+              H2: [{
                 '@test': "lol",
                 '#text': "lolilol"
+              }],
+              P: {
+                '#text': "bla bla bla"
               },
+              '@class': "test",
+              '@small': 4,
+              '@medium': 4,
+              '@large': 4
+            },
+            {
+              H2: [{
+                '@test': "lol",
+                '#text': "lolilol"
+              }],
+              P: [{
+                '#text': "bla bla bla"
+              }],
               '@class': "test",
               '@small': 4,
               '@medium': 4,
               '@large': 4
             }
-          ],
-          '@class': "draggable-container"
+          ]
         }
       ]
-    }
+    }]
   };
 
   var builder = require('xmlbuilder');
