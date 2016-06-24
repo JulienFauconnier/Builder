@@ -1,3 +1,7 @@
+/**
+ * Unused plugin to deal with reverse resize.
+ * Basically, this plugin display an effect with siblings elements
+ */
 $.ui.plugin.add("resizable", "alsoResizeReverse", {
   start() {
     const that = $(this).resizable("instance"), o = that.options;

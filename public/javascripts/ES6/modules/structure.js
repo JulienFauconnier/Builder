@@ -1,5 +1,8 @@
 import Composite from "./composite";
 
+/**
+ *
+ */
 export default class Structure extends Composite {
   constructor(name, parents, childrens) {
     super(name);

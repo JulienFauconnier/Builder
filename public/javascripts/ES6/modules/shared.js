@@ -1,7 +1,7 @@
 export {hasOneChildOnly};
 
 /**
- *
+ * 
  * @param row
  * @returns {boolean}
  */

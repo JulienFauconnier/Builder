@@ -130,7 +130,7 @@ function createNestingDroppables(droppablesContainer) {
 }
 
 /**
- *
+ * Call all above functions in order to display Dropzones on Drag
  * @param editable
  */
 function createDroppables(editable) {
@@ -147,7 +147,7 @@ function createDroppables(editable) {
 }
 
 /**
- *
+ * 
  * @param editable
  */
 function firstDroppable(editable) {

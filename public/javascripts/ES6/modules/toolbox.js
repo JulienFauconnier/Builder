@@ -1,6 +1,10 @@
 import Tool from "./tool";
 import * as template from "./template";
 
+/**
+ * Initialize Toolbox widget (fill left column with blocks)
+ * @param div
+ */
 export default function init(div) {
   $.widget('plb.toolbox', {
     options: {
@@ -71,7 +75,7 @@ export default function init(div) {
       });
 
       $(".submit-template").on("click", function () {
-        template.exportTemplate($("#editable-area"));
+        template.exportTemplate($(".editable"));
 
       });
 
@@ -80,6 +84,10 @@ export default function init(div) {
       });
     }
   });
+
+  if (div.is(":data('plb-toolbox')")) {
+    div.toolbox("destroy");
+  }
 
   div.toolbox({debug: false});
   div.toolbox("newPLB");

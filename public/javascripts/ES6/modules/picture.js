@@ -1,5 +1,5 @@
 /**
- *
+ * This function get a picture from an input
  * @param input
  * @param output
  */

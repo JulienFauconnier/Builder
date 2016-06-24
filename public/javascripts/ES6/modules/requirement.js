@@ -1,6 +1,6 @@
 export default class Requirement {
   /**
-   * This function is supposed to set (or return) columns "small" size
+   * This (btw empty) function is supposed to set (or return) columns "small" size
    * using content height.
    * If column's size greater than XXXpx -> small-12
    * Else:

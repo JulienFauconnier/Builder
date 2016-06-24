@@ -1,5 +1,8 @@
 import Composite from "./composite";
 
+/**
+ *
+ */
 export default class Group extends Composite {
   constructor(name, elements) {
     super(name);

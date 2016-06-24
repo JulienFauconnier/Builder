@@ -37,7 +37,7 @@ let parametersComponents = [
 
 let Tool = {
   /**
-   *
+   * Initialize and Return Components (elements usable by themselves)
    * @returns {{}}
    */
   initComponents() {
@@ -51,7 +51,7 @@ let Tool = {
   },
 
   /**
-   *
+   * Initialize and Return Structures based on previously initialized Components
    * @param components
    * @returns {{}}
    */
@@ -178,7 +178,8 @@ let Tool = {
   },
 
   /**
-   *
+   * Initialize and Return Groups, based on Components and/or Structures
+   * Useful for complex DOM
    * @param components
    * @param structures
    * @returns {{}}
@@ -226,20 +227,3 @@ let Tool = {
 };
 
 export default Tool;
-
-let namespace = {
-  get singleton() { // BEGIN iife
-    let singleton;
-    return function () {
-      if (!singleton) {
-        singleton = {
-          amethod() {
-            console.log("amethod");
-          }
-        }
-      }
-      return singleton;
-    };
-  } // END iife
-};
-// Invoke: namespace.singleton().amethod()

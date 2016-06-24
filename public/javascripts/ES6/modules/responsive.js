@@ -1,7 +1,7 @@
 export {getColumnSize, setColumnSize};
 
 /**
- *
+ * Return a default layout based on elements count
  * @param count
  * @returns {{small: number, medium: number, large: number}}
  */

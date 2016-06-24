@@ -20,7 +20,7 @@ function removeDiv(element) {
 }
 
 /**
- *
+ * Update All Columns from a Row
  * @param row
  */
 function updateRow(row) {
@@ -33,7 +33,7 @@ function updateRow(row) {
 }
 
 /**
- *
+ * Generate and Return a list of actions after a Drag/Drop/Delete
  * @param containers
  * @param type
  * @returns {Array}
@@ -68,7 +68,7 @@ function prepareContainersOperations(containers, type) {
 }
 
 /**
- *
+ * Create a new Row on Drop
  * @param droppable
  * @param ui
  */
@@ -89,7 +89,7 @@ function newRow(droppable, ui) {
 }
 
 /**
- *
+ * Create a new Column on Drop
  * @param droppable
  * @param ui
  */
@@ -107,7 +107,7 @@ function newColumn(droppable, ui) {
 }
 
 /**
- *
+ * Wrap an existing and new Row into one Column
  * @param droppable
  * @param draggable
  * @returns {*[]}
@@ -129,7 +129,7 @@ function wrappingRowIntoColumn(droppable, draggable) {
 }
 
 /**
- *
+ * Add a new Row inside a Wrap on Drop
  * @param droppable
  * @param ui
  */

@@ -1,9 +1,9 @@
 const DROPPABLE_SIZE = 10;
 
-// TODO: Find a way to delete this b*******
+// TODO: Find a way to delete this
 
 /**
- *
+ * Generate and Return CSS rules specific to dropzones
  * @param elementPosition
  * @param element
  * @returns {*}

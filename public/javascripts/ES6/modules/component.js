@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export default class Component {
   constructor(name, tag, attributes) {
     this._m_name = name;

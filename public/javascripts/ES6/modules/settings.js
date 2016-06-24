@@ -37,6 +37,7 @@ let optList = {
   "text-transform": ["none", "capitalize", "uppercase", "lowercase", "initial", "inherit"]
 };
 
+
 /**
  *
  */

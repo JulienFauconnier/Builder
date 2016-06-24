@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export default class Composite {
   constructor(name) {
     this._m_name = name;

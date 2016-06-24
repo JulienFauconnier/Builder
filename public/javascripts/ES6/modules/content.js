@@ -4,6 +4,11 @@ import * as settings from "./settings";
 import Bootstrap3 from "./base/bootstrap3";
 import Foundation6 from "./base/foundation6";
 
+/**
+ * Initialize Content widget (allow to interact with objects)
+ * @param div
+ * @returns {*|jQuery}
+ */
 export default function init(div) {
   $.widget('plb.content', {
     options: {
@@ -74,7 +79,7 @@ export default function init(div) {
     },
 
     /**
-     *
+     * Initialize movable columns with Draggables interactions
      * @param draggables
      * @returns {*|jQuery}
      */
@@ -108,7 +113,7 @@ export default function init(div) {
     },
 
     /**
-     *
+     * Initialize movable columns with Selectables interactions
      */
     initSelectables() {
       const that = this;
@@ -176,7 +181,7 @@ export default function init(div) {
     },
 
     /**
-     *
+     * Display handles on resizable columns
      * @param draggables
      */
     createHandles(draggables) {
@@ -320,6 +325,10 @@ export default function init(div) {
       }
     }
   });
+
+  if (div.is(":data('plb-content')")) {
+    div.content("destroy");
+  }
 
   div.content({debug: false});
   div.content("newPLB");
