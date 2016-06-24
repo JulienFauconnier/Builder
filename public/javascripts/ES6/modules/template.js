@@ -18,6 +18,54 @@ function exportTemplate(node) {
 
   console.log(JSON.stringify(backup));
   console.log(toXML(backup));
+
+  var obj = {
+    container: {
+      row: [
+        {
+          columns: [
+            {
+              H2: {
+                '@test': "lol",
+                '#text': "lolilol"
+              },
+              '@class': "test",
+              '@small': 4,
+              '@medium': 4,
+              '@large': 4
+            },
+            {
+              H2: {
+                '@test': "lol",
+                '#text': "lolilol"
+              },
+              '@class': "test",
+              '@small': 4,
+              '@medium': 4,
+              '@large': 4
+            },
+            {
+              H2: {
+                '@test': "lol",
+                '#text': "lolilol"
+              },
+              '@class': "test",
+              '@small': 4,
+              '@medium': 4,
+              '@large': 4
+            }
+          ],
+          '@class': "draggable-container"
+        }
+      ]
+    }
+  };
+
+  var builder = require('xmlbuilder');
+  var root = builder.create(obj).end({pretty: true});
+
+  console.log(JSON.stringify(obj));
+  console.log(root);
 }
 
 function toXML(json) {
@@ -83,13 +131,11 @@ function DOMtoJSON(node = this) {
 
   const childNodes = $(node).children();
 
-
-  console.log(($(node).attr("class")).indexOf("js-off-canvas-exit"));
-
   obj[nodeType]["#"] = [];
+
   if (childNodes.length > 0 && nodeType !== "P") {
     for (const childNode of childNodes) {
-      if (($(childNode).attr("class")).indexOf("js-off-canvas-exit") === -1)
+      if (($(childNode).attr("class") || []).indexOf("js-off-canvas-exit") === -1)
         obj[nodeType]["#"].push(DOMtoJSON(childNode));
     }
   }
