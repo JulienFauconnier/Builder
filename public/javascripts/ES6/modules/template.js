@@ -5,6 +5,8 @@ export {exportTemplate, importTemplate};
 
 let builder = require('xmlbuilder');
 
+let exclusion = ["container", "row", "columns"];
+
 let backup;
 
 /**
@@ -73,12 +75,21 @@ function DOMtoJSON(node = this) {
 
   obj[nodeType]["@"].class = $(node).prop("class");
 
+  if (exclusion.indexOf(nodeType) > -1) {
+    jQuery.each($(node).attributes, function (i, attrib) {
+      obj[nodeType]["@"][attrib.name] = attrib.value;
+    });
+  }
+
   const childNodes = $(node).children();
+
+
+  console.log(($(node).attr("class")).indexOf("js-off-canvas-exit"));
 
   obj[nodeType]["#"] = [];
   if (childNodes.length > 0 && nodeType !== "P") {
     for (const childNode of childNodes) {
-      if ($(node).not(".js-off-canvas-exit"))
+      if (($(childNode).attr("class")).indexOf("js-off-canvas-exit") === -1)
         obj[nodeType]["#"].push(DOMtoJSON(childNode));
     }
   }
@@ -105,7 +116,7 @@ function JSONtoDOM(obj) {
   for (const testO in obj) {
     let tag;
 
-    if (testO === "container" || testO === "row" || testO === "columns")
+    if (exclusion.indexOf(testO) > -1)
       tag = "div";
     else
       tag = testO;
