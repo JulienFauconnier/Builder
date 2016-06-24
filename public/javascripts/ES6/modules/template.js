@@ -3,128 +3,31 @@ import Content from "./content";
 
 export {exportTemplate, importTemplate};
 
+let builder = require('xmlbuilder');
+
+let backup;
+
 /**
  *
  * @param node
  */
 function exportTemplate(node) {
-  /*
-   jQuery.each(nodes, (index, node) => {
-   window.console.log(node);
-   });
-   */
+  backup = DOMtoJSON(node);
 
-  //let test = toJSON(node);
+  console.log(JSON.stringify(backup));
+  console.log(toXML(backup));
+}
 
-  //let finalJSON = JSON.stringify(test, null, 2);
-
-  window.console.log(JSON.stringify(DOMtoJSON(node)));
-  //window.console.log(finalJSON);
+function toXML(json) {
+  return builder.create(json).end({pretty: true});
 }
 
 /**
  *
  */
 function importTemplate() {
-  const test = {
-    "container": {
-      "@": {"class": "off-canvas-content editable ui-selectable"},
-      "#": [
-        {
-          "row": {
-            "@": {"class": "row draggables-container"},
-            "#": [{
-              "columns": {
-                "@": {
-                  "small": 4,
-                  "medium": 4,
-                  "large": 4,
-                  "class": "columns draggable small-12 medium-4 large-4 ui-draggable ui-resizable"
-                },
-                "#": [{
-                  "H1": {
-                    "@": {"class": "tiny-mce"},
-                    "#": "Wingardium Leviosa"
-                  }
-                }]
-              }
-            }, {
-              "columns": {
-                "@": {
-                  "small": 4,
-                  "medium": 4,
-                  "large": 4,
-                  "class": "columns draggable ui-draggable ui-resizable small-12 medium-4 large-4"
-                },
-                "#": [{
-                  "H1": {
-                    "@": {"class": "tiny-mce"},
-                    "#": "Wingardium Leviosa"
-                  }
-                }]
-              }
-            }, {
-              "columns": {
-                "@": {
-                  "small": 4,
-                  "medium": 4,
-                  "large": 4,
-                  "class": "columns draggable ui-draggable ui-selectee small-12 medium-4 large-4"
-                }, "#": [{"H1": {"@": {"class": "tiny-mce"}, "#": "Wingardium Leviosa"}}]
-              }
-            }]
-          }
-        },
-        {
-          "row": {
-            "@": {"class": "row draggables-container"},
-            "#": [{
-              "columns": {
-                "@": {
-                  "small": 4,
-                  "medium": 4,
-                  "large": 4,
-                  "class": "columns draggable small-12 medium-4 large-4 ui-draggable ui-resizable"
-                },
-                "#": [{
-                  "H1": {
-                    "@": {"class": "tiny-mce"},
-                    "#": "Wingardium Leviosa"
-                  }
-                }]
-              }
-            }, {
-              "columns": {
-                "@": {
-                  "small": 4,
-                  "medium": 4,
-                  "large": 4,
-                  "class": "columns draggable ui-draggable ui-resizable small-12 medium-4 large-4"
-                },
-                "#": [{
-                  "H1": {
-                    "@": {"class": "tiny-mce"},
-                    "#": "Wingardium Leviosa"
-                  }
-                }]
-              }
-            }, {
-              "columns": {
-                "@": {
-                  "small": 4,
-                  "medium": 4,
-                  "large": 4,
-                  "class": "columns draggable ui-draggable ui-selectee small-12 medium-4 large-4"
-                }, "#": [{"H1": {"@": {"class": "tiny-mce"}, "#": "Wingardium Leviosa"}}]
-              }
-            }]
-          }
-        }]
-    }
-  };
-
   const editable = $(".editable");
-  const testF = JSONtoDOM(test);
+  const testF = JSONtoDOM(backup);
 
   editable.children(".row").remove();
   editable.append(testF[0][0].childNodes);
@@ -207,7 +110,7 @@ function JSONtoDOM(obj) {
     else
       tag = testO;
 
-    const attributes = obj[testO]["@"];
+    const attributes = obj[testO]["@"] || {class: ""};
     const content = obj[testO]["#"];
     const element = $(`<${tag}>`, {class: attributes.class});
 

@@ -173,9 +173,11 @@ export default function init(div) {
           });
         },
         unselected(event, ui) {
-          $(".nSetting").empty();
-          // FIXME: Remove when column delete
-          // FIXME: Remove when row delete
+          //$(".nSetting").empty();
+
+          $(".nSetting").children().filter(function () {
+            return jQuery.inArray($(this).data("target"), ui.unselected.children) !== -1;
+          }).remove();
         }
       });
     },
@@ -188,20 +190,24 @@ export default function init(div) {
       const that = this;
 
       draggables.hover(function () {
-
+        let hovered = $(this);
         if (!that.editing && !that.dragging) {
           const dragHandle = $("<div>", {class: "draggable-move icon-arrows"});
           const delHandle = $("<div>", {class: "draggable-del icon-trash"});
           const editHandle = $("<div>", {class: "draggable-edit icon-pencil"});
 
-          $(this).append(dragHandle);
-          $(this).append(delHandle);
-          $(this).append(editHandle);
+          hovered.append(dragHandle);
+          hovered.append(delHandle);
+          hovered.append(editHandle);
 
           $(".draggable-del").on("click", function () {
 
             const parentRow = $(this).parent().parent();
             const update = parentRow.children().length > 1;
+
+            $(".nSetting").children().filter(function () {
+              return jQuery.inArray($(this).data("target"), hovered.children) !== -1;
+            }).remove();
 
             $(this).parent().remove();
 
@@ -241,7 +247,7 @@ export default function init(div) {
             }
           });
 
-          if (!$(this).is(':last-child')) {
+          if (hovered.is(':last-child')) {
             that.createHorizontalResizable($(this));
             $(this).next().addClass("resizable-reverse");
           }
