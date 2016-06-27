@@ -5,93 +5,10 @@ export {exportTemplate, importTemplate};
 
 let builder = require('xmlbuilder');
 
-let exclusion = ["container", "row", "columns"];
+let classEx = ["container", "row", "columns"];
+let tagEX = ["P", "H1", "H2", "H3", "H4", "H5", "H6"];
 
 let backup;
-
-/**
- *
- * @param node
- */
-function exportTemplate(node) {
-  backup = DOMtoJSON(node);
-
-  console.log(JSON.stringify(backup));
-  console.log(toXML(backup));
-
-  var obj = {
-    container: [{
-      row: [
-        {
-          columns: [
-            {
-              H2: {
-                '@test': "lol",
-                '#text': "lolilol"
-              },
-              P: {
-                '#text': "bla bla bla"
-              },
-              '@class': "test",
-              '@small': 4,
-              '@medium': 4,
-              '@large': 4
-            },
-            {
-              H2: [{
-                '@test': "lol",
-                '#text': "lolilol"
-              }],
-              P: {
-                '#text': "bla bla bla"
-              },
-              '@class': "test",
-              '@small': 4,
-              '@medium': 4,
-              '@large': 4
-            },
-            {
-              H2: [{
-                '@test': "lol",
-                '#text': "lolilol"
-              }],
-              P: [{
-                '#text': "bla bla bla"
-              }],
-              '@class': "test",
-              '@small': 4,
-              '@medium': 4,
-              '@large': 4
-            }
-          ]
-        }
-      ]
-    }]
-  };
-
-  var builder = require('xmlbuilder');
-  var root = builder.create(obj).end({pretty: true});
-
-  console.log(JSON.stringify(obj));
-  console.log(root);
-}
-
-function toXML(json) {
-  return builder.create(json).end({pretty: true});
-}
-
-/**
- *
- */
-function importTemplate() {
-  const editable = $(".editable");
-  const testF = JSONtoDOM(backup);
-
-  editable.children(".row").remove();
-  editable.append(testF[0][0].childNodes);
-
-  Content(editable);
-}
 
 /**
  *
@@ -131,20 +48,19 @@ function DOMtoJSON(node = this) {
 
   obj[nodeType]["@"].class = $(node).prop("class");
 
-  if (exclusion.indexOf(nodeType) > -1) {
+  if (classEx.indexOf(nodeType) > -1) {
     jQuery.each($(node).attributes, function (i, attrib) {
       obj[nodeType]["@"][attrib.name] = attrib.value;
     });
   }
 
-  const childNodes = $(node).children();
+  const childNodes = $(node).children().not(".js-off-canvas-exit, .ui-resizable-handle");
 
   obj[nodeType]["#"] = [];
 
   if (childNodes.length > 0 && nodeType !== "P") {
     for (const childNode of childNodes) {
-      if (($(childNode).attr("class") || []).indexOf("js-off-canvas-exit") === -1)
-        obj[nodeType]["#"].push(DOMtoJSON(childNode));
+      obj[nodeType]["#"].push(DOMtoJSON(childNode));
     }
   }
   else {
@@ -159,6 +75,81 @@ function DOMtoJSON(node = this) {
   return obj;
 }
 
+function DOMtoJSON_test(node = this) {
+  let cArray = [];
+  let nodeType;
+
+  if ($(node).hasClass("editable") || ($(node).children().first().hasClass("row"))) {
+    nodeType = "row";
+  }
+  else if ($(node).hasClass("row")) {
+    nodeType = "columns";
+  }
+
+  const childNodes = $(node).children().not(".js-off-canvas-exit, .ui-resizable-handle");
+
+  let insideObj = {};
+
+  if (childNodes.length > 0 && (tagEX).indexOf(nodeType) === -1) {
+    let ttt = [];
+    for (const childNode of childNodes) {
+      if (nodeType !== undefined) {
+        ttt.push(DOMtoJSON_test(childNode));
+        insideObj[nodeType] = ttt;
+      }
+      else {
+        ttt.push(DOMtoJSON_test(childNode));
+        insideObj[$(childNode).prop("tagName")] = ttt;
+      }
+    }
+  }
+  else {
+    if ((tagEX).indexOf(nodeType) !== -1) {
+      insideObj["#text"] = $(node).html();
+    }
+    else {
+      insideObj["#text"] = $(node).text();
+    }
+  }
+
+  if ($(node).hasClass("columns")) {
+    const size = resp.getColumnSize($(node));
+
+    insideObj["@small"] = parseInt(size.large.slice(6, size.large.length)) || null;
+    insideObj["@medium"] = parseInt(size.medium.slice(7, size.medium.length)) || insideObj["@small"];
+    insideObj["@large"] = parseInt(size.large.slice(6, size.large.length)) || insideObj["@medium"];
+  }
+
+  insideObj["@class"] = $(node).prop("class");
+
+  cArray.push(insideObj);
+
+  return cArray;
+}
+
+/**
+ *
+ * @param json
+ * @returns {*}
+ */
+function toXML(json) {
+  return builder.create(json).end({pretty: true});
+}
+
+/**
+ *
+ * @param node
+ */
+function exportTemplate(node) {
+  //backup = DOMtoJSON(node);
+
+  backup = {};
+  backup.container = DOMtoJSON_test(node);
+
+  console.log(JSON.stringify(backup));
+  console.log(toXML(backup));
+}
+
 /**
  *
  * @param obj
@@ -170,17 +161,17 @@ function JSONtoDOM(obj) {
   for (const testO in obj) {
     let tag;
 
-    if (exclusion.indexOf(testO) > -1)
+    if (classEx.indexOf(testO) > -1)
       tag = "div";
     else
       tag = testO;
 
-    const attributes = obj[testO]["@"] || {class: ""};
-    const content = obj[testO]["#"];
+    const attributes = obj[testO]["@class"] || {class: ""};
+    const content = obj[testO]["#text"];
     const element = $(`<${tag}>`, {class: attributes.class});
 
     if (testO === "columns")
-      element.addClass(`small-${attributes.small} medium-${attributes.medium} large-${attributes.large}`);
+      element.addClass(`small-${obj[testO]["@small"]} medium-${obj[testO]["@medium"]} large-${obj[testO]["@large"]}`);
 
     if (Array.isArray(content)) {
       const tab = content;
@@ -195,6 +186,19 @@ function JSONtoDOM(obj) {
     node.push(element);
   }
   return node;
+}
+
+/**
+ *
+ */
+function importTemplate() {
+  const editable = $(".editable");
+  const testF = JSONtoDOM(backup);
+
+  editable.children(".row").remove();
+  editable.append(testF[0][0].childNodes);
+
+  Content(editable);
 }
 
 /**
