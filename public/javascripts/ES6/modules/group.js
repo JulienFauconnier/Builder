@@ -21,7 +21,7 @@ export default class Group extends Composite {
     const content = $("<div>", {class: "row"});
     let container;
 
-    for (let element of this.elements) {
+    for (const element of this.elements) {
       container = $("<div>", {
         class: `columns medium-${element.layout.medium} large-${element.layout.large}`
       });

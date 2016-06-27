@@ -1,12 +1,11 @@
 import * as resp from "./responsive";
 import Content from "./content";
+import builder from "xmlbuilder";
 
 export {exportTemplate, importTemplate};
 
-let builder = require('xmlbuilder');
-
-let classEx = ["container", "row", "columns"];
-let tagEX = ["P", "H1", "H2", "H3", "H4", "H5", "H6"];
+const classEx = ["container", "row", "columns"];
+const tagEX = ["P", "H1", "H2", "H3", "H4", "H5", "H6"];
 
 let backup;
 
@@ -76,7 +75,7 @@ function DOMtoJSON(node = this) {
 }
 
 function DOMtoJSON_test(node = this) {
-  let cArray = [];
+  const cArray = [];
   let nodeType;
 
   if ($(node).hasClass("editable") || ($(node).children().first().hasClass("row"))) {
@@ -88,10 +87,10 @@ function DOMtoJSON_test(node = this) {
 
   const childNodes = $(node).children().not(".js-off-canvas-exit, .ui-resizable-handle");
 
-  let insideObj = {};
+  const insideObj = {};
 
   if (childNodes.length > 0 && (tagEX).indexOf(nodeType) === -1) {
-    let ttt = [];
+    const ttt = [];
     for (const childNode of childNodes) {
       if (nodeType !== undefined) {
         ttt.push(DOMtoJSON_test(childNode));
@@ -151,7 +150,7 @@ function exportTemplate(node) {
 }
 
 /**
- *
+ * FIXME: This function is not working anymore
  * @param obj
  * @returns {Array}
  * @constructor
@@ -166,22 +165,22 @@ function JSONtoDOM(obj) {
     else
       tag = testO;
 
-    const attributes = obj[testO]["@class"] || {class: ""};
-    const content = obj[testO]["#text"];
-    const element = $(`<${tag}>`, {class: attributes.class});
+    const elemAttributes = obj[testO]["@class"] || {class: ""};
+    const elemContent = obj[testO]["#text"];
+    const element = $(`<${tag}>`, {class: elemAttributes.class});
 
     if (testO === "columns")
       element.addClass(`small-${obj[testO]["@small"]} medium-${obj[testO]["@medium"]} large-${obj[testO]["@large"]}`);
 
-    if (Array.isArray(content)) {
-      const tab = content;
+    if (Array.isArray(elemContent)) {
+      const tab = elemContent;
 
       for (const sub in tab) {
         element.append(JSONtoDOM(tab[sub]));
       }
     }
     else {
-      element.append(content);
+      element.append(elemContent);
     }
     node.push(element);
   }

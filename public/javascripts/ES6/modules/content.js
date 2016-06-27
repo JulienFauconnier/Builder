@@ -124,17 +124,17 @@ export default function init(div) {
           $(".nSetting").empty();
 
           // TODO: Other possibility -> Add elements to list, then generate options
-          let elements = ui.selected.children;
+          const elements = ui.selected.children;
 
           jQuery.each(elements, (index, element) => {
-            let selectTagName = that.customParameters[element.tagName];
+            const selectTagName = that.customParameters[element.tagName];
             if (selectTagName !== undefined) {
-              let list = $("<ul>", {text: element.tagName});
+              const list = $("<ul>", {text: element.tagName});
 
               for (let i = 0; i < selectTagName.length; i++) {
-                let tagOption = selectTagName[i];
-                let param = $("<li>");
-                let label = $("<label>", {text: tagOption});
+                const tagOption = selectTagName[i];
+                const param = $("<li>");
+                const label = $("<label>", {text: tagOption});
                 let input;
                 let options;
 
@@ -164,10 +164,10 @@ export default function init(div) {
           });
 
           $('#panel2 input, select, textarea').on("change input", function () {
-            let fun = $(this).parent().parent().parent().data("function");
-            let target = $(this).parent().parent().parent().data("target");
-            let parameter = $(this).parent().parent().data("parameter");
-            let paramValue = $(this).val();
+            const fun = $(this).parent().parent().parent().data("function");
+            const target = $(this).parent().parent().parent().data("target");
+            const parameter = $(this).parent().parent().data("parameter");
+            const paramValue = $(this).val();
             $(this).data("cssValue", paramValue);
             fun.apply($(target), [parameter, paramValue]);
           });
@@ -190,7 +190,7 @@ export default function init(div) {
       const that = this;
 
       draggables.hover(function () {
-        let hovered = $(this);
+        const hovered = $(this);
         if (!that.editing && !that.dragging) {
           const dragHandle = $("<div>", {class: "draggable-move icon-arrows"});
           const delHandle = $("<div>", {class: "draggable-del icon-trash"});

@@ -74,12 +74,12 @@ export default function init(div) {
         }
       });
 
-      $(".submit-template").on("click", function () {
+      $(".submit-template").on("click", () => {
         template.exportTemplate($(".editable"));
 
       });
 
-      $(".set-template").on("click", function () {
+      $(".set-template").on("click", () => {
         template.importTemplate();
       });
     }

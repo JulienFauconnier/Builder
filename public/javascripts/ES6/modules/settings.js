@@ -1,6 +1,6 @@
 export {getParameters, getOptions, initOptions};
 
-let paramList = {
+const paramList = {
   "P": ["color", "font-size", "margin", "padding", "letter-spacing", "line-height", "text-align",
     "text-transform", "text-shadow", "font-weight"],
   "A": ["background-color", "border", "border-radius", "color", "margin", "padding", "letter-spacing",
@@ -31,7 +31,7 @@ let paramList = {
     "box-shadow", "font-weight", "text-transform", "text-shadow", "opacity"]
 };
 
-let optList = {
+const optList = {
   "font-weight": ["normal", "bold", "bolder", "lighter", "initial", "inherit"],
   "text-align": ["left", "right", "center", "justify", "initial", "inherit"],
   "text-transform": ["none", "capitalize", "uppercase", "lowercase", "initial", "inherit"]
@@ -62,11 +62,11 @@ function getOptions() {
 function initOptions(select, default_option) {
   let options = "";
   for (let i = 0; i < optList[select].length; i++) {
-    options += "<option value='" + optList[select][i] + "' ";
+    options += `<option value='${optList[select][i]}' `;
     if (default_option === optList[select][i]) {
       options += "selected"
     }
-    options += ">" + optList[select][i] + "</option>";
+    options += `>${optList[select][i]}</option>`;
   }
   return options;
 }

@@ -5,9 +5,9 @@
  */
 function readURL(input, output) {
   if (input.files && input.files[0]) {
-    var reader = new FileReader();
+    const reader = new FileReader();
 
-    reader.onload = function (e) {
+    reader.onload = e => {
       output.attr('src', e.target.result);
     };
 

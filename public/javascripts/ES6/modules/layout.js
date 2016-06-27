@@ -11,7 +11,7 @@ export * from "./responsive"
  * @returns {*}
  */
 function removeDiv(element) {
-  let eParent = element.parent();
+  const eParent = element.parent();
 
   if (eParent.children().length < 2)
     element = removeDiv(eParent);
@@ -27,7 +27,7 @@ function updateRow(row) {
   const childrenCount = row.children().not(".ui-draggable-dragging").length,
     columns = row.children();
 
-  for (let column of columns) {
+  for (const column of columns) {
     resp.setColumnSize($(column), childrenCount);
   }
 }

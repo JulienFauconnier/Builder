@@ -7,7 +7,7 @@ import Group from "./group";
 const shortLoremIpsum = "Wingardium Leviosa",
   loremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
 
-let parametersComponents = [
+const parametersComponents = [
   {id: "header1", name: "Header 1", tag: "h1", attributes: {class: "tiny-mce", "text": shortLoremIpsum}},
   {id: "header2", name: "Header 2", tag: "h2", attributes: {class: "tiny-mce", "text": shortLoremIpsum}},
   {id: "header3", name: "Header 3", tag: "h3", attributes: {class: "tiny-mce", "text": shortLoremIpsum}},
@@ -35,15 +35,15 @@ let parametersComponents = [
   }
 ];
 
-let Tool = {
+const Tool = {
   /**
    * Initialize and Return Components (elements usable by themselves)
    * @returns {{}}
    */
   initComponents() {
-    let components = {};
+    const components = {};
 
-    for (let parameters of parametersComponents) {
+    for (const parameters of parametersComponents) {
       components[`${parameters.id}`] = new Component(parameters.name, parameters.tag, parameters.attributes);
     }
 
@@ -56,7 +56,7 @@ let Tool = {
    * @returns {{}}
    */
   initStructures(components) {
-    let structures = {};
+    const structures = {};
 
     const mediaObject = (new Component("MediaObject", "div", {class: "media-object"}));
 
@@ -185,7 +185,7 @@ let Tool = {
    * @returns {{}}
    */
   initGroups(components, structures) {
-    let groups = {};
+    const groups = {};
 
     groups.login = new Group("Login",
       [{layout: {"medium": 4, "large": 4}, content: structures.inputEmail},

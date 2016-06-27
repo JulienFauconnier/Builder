@@ -46,7 +46,7 @@ function createAddToNestedDroppables(nestedDroppablesContainer) {
 function createRowDroppables(droppablesContainer) {
   const draggablesContainer = $(".row.draggables-container");
 
-  for (let draggableContainer of draggablesContainer) {
+  for (const draggableContainer of draggablesContainer) {
     if (shared.hasOneChildOnly($(draggableContainer)) || rq.checkColumnLevel($(draggableContainer))) {
       // Jump to next iteration: because we move a single element
       return true;
@@ -79,7 +79,7 @@ function createRowDroppables(droppablesContainer) {
 function createColumnsDroppables(droppablesContainer) {
   const draggables = $(".draggable").not(".drag-active, .ui-draggable-dragging");
 
-  for (let draggable of draggables) {
+  for (const draggable of draggables) {
     if (!rq.checkColumnLevel($(draggable)) && !rq.checkMaximumColumnsByRow($(draggable).parent())) {
       if ($(draggable).is(':first-child')) {
         const droppableColumnBefore = $("<div>", {
@@ -110,7 +110,7 @@ function createColumnsDroppables(droppablesContainer) {
 function createNestingDroppables(droppablesContainer) {
   const draggables = $(".draggable").not(".drag-active, .ui-draggable-dragging");
 
-  for (let draggable of draggables) {
+  for (const draggable of draggables) {
     if ($(draggable).siblings().length > 0 && !rq.checkColumnLevel($(draggable)) && !rq.isColumnContainingRow($(draggable))) {
       const droppableRowAbove = $("<div>", {
         class: "droppable new-inside-above"
@@ -147,7 +147,7 @@ function createDroppables(editable) {
 }
 
 /**
- * 
+ *
  * @param editable
  */
 function firstDroppable(editable) {
