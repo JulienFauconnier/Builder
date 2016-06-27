@@ -143,6 +143,7 @@ function exportTemplate(node) {
   //backup = DOMtoJSON(node);
 
   backup = {};
+
   backup.container = DOMtoJSON_test(node);
 
   console.log(JSON.stringify(backup));
@@ -151,27 +152,35 @@ function exportTemplate(node) {
 
 /**
  * FIXME: This function is not working anymore
- * @param obj
+ * @param array
  * @returns {Array}
  * @constructor
  */
-function JSONtoDOM(obj) {
+function JSONtoDOM(array) {
   const node = [];
-  for (const testO in obj) {
+
+  for (const elem in array) {
+    console.log(elem);
+
     let tag;
 
-    if (classEx.indexOf(testO) > -1)
+    if (classEx.indexOf(elem) > -1) {
       tag = "div";
-    else
-      tag = testO;
+    }
+    else {
+      tag = $(elem).prop("tagName");
+    }
 
-    const elemAttributes = obj[testO]["@class"] || {class: ""};
-    const elemContent = obj[testO]["#text"];
+    console.log(tag);
+
+    const elemAttributes = array[elem]["@class"] || {class: ""};
+    const elemContent = array[elem]["#text"];
     const element = $(`<${tag}>`, {class: elemAttributes.class});
 
-    if (testO === "columns")
-      element.addClass(`small-${obj[testO]["@small"]} medium-${obj[testO]["@medium"]} large-${obj[testO]["@large"]}`);
 
+    if (elem === "columns") {
+      element.addClass(`small-${array[elem]["@small"]} medium-${array[elem]["@medium"]} large-${array[elem]["@large"]}`);
+    }
     if (Array.isArray(elemContent)) {
       const tab = elemContent;
 
@@ -183,6 +192,7 @@ function JSONtoDOM(obj) {
       element.append(elemContent);
     }
     node.push(element);
+
   }
   return node;
 }
@@ -195,7 +205,7 @@ function importTemplate() {
   const testF = JSONtoDOM(backup);
 
   editable.children(".row").remove();
-  editable.append(testF[0][0].childNodes);
+  editable.append(testF);
 
   Content(editable);
 }
