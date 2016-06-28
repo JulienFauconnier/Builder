@@ -20,6 +20,8 @@ function DOMtoJSON(node = this) {
   let nodeType;
   let nodeSize = false;
 
+  //console.log($(node).attr());
+
   if ($(node).hasClass("editable")) {
     nodeType = "container";
   }
@@ -47,19 +49,28 @@ function DOMtoJSON(node = this) {
 
   obj[nodeType]["@"].class = $(node).prop("class");
 
-  if (classEx.indexOf(nodeType) > -1) {
-    jQuery.each($(node).attributes, function (i, attrib) {
-      obj[nodeType]["@"][attrib.name] = attrib.value;
-    });
+  if (classEx.indexOf(nodeType) === -1) {
+    if (node.hasAttributes()) {
+      /*
+       for (let attribute in node.attributes[0]) {
+       console.log(attribute);
+       obj[nodeType]["@"][attribute.name] = attribute.value;
+       }
+       */
+
+      jQuery.each(node.attributes, (i, attribute) => {
+        obj[nodeType]["@"][attribute.name] = attribute.value;
+      });
+    }
   }
 
-  const childNodes = $(node).children().not(".js-off-canvas-exit, .ui-resizable-handle");
+  const childNodes = $(node).children();
 
   obj[nodeType]["#"] = [];
-
   if (childNodes.length > 0 && nodeType !== "P") {
     for (const childNode of childNodes) {
-      obj[nodeType]["#"].push(DOMtoJSON(childNode));
+      if ((($(childNode).attr("class")) || []).indexOf("js-off-canvas-exit") === -1)
+        obj[nodeType]["#"].push(DOMtoJSON(childNode));
     }
   }
   else {
@@ -140,14 +151,114 @@ function toXML(json) {
  * @param node
  */
 function exportTemplate(node) {
+  const obj = {
+    container: [{
+      row: [
+        {
+          columns: [
+            {
+              content: [
+                {
+                  tag: "h1",
+                  class: "test2",
+                  text: "pompompidou"
+                },
+                {
+                  tag: "p",
+                  class: "test1",
+                  text: "lol"
+                }
+              ],
+              '@class': "test",
+              '@small': 4,
+              '@medium': 4,
+              '@large': 4
+            },
+            {
+              H2: [{
+                '@test': "lol",
+                '#text': "lolilol2"
+              }],
+              P: [{
+                '#text': "bla bla bla"
+              }],
+              '@class': "test",
+              '@small': 4,
+              '@medium': 4,
+              '@large': 4
+            },
+            {
+              H2: [{
+                '@test': "lol",
+                '#text': "lolilol3"
+              }],
+              P: [{
+                '#text': "bla bla bla"
+              }],
+              '@class': "test",
+              '@small': 4,
+              '@medium': 4,
+              '@large': 4
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              H2: [{
+                '@test': "lol",
+                '#text': "lolilol4"
+              }],
+              P: [{
+                '#text': "bla bla bla"
+              }],
+              '@class': "test",
+              '@small': 4,
+              '@medium': 4,
+              '@large': 4
+            },
+            {
+              H2: [{
+                '@test': "lol",
+                '#text': "lolilol5"
+              }],
+              P: [{
+                '#text': "bla bla bla"
+              }],
+              '@class': "test",
+              '@small': 4,
+              '@medium': 4,
+              '@large': 4
+            },
+            {
+              H2: [{
+                '@test': "lol",
+                '#text': "lolilol6"
+              }],
+              P: [{
+                '#text': "bla bla bla"
+              }],
+              '@class': "test",
+              '@small': 4,
+              '@medium': 4,
+              '@large': 4
+            }
+          ]
+        }
+      ]
+    }]
+  };
+
   //backup = DOMtoJSON(node);
 
-  backup = {};
+  //backup = {};
 
-  backup.container = DOMtoJSON_test(node);
+  //backup.container = DOMtoJSON_test(node);
+
+  backup = DOMtoJSON(node);
 
   console.log(JSON.stringify(backup));
-  console.log(toXML(backup));
+  //console.log(toXML(backup));
 }
 
 /**
@@ -156,12 +267,10 @@ function exportTemplate(node) {
  * @returns {Array}
  * @constructor
  */
-function JSONtoDOM(array) {
+function JSONtoDOM_test(array) {
   const node = [];
 
   for (const elem in array) {
-    console.log(elem);
-
     let tag;
 
     if (classEx.indexOf(elem) > -1) {
@@ -171,28 +280,68 @@ function JSONtoDOM(array) {
       tag = $(elem).prop("tagName");
     }
 
-    console.log(tag);
+    console.log(array[elem]);
 
     const elemAttributes = array[elem]["@class"] || {class: ""};
-    const elemContent = array[elem]["#text"];
+    const elemContent = array[elem]["#text"] || array[elem][0] || array[elem]["columns"] || array[elem]["row"];
+
+    console.log(elemContent);
+
     const element = $(`<${tag}>`, {class: elemAttributes.class});
 
-
     if (elem === "columns") {
-      element.addClass(`small-${array[elem]["@small"]} medium-${array[elem]["@medium"]} large-${array[elem]["@large"]}`);
+      element
+        .addClass(`small-${array[elem]["@small"]} medium-${array[elem]["@medium"]} large-${array[elem]["@large"]}`);
     }
+
     if (Array.isArray(elemContent)) {
-      const tab = elemContent;
+      for (const subElement in elemContent) {
+        element.append(JSONtoDOM_test(elemContent[subElement]));
+      }
+    }
+    else {
+      element.append(elemContent);
+    }
+
+    node.push(element);
+  }
+  return node;
+}
+
+/**
+ *
+ * @param obj
+ * @returns {Array}
+ * @constructor
+ */
+function JSONtoDOM(obj) {
+  const node = [];
+  for (const testO in obj) {
+    let tag;
+
+    if (classEx.indexOf(testO) > -1)
+      tag = "div";
+    else
+      tag = testO;
+
+    const attributes = obj[testO]["@"] || {};
+    const content = obj[testO]["#"];
+    const element = $(`<${tag}>`, attributes);
+
+    if (testO === "columns")
+      element.addClass(`small-${attributes.small} medium-${attributes.medium} large-${attributes.large}`);
+
+    if (Array.isArray(content)) {
+      const tab = content;
 
       for (const sub in tab) {
         element.append(JSONtoDOM(tab[sub]));
       }
     }
     else {
-      element.append(elemContent);
+      element.append(content);
     }
     node.push(element);
-
   }
   return node;
 }
@@ -202,10 +351,11 @@ function JSONtoDOM(array) {
  */
 function importTemplate() {
   const editable = $(".editable");
+  //const testF = JSONtoDOM_test(backup.container);
   const testF = JSONtoDOM(backup);
 
   editable.children(".row").remove();
-  editable.append(testF);
+  editable.append(testF[0][0].childNodes);
 
   Content(editable);
 }
