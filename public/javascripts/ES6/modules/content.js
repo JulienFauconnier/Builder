@@ -57,8 +57,13 @@ export default function init(div) {
           const content = ui.draggable.data("data");
 
           if (parent.is("ul")) {
+            let selector = $(".selector");
+            let option = $("<option>", {value: "ttt", text: "lol"});
+
             ui.draggable = $("<div>", {class: "columns draggable"}).append(content.clone());
-            //that.initDraggables(ui.draggable);
+
+            option.data("target", ui.draggable);
+            option.appendTo(selector);
           }
 
           if ($(this).is('[class*="new-row"]')) {
@@ -204,6 +209,10 @@ export default function init(div) {
 
             const parentRow = $(this).parent().parent();
             const update = parentRow.children().length > 1;
+
+            $(".selector").children().filter(function () {
+              return jQuery.inArray($(this).data("target"), hovered.children) !== -1;
+            }).remove();
 
             $(".nSetting").children().filter(function () {
               return jQuery.inArray($(this).data("target"), hovered.children) !== -1;

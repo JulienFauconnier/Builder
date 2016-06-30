@@ -188,38 +188,48 @@ const Tool = {
     const groups = {};
 
     groups.login = new Group("Login",
-      [{layout: {"medium": 4, "large": 4}, content: structures.inputEmail},
+      [
+        {layout: {"medium": 4, "large": 4}, content: structures.inputEmail},
         {layout: {"medium": 4, "large": 4}, content: structures.inputPassword},
-        {layout: {"medium": 4, "large": 4}, content: components.btn}]
+        {layout: {"medium": 4, "large": 4}, content: components.btn}
+      ]
     );
 
     groups.contact = new Group("Contact",
-      [{layout: {"medium": 6, "large": 6}, content: structures.inputEmail},
+      [
+        {layout: {"medium": 6, "large": 6}, content: structures.inputEmail},
         {layout: {"medium": 6, "large": 6}, content: structures.inputTel},
         {layout: {"medium": 12, "large": 12}, content: structures.textArea},
-        {layout: {"medium": 12, "large": 12}, content: components.btn}]
+        {layout: {"medium": 12, "large": 12}, content: components.btn}
+      ]
     );
 
     const details = new Group("Details",
-      [{layout: {"medium": 12, "large": 12}, content: structures.inputText},
-        {layout: {"medium": 12, "large": 12}, content: structures.inputText}]
+      [
+        {layout: {"medium": 12, "large": 12}, content: structures.inputText},
+        {layout: {"medium": 12, "large": 12}, content: structures.inputText}
+      ]
     );
 
     groups.profile = new Group("Profile",
-      [{layout: {"medium": 3, "large": 3}, content: components.img},
+      [
+        {layout: {"medium": 3, "large": 3}, content: components.img},
         {layout: {"medium": 9, "large": 9}, content: details},
-        {layout: {"medium": 12, "large": 12}, content: components.btn}]
+        {layout: {"medium": 12, "large": 12}, content: components.btn}
+      ]
     );
 
     groups.address = new Group("Address",
-      [{layout: {"medium": 12, "large": 12}, content: structures.inputText},
+      [
         {layout: {"medium": 12, "large": 12}, content: structures.inputText},
         {layout: {"medium": 12, "large": 12}, content: structures.inputText},
         {layout: {"medium": 12, "large": 12}, content: structures.inputText},
         {layout: {"medium": 12, "large": 12}, content: structures.inputText},
         {layout: {"medium": 12, "large": 12}, content: structures.inputText},
         {layout: {"medium": 12, "large": 12}, content: structures.inputText},
-        {layout: {"medium": 12, "large": 12}, content: components.btn}]
+        {layout: {"medium": 12, "large": 12}, content: structures.inputText},
+        {layout: {"medium": 12, "large": 12}, content: components.btn}
+      ]
     );
 
     return groups;

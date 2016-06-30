@@ -148,9 +148,9 @@ function toXML(json) {
 
 /**
  *
- * @param node
  */
-function exportTemplate(node) {
+function exportTemplate() {
+  const node = $(".editable");
   const obj = {
     container: [{
       row: [
