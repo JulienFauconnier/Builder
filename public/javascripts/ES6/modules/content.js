@@ -37,18 +37,18 @@ export default function init(div) {
       that.initDraggables(that.draggables);
       that.createHandles(that.draggables);
 
-      let selector = $(".selector");
+      const selector = $(".selector");
       selector.empty();
-      let first = $("<option>", {value: "aaa", text: "aaa"});
+      const first = $("<option>", {value: "aaa", text: "aaa"});
       first.appendTo(selector);
-      for (let draggable of that.draggables) {
-        let option = $("<option>", {value: "ttt", text: "lol"});
+      for (const draggable of that.draggables) {
+        const option = $("<option>", {value: "ttt", text: "lol"});
         option.data("target", draggable);
         option.appendTo(selector);
       }
 
       selector.on("change", function () {
-        let optionSelected = $("option:selected", this);
+        const optionSelected = $("option:selected", this);
         if (optionSelected.data("target") !== undefined) {
           that.initStylisable($(optionSelected.data("target")));
         }
@@ -251,7 +251,7 @@ export default function init(div) {
                 inline: true,
                 setup(editor) {
                   editor.on('focus', () => {
-                    div.selectable("destroy");
+                    //div.selectable("destroy");
                     that.editing = true;
                   });
 

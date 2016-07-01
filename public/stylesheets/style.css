@@ -37,7 +37,7 @@
   z-index: 1000; }
 
 .draggable-move,
-.draggable-style
+.draggable-style,
 .draggable-edit,
 .draggable-del {
   font-size: 24px;
@@ -58,7 +58,7 @@
 
 .draggable-edit {
   color: #008000;
-  left: 25px;
+  left: 50px;
   top: 0;
 }
 

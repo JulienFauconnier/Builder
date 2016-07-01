@@ -76,7 +76,7 @@ $new-inside-ab-color4: rgba(255, 255, 255, 0);
 }
 
 .draggable-move,
-.draggable-style
+.draggable-style,
 .draggable-edit,
 .draggable-del {
   font-size: 24px;
@@ -98,7 +98,7 @@ $new-inside-ab-color4: rgba(255, 255, 255, 0);
 
 .draggable-edit {
   color: $draggable-edit-color;
-  left: 25px;
+  left: 50px;
   top: 0;
 }
 
