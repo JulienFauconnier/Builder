@@ -32,9 +32,30 @@ export default function init(div) {
      *
      */
     updateDraggables() {
-      this.draggables = this.element.find(".draggable");
-      this.initDraggables(this.draggables);
-      this.createHandles(this.draggables);
+      const that = this;
+      that.draggables = that.element.find(".draggable");
+      that.initDraggables(that.draggables);
+      that.createHandles(that.draggables);
+
+      let selector = $(".selector");
+      selector.empty();
+      let first = $("<option>", {value: "aaa", text: "aaa"});
+      first.appendTo(selector);
+      for (let draggable of that.draggables) {
+        let option = $("<option>", {value: "ttt", text: "lol"});
+        option.data("target", draggable);
+        option.appendTo(selector);
+      }
+
+      selector.on("change", function () {
+        let optionSelected = $("option:selected", this);
+        if (optionSelected.data("target") !== undefined) {
+          that.initStylisable($(optionSelected.data("target")));
+        }
+        else {
+          $(".nSetting").empty();
+        }
+      })
     },
 
     /**
@@ -57,13 +78,7 @@ export default function init(div) {
           const content = ui.draggable.data("data");
 
           if (parent.is("ul")) {
-            let selector = $(".selector");
-            let option = $("<option>", {value: "ttt", text: "lol"});
-
             ui.draggable = $("<div>", {class: "columns draggable"}).append(content.clone());
-
-            option.data("target", ui.draggable);
-            option.appendTo(selector);
           }
 
           if ($(this).is('[class*="new-row"]')) {
@@ -78,7 +93,7 @@ export default function init(div) {
 
           that.updateDraggables();
 
-          that.initSelectables();
+          //that.initSelectables();
         }
       });
     },
@@ -118,6 +133,63 @@ export default function init(div) {
     },
 
     /**
+     *
+     * @param elem
+     */
+    initStylisable(elem) {
+      $(".nSetting").empty();
+
+      const that = this;
+      const elements = elem.children()
+        .not(".ui-resizable-handle, .draggable-move, .draggable-style, .draggable-edit, .draggable-del");
+
+      jQuery.each(elements, (index, element) => {
+        const selectTagName = that.customParameters[element.tagName];
+        if (selectTagName !== undefined) {
+          const list = $("<ul>", {text: element.tagName});
+
+          for (let i = 0; i < selectTagName.length; i++) {
+            const tagOption = selectTagName[i];
+            const param = $("<li>");
+            const label = $("<label>", {text: tagOption});
+            let input;
+            let options;
+
+            if (that.customOptions.hasOwnProperty(tagOption)) {
+              input = $("<select>");
+              options = settings.initOptions(tagOption, $(element).css(tagOption));
+              input.append(options);
+            } else {
+              input = $("<input>", {
+                value: $(element).css(tagOption),
+                placeholder: $(element).css(tagOption)
+              });
+            }
+
+            input.appendTo(label);
+            label.appendTo(param);
+            param.data("parameter", tagOption);
+            param.appendTo(list);
+          }
+
+          //let option = getOptions();
+          //option.appendTo(list);
+          list.data("function", $(this).css);
+          list.data("target", element);
+          list.appendTo($(".nSetting"));
+        }
+      });
+
+      $('.nSetting input, .nSetting select, .nSetting textarea').on("change input", function () {
+        const fun = $(this).parent().parent().parent().data("function");
+        const target = $(this).parent().parent().parent().data("target");
+        const parameter = $(this).parent().parent().data("parameter");
+        const paramValue = $(this).val();
+        $(this).data("cssValue", paramValue);
+        fun.apply($(target), [parameter, paramValue]);
+      });
+    },
+    /**
      * Initialize movable columns with Selectables interactions
      */
     initSelectables() {
@@ -131,51 +203,7 @@ export default function init(div) {
           // TODO: Other possibility -> Add elements to list, then generate options
           const elements = ui.selected.children;
 
-          jQuery.each(elements, (index, element) => {
-            const selectTagName = that.customParameters[element.tagName];
-            if (selectTagName !== undefined) {
-              const list = $("<ul>", {text: element.tagName});
-
-              for (let i = 0; i < selectTagName.length; i++) {
-                const tagOption = selectTagName[i];
-                const param = $("<li>");
-                const label = $("<label>", {text: tagOption});
-                let input;
-                let options;
-
-                if (that.customOptions.hasOwnProperty(tagOption)) {
-                  input = $("<select>");
-                  options = settings.initOptions(tagOption, $(element).css(tagOption));
-                  input.append(options);
-                } else {
-                  input = $("<input>", {
-                    value: $(element).css(tagOption),
-                    placeholder: $(element).css(tagOption)
-                  });
-                }
-
-                input.appendTo(label);
-                label.appendTo(param);
-                param.data("parameter", tagOption);
-                param.appendTo(list);
-              }
-
-              //let option = getOptions();
-              //option.appendTo(list);
-              list.data("function", $(this).css);
-              list.data("target", element);
-              list.appendTo($(".nSetting"));
-            }
-          });
-
-          $('#panel2 input, select, textarea').on("change input", function () {
-            const fun = $(this).parent().parent().parent().data("function");
-            const target = $(this).parent().parent().parent().data("target");
-            const parameter = $(this).parent().parent().data("parameter");
-            const paramValue = $(this).val();
-            $(this).data("cssValue", paramValue);
-            fun.apply($(target), [parameter, paramValue]);
-          });
+          that.initStylisable(elements);
         },
         unselected(event, ui) {
           //$(".nSetting").empty();
@@ -198,12 +226,48 @@ export default function init(div) {
         const hovered = $(this);
         if (!that.editing && !that.dragging) {
           const dragHandle = $("<div>", {class: "draggable-move icon-arrows"});
-          const delHandle = $("<div>", {class: "draggable-del icon-trash"});
+          const styleHandle = $("<div>", {class: "draggable-style icon-paint-brush"});
           const editHandle = $("<div>", {class: "draggable-edit icon-pencil"});
+          const delHandle = $("<div>", {class: "draggable-del icon-trash"});
 
           hovered.append(dragHandle);
-          hovered.append(delHandle);
+          hovered.append(styleHandle);
           hovered.append(editHandle);
+          hovered.append(delHandle);
+
+          $(".draggable-style").on("click", function () {
+            const style = $(this).parent();
+
+            that.initStylisable(style);
+          });
+
+          $(".draggable-edit").on("click", function () {
+            const edit = $(this).parent().children(":first");
+
+            if (edit.hasClass("tiny-mce") && !that.editing) {
+              that.editing = true;
+              edit.tinymce({
+                script_url: './lib/tinymce/tinymce.jquery.min.js',
+                inline: true,
+                setup(editor) {
+                  editor.on('focus', () => {
+                    div.selectable("destroy");
+                    that.editing = true;
+                  });
+
+                  editor.on('blur', () => {
+                    that.editing = false;
+                    tinymce.remove();
+                    //that.initSelectables();
+                  });
+                }
+              });
+
+              setTimeout(() => {
+                edit.focus();
+              }, 10)
+            }
+          });
 
           $(".draggable-del").on("click", function () {
 
@@ -226,34 +290,8 @@ export default function init(div) {
             else {
               layout.removeDiv(parentRow).remove();
             }
-          });
 
-          $(".draggable-edit").on("click", function () {
-            const edit = $(this).parent().children(":first");
-
-            if (edit.hasClass("tiny-mce") && !that.editing) {
-              that.editing = true;
-              edit.tinymce({
-                script_url: './lib/tinymce/tinymce.jquery.min.js',
-                inline: true,
-                setup(editor) {
-                  editor.on('focus', () => {
-                    div.selectable("destroy");
-                    that.editing = true;
-                  });
-
-                  editor.on('blur', () => {
-                    that.editing = false;
-                    tinymce.remove();
-                    that.initSelectables();
-                  });
-                }
-              });
-
-              setTimeout(() => {
-                edit.focus();
-              }, 10)
-            }
+            that.updateDraggables();
           });
 
           if (hovered.is(':last-child')) {
@@ -263,8 +301,9 @@ export default function init(div) {
         }
       }, function () {
         $(".draggable-move").remove();
-        $(".draggable-del").remove();
+        $(".draggable-style").remove();
         $(".draggable-edit").remove();
+        $(".draggable-del").remove();
         $(this).next().removeClass("resizable-reverse");
       });
     },

@@ -37,8 +37,9 @@
   z-index: 1000; }
 
 .draggable-move,
-.draggable-del,
-.draggable-edit {
+.draggable-style
+.draggable-edit,
+.draggable-del {
   font-size: 24px;
   position: absolute;
   z-index: 1000; }
@@ -49,15 +50,21 @@
   top: 0;
 }
 
-.draggable-del {
-  color: #f00;
-  right: 0;
+.draggable-style {
+  color: #ffff00;
+  left: 25px;
   top: 0;
 }
 
 .draggable-edit {
   color: #008000;
   left: 25px;
+  top: 0;
+}
+
+.draggable-del {
+  color: #f00;
+  right: 0;
   top: 0;
 }
 
