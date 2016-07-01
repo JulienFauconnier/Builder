@@ -50,7 +50,7 @@ export default function init(div) {
       selector.on("change", function () {
         const optionSelected = $("option:selected", this);
         if (optionSelected.data("target") !== undefined) {
-          that.initStylisable($(optionSelected.data("target")));
+          that.initCustomizable($(optionSelected.data("target")));
         }
         else {
           $(".nSetting").empty();
@@ -136,7 +136,7 @@ export default function init(div) {
      *
      * @param elem
      */
-    initStylisable(elem) {
+    initCustomizable(elem) {
       $(".nSetting").empty();
 
       const that = this;
@@ -203,7 +203,7 @@ export default function init(div) {
           // TODO: Other possibility -> Add elements to list, then generate options
           const elements = ui.selected.children;
 
-          that.initStylisable(elements);
+          that.initCustomizable(elements);
         },
         unselected(event, ui) {
           //$(".nSetting").empty();
@@ -238,7 +238,7 @@ export default function init(div) {
           $(".draggable-style").on("click", function () {
             const style = $(this).parent();
 
-            that.initStylisable(style);
+            that.initCustomizable(style);
           });
 
           $(".draggable-edit").on("click", function () {
