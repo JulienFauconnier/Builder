@@ -230,7 +230,7 @@ export default function init(div) {
 
       draggables.hover(function () {
         const hovered = $(this);
-        if (!that.editing && !that.dragging) {
+        if (!that.editing && !that.dragging && hovered.children(".row").length === 0) {
           const dragHandle = $("<div>", {class: "draggable-move icon-arrows"});
           const styleHandle = $("<div>", {class: "draggable-style icon-paint-brush"});
           const editHandle = $("<div>", {class: "draggable-edit icon-pencil"});
