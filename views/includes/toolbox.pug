@@ -1,14 +1,14 @@
 //- includes/toolbox.pug
 ul(class='tabs' data-tabs id='tabs')
     li(class='tabs-title is-active')
-        a(href='#panel1' aria-selected='true') Test
+        a(href='#models' aria-selected='true') Test
     li(class='tabs-title')
-        a(href='#panel2') Settings
+        a(href='#settings') Settings
 
 div(class='tabs-content' data-tabs-content='tabs')
-    ul(class='tabs-panel is-active' id='panel1')
+    ul(class='tabs-panel is-active' id='models')
         include ./toolbox/_models.pug
-    ul(class="tabs-panel" id="panel2")
+    ul(class="tabs-panel" id="settings")
         include ./toolbox/_settings.pug
 
 div(class='center')

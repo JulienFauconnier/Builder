@@ -26,6 +26,11 @@ $new-inside-ab-color2: rgba(255, 255, 255, .5);
 $new-inside-ab-color3: rgba(255, 255, 255, .01);
 $new-inside-ab-color4: rgba(255, 255, 255, 0);
 
+.drop-zone {
+  padding-bottom: 50px;
+  padding-top: 50px;
+}
+
 .tiny-mce:empty:not(:focus):before {
   border: 1px dotted $tiny-mce-color;
   color: $tiny-mce-color;
@@ -36,80 +41,73 @@ $new-inside-ab-color4: rgba(255, 255, 255, 0);
   width: 100%;
 }
 
-.editable {
-  padding-bottom: 50px;
-  padding-top: 50px;
-}
+.ui {
+  &-selectable {
+    .ui-selecting {
+      background: #feca40;
+    }
 
-.draggable {
-  position: relative;
-}
-
-.droppable {
-  position: absolute;
-}
-
-.ui-selectable {
-  .ui-selecting {
-    background: #feca40;
+    .ui-selected {
+      background: #f39814;
+      color: #fff;
+    }
   }
 
-  .ui-selected {
-    background: #f39814;
-    color: #fff;
+  &-resizable-e {
+    cursor: ew-resize;
   }
-}
 
-.ui-resizable-e {
-  cursor: ew-resize;
-}
-
-.ui-resizable-s {
-  cursor: ns-resize;
-}
-
-.draggable-clone {
-  background: $draggable-clone-background;
-  border: 1px solid $draggable-clone-border-color;
-  opacity: .5;
-  z-index: 1000;
-}
-
-.draggable-move,
-.draggable-style,
-.draggable-edit,
-.draggable-del {
-  font-size: 24px;
-  position: absolute;
-  z-index: 1000;
-}
-
-.draggable-move {
-  color: $draggable-move-color;
-  left: 0;
-  top: 0;
-}
-
-.draggable-style {
-  color: $draggable-style-color;
-  left: 25px;
-  top: 0;
-}
-
-.draggable-edit {
-  color: $draggable-edit-color;
-  left: 50px;
-  top: 0;
-}
-
-.draggable-del {
-  color: $draggable-del-color;
-  right: 0;
-  top: 0;
+  &.ui-resizable-s {
+    cursor: ns-resize;
+  }
 }
 
 .resizable-helper {
   border: 1px dotted $resizable-helper-border-color;
+}
+
+.draggable {
+  position: relative;
+
+  &-clone {
+    background: $draggable-clone-background;
+    border: 1px solid $draggable-clone-border-color;
+    opacity: .5;
+    z-index: 1000;
+  }
+
+  &-move,
+  &-style,
+  &-edit,
+  &-del {
+    font-size: 24px;
+    position: absolute;
+    z-index: 1000;
+  }
+
+  &-move {
+    color: $draggable-move-color;
+    left: 0;
+    top: 0;
+  }
+
+  &-style {
+    color: $draggable-style-color;
+    left: 25px;
+    top: 0;
+  }
+
+  &-edit {
+    color: $draggable-edit-color;
+    left: 50px;
+    top: 0;
+  }
+
+  &-del {
+    color: $draggable-del-color;
+    right: 0;
+    top: 0;
+  }
 }
 
 .droppables-container > .droppable {

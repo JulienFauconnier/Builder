@@ -13,7 +13,7 @@ export * from "./responsive"
 function removeDiv(element) {
   const eParent = element.parent();
 
-  if (eParent.children().length < 2)
+  if (eParent.children().length < 2 && !eParent.is(".drop-zone"))
     element = removeDiv(eParent);
 
   return element;

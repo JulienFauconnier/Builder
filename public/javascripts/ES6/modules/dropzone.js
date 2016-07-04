@@ -5,12 +5,12 @@ import Bootstrap3 from "./base/bootstrap3";
 import Foundation6 from "./base/foundation6";
 
 /**
- * Initialize Content widget (allow to interact with objects)
+ * Initialize DropZone widget (allow to interact with content)
  * @param div
  * @returns {*|jQuery}
  */
 export default function init(div) {
-  $.widget('plb.content', {
+  $.widget('plb.dropzone', {
     options: {
       debug: false,
       base: "bootstrap3"
@@ -21,11 +21,17 @@ export default function init(div) {
     base: null,
     customParameters: settings.getParameters(),
     customOptions: settings.getOptions(),
+
     _create() {
       if (this.options.debug) {
         this.element.addClass("debug");
       }
+      this.element.addClass("editable");
       this.updateDraggables();
+    },
+
+    _destroy() {
+      this.element.removeClass("editable");
     },
 
     /**
@@ -53,7 +59,7 @@ export default function init(div) {
           that.initCustomizable($(optionSelected.data("target")));
         }
         else {
-          $(".nSetting").empty();
+          $(".selected-settings").empty();
         }
       })
     },
@@ -137,7 +143,7 @@ export default function init(div) {
      * @param elem
      */
     initCustomizable(elem) {
-      $(".nSetting").empty();
+      $(".selected-settings").empty();
 
       const that = this;
       const elements = elem.children()
@@ -176,11 +182,11 @@ export default function init(div) {
           //option.appendTo(list);
           list.data("function", $(this).css);
           list.data("target", element);
-          list.appendTo($(".nSetting"));
+          list.appendTo($(".selected-settings"));
         }
       });
 
-      $('.nSetting input, .nSetting select, .nSetting textarea').on("change input", function () {
+      $('.selected-settings input, .selected-settings select, .selected-settings textarea').on("change input", function () {
         const fun = $(this).parent().parent().parent().data("function");
         const target = $(this).parent().parent().parent().data("target");
         const parameter = $(this).parent().parent().data("parameter");
@@ -198,7 +204,7 @@ export default function init(div) {
         cancel: ".draggable-del .draggable-move, .draggable-edit, .ui-resizable-handle",
         filter: $('.draggables-container').children('.draggable'),
         selected(event, ui) {
-          $(".nSetting").empty();
+          $(".selected-settings").empty();
 
           // TODO: Other possibility -> Add elements to list, then generate options
           const elements = ui.selected.children;
@@ -206,9 +212,9 @@ export default function init(div) {
           that.initCustomizable(elements);
         },
         unselected(event, ui) {
-          //$(".nSetting").empty();
+          //$(".selected-settings").empty();
 
-          $(".nSetting").children().filter(function () {
+          $(".selected-settings").children().filter(function () {
             return jQuery.inArray($(this).data("target"), ui.unselected.children) !== -1;
           }).remove();
         }
@@ -278,7 +284,7 @@ export default function init(div) {
               return jQuery.inArray($(this).data("target"), hovered.children) !== -1;
             }).remove();
 
-            $(".nSetting").children().filter(function () {
+            $(".selected-settings").children().filter(function () {
               return jQuery.inArray($(this).data("target"), hovered.children) !== -1;
             }).remove();
 
@@ -380,10 +386,10 @@ export default function init(div) {
     }
   });
 
-  if (div.is(":data('plb-content')")) {
-    div.content("destroy");
+  if (div.is(":data('plb-dropzone')")) {
+    div.dropzone("destroy");
   }
 
-  div.content({debug: false});
-  div.content("newPLB");
+  div.dropzone({debug: false});
+  div.dropzone("newPLB");
 }

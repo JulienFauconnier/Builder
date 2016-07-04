@@ -1,5 +1,5 @@
 import * as resp from "./responsive";
-import Content from "./content";
+import DropZone from "./dropzone";
 import builder from "xmlbuilder";
 
 export {exportTemplate, importTemplate};
@@ -22,7 +22,7 @@ function DOMtoJSON(node = this) {
 
   //console.log($(node).attr());
 
-  if ($(node).hasClass("editable")) {
+  if ($(node).hasClass("drop-zone")) {
     nodeType = "container";
   }
   else if ($(node).hasClass("row")) {
@@ -69,8 +69,7 @@ function DOMtoJSON(node = this) {
   obj[nodeType]["#"] = [];
   if (childNodes.length > 0 && nodeType !== "P") {
     for (const childNode of childNodes) {
-      if ((($(childNode).attr("class")) || []).indexOf("js-off-canvas-exit") === -1)
-        obj[nodeType]["#"].push(DOMtoJSON(childNode));
+      obj[nodeType]["#"].push(DOMtoJSON(childNode));
     }
   }
   else {
@@ -89,14 +88,14 @@ function DOMtoJSON_test(node = this) {
   const cArray = [];
   let nodeType;
 
-  if ($(node).hasClass("editable") || ($(node).children().first().hasClass("row"))) {
+  if ($(node).hasClass("drop-zone") || ($(node).children().first().hasClass("row"))) {
     nodeType = "row";
   }
   else if ($(node).hasClass("row")) {
     nodeType = "columns";
   }
 
-  const childNodes = $(node).children().not(".js-off-canvas-exit, .ui-resizable-handle");
+  const childNodes = $(node).children().not(".ui-resizable-handle");
 
   const insideObj = {};
 
@@ -150,7 +149,7 @@ function toXML(json) {
  *
  */
 function exportTemplate() {
-  const node = $(".editable");
+  const node = $(".drop-zone");
   const obj = {
     container: [{
       row: [
@@ -350,14 +349,14 @@ function JSONtoDOM(obj) {
  *
  */
 function importTemplate() {
-  const editable = $(".editable");
+  const target = $(".drop-zone");
   //const testF = JSONtoDOM_test(backup.container);
   const testF = JSONtoDOM(backup);
 
-  editable.children(".row").remove();
-  editable.append(testF[0][0].childNodes);
+  target.children(".row").remove();
+  target.append(testF[0][0].childNodes);
 
-  Content(editable);
+  DropZone(target);
 }
 
 /**
