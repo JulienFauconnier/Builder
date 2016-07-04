@@ -26,7 +26,7 @@ $new-inside-ab-color2: rgba(255, 255, 255, .5);
 $new-inside-ab-color3: rgba(255, 255, 255, .01);
 $new-inside-ab-color4: rgba(255, 255, 255, 0);
 
-@mixin round-button($baseColor:$blue, $hoverBaseColor:#333, $diameter:2vw) {
+@mixin round-button($baseColor: blue, $hoverBaseColor: #333, $diameter: 2vw) {
   background: $baseColor;
   border: 3px solid #fff;
   border-radius: 100%;
