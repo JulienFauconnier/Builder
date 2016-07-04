@@ -26,6 +26,22 @@ $new-inside-ab-color2: rgba(255, 255, 255, .5);
 $new-inside-ab-color3: rgba(255, 255, 255, .01);
 $new-inside-ab-color4: rgba(255, 255, 255, 0);
 
+@mixin round-button($baseColor:$blue, $hoverBaseColor:#333, $diameter:2vw) {
+  background: $baseColor;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 -2px 0 3px darken($baseColor, 10%) inset, 0 5px 5px rgba(darken($baseColor, 40%), 0.17), 0 15px rgba(#fff, 0.25) inset;
+  cursor: pointer;
+  display: inline-block;
+  height: $diameter;
+  width: $diameter;
+
+  &:hover {
+    background: $hoverBaseColor;
+    box-shadow: 0 -2px 0 3px darken($hoverBaseColor, 10%) inset, 0 5px 5px rgba(darken($hoverBaseColor, 40%), 0.17), 0 15px rgba(#fff, 0.32) inset;
+  }
+}
+
 .drop-zone {
   padding-bottom: 50px;
   padding-top: 50px;
@@ -80,33 +96,42 @@ $new-inside-ab-color4: rgba(255, 255, 255, 0);
   &-style,
   &-edit,
   &-del {
-    font-size: 24px;
+    padding-left: 5px;
+    color: white;
+    font-size: 16px;
     position: absolute;
     z-index: 1000;
   }
 
   &-move {
-    color: $draggable-move-color;
+    //color: $draggable-move-color;
     left: 0;
     top: 0;
+    @include round-button($draggable-move-color);
   }
 
   &-style {
-    color: $draggable-style-color;
-    left: 25px;
+    //color: $draggable-style-color;
+    left: 30px;
     top: 0;
+    @include round-button($draggable-style-color);
+
   }
 
   &-edit {
-    color: $draggable-edit-color;
-    left: 50px;
+    //color: $draggable-edit-color;
+    left: 60px;
     top: 0;
+    @include round-button($draggable-edit-color);
+
   }
 
   &-del {
-    color: $draggable-del-color;
+    //color: $draggable-del-color;
     right: 0;
     top: 0;
+    @include round-button($draggable-del-color);
+
   }
 }
 

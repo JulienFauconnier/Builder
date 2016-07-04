@@ -40,33 +40,83 @@
 }
 
 .draggable-move, .draggable-style, .draggable-edit, .draggable-del {
-  font-size: 24px;
+  padding-left: 5px;
+  color: white;
+  font-size: 16px;
   position: absolute;
   z-index: 1000;
 }
 
 .draggable-move {
-  color: #00f;
   left: 0;
   top: 0;
+  background: #00f;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 -2px 0 3px #0000cc inset, 0 5px 5px rgba(0, 0, 51, 0.17), 0 15px rgba(255, 255, 255, 0.25) inset;
+  cursor: pointer;
+  display: inline-block;
+  height: 2vw;
+  width: 2vw;
+}
+
+.draggable-move:hover {
+  background: #333;
+  box-shadow: 0 -2px 0 3px #1a1a1a inset, 0 5px 5px rgba(0, 0, 0, 0.17), 0 15px rgba(255, 255, 255, 0.32) inset;
 }
 
 .draggable-style {
-  color: #ffff00;
-  left: 25px;
+  left: 30px;
   top: 0;
+  background: #ffff00;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 -2px 0 3px #cccc00 inset, 0 5px 5px rgba(51, 51, 0, 0.17), 0 15px rgba(255, 255, 255, 0.25) inset;
+  cursor: pointer;
+  display: inline-block;
+  height: 2vw;
+  width: 2vw;
+}
+
+.draggable-style:hover {
+  background: #333;
+  box-shadow: 0 -2px 0 3px #1a1a1a inset, 0 5px 5px rgba(0, 0, 0, 0.17), 0 15px rgba(255, 255, 255, 0.32) inset;
 }
 
 .draggable-edit {
-  color: #008000;
-  left: 50px;
+  left: 60px;
   top: 0;
+  background: #008000;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 -2px 0 3px #004d00 inset, 0 5px 5px rgba(0, 0, 0, 0.17), 0 15px rgba(255, 255, 255, 0.25) inset;
+  cursor: pointer;
+  display: inline-block;
+  height: 2vw;
+  width: 2vw;
+}
+
+.draggable-edit:hover {
+  background: #333;
+  box-shadow: 0 -2px 0 3px #1a1a1a inset, 0 5px 5px rgba(0, 0, 0, 0.17), 0 15px rgba(255, 255, 255, 0.32) inset;
 }
 
 .draggable-del {
-  color: #f00;
   right: 0;
   top: 0;
+  background: #f00;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 -2px 0 3px #cc0000 inset, 0 5px 5px rgba(51, 0, 0, 0.17), 0 15px rgba(255, 255, 255, 0.25) inset;
+  cursor: pointer;
+  display: inline-block;
+  height: 2vw;
+  width: 2vw;
+}
+
+.draggable-del:hover {
+  background: #333;
+  box-shadow: 0 -2px 0 3px #1a1a1a inset, 0 5px 5px rgba(0, 0, 0, 0.17), 0 15px rgba(255, 255, 255, 0.32) inset;
 }
 
 .droppables-container > .droppable {
