@@ -45,11 +45,11 @@
   font-size: 16px;
   position: absolute;
   z-index: 1000;
+  top: -10px;
 }
 
 .draggable-move {
   left: 0;
-  top: 0;
   background: #00f;
   border: 3px solid #fff;
   border-radius: 100%;
@@ -66,8 +66,7 @@
 }
 
 .draggable-style {
-  left: 30px;
-  top: 0;
+  left: 33px;
   background: #ffff00;
   border: 3px solid #fff;
   border-radius: 100%;
@@ -84,8 +83,7 @@
 }
 
 .draggable-edit {
-  left: 60px;
-  top: 0;
+  left: 64px;
   background: #008000;
   border: 3px solid #fff;
   border-radius: 100%;
@@ -103,7 +101,6 @@
 
 .draggable-del {
   right: 0;
-  top: 0;
   background: #f00;
   border: 3px solid #fff;
   border-radius: 100%;
